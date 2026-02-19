@@ -6,6 +6,13 @@ import { ArrowUpRight, Globe, Target, Zap, Shield, ChevronDown, Plus, Radio, Mov
 
 // --- Shared Components ---
 
+// Custom Grain Overlay
+const GrainOverlay = () => (
+    <div className="pointer-events-none fixed inset-0 z-50 opacity-[0.03] mix-blend-overlay">
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] bg-repeat brightness-100 contrast-100" />
+    </div>
+);
+
 const SectionHeader = ({ label, title, light = false }: { label: string, title: React.ReactNode, light?: boolean }) => (
     <div className="mb-20 md:mb-32 px-6 md:px-12 max-w-[1800px] mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 pb-8 border-b border-white/10">
@@ -463,6 +470,83 @@ const GlobalFootprint = () => {
 };
 
 
+// --- Awards Section: "Recognition" ---
+
+const Awards = () => {
+    return (
+        <section className="py-24 bg-dark-base border-t border-white/5 relative overflow-hidden">
+            <div className="max-w-[1800px] mx-auto px-6 md:px-12">
+                <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+                    <div className="text-left">
+                        <span className="font-mono text-teal-primary text-[10px] uppercase tracking-[0.4em] mb-4 block">Recognition</span>
+                        <h2 className="text-4xl md:text-6xl font-black text-white tracking-tighter uppercase">Hall of Vapor</h2>
+                    </div>
+                    <div className="flex items-center gap-4">
+                        <div className="w-2 h-2 rounded-full bg-teal-primary animate-pulse" />
+                        <span className="text-white/40 font-mono text-xs uppercase tracking-widest">Awwwards / FWA / CSS Design Awards</span>
+                    </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 border-t border-white/10 pt-8">
+                    {[
+                        { year: "2024", award: "Site of the Day", org: "Awwwards", project: "Vertex Finance" },
+                        { year: "2023", award: "Best UI/UX", org: "CSS Design Awards", project: "Nexus API" },
+                        { year: "2023", award: "Mobile Excellence", org: "FWA", project: "Orbital" },
+                    ].map((item, i) => (
+                        <div key={i} className="group relative p-8 border border-white/5 bg-white/[0.01] hover:bg-white/[0.03] transition-colors duration-500 overflow-hidden">
+                            <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-teal-primary/50 to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-700" />
+
+                            <div className="flex justify-between items-start mb-8">
+                                <span className="font-mono text-teal-primary text-xs">{item.year}</span>
+                                <ArrowUpRight className="text-white/20 group-hover:text-teal-primary transition-colors" size={16} />
+                            </div>
+
+                            <h3 className="text-2xl font-bold text-white mb-2">{item.award}</h3>
+                            <div className="flex justify-between items-end">
+                                <span className="text-white/40 text-sm font-mono uppercase tracking-wider">{item.org}</span>
+                                <span className="text-white text-sm font-medium">{item.project}</span>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </section>
+    );
+};
+
+// --- Trusted By: "The Network" ---
+
+const TrustedBy = () => {
+    return (
+        <section className="py-24 bg-teal-primary/5 border-y border-white/5 overflow-hidden">
+            <div className="max-w-7xl mx-auto px-6 text-center mb-12">
+                <span className="font-mono text-teal-primary text-[10px] uppercase tracking-[0.4em]">Trusted By Industry Leaders</span>
+            </div>
+
+            <div className="relative flex overflow-x-hidden group">
+                <div className="animate-marquee whitespace-nowrap flex items-center gap-16 md:gap-32 px-16">
+                    {/* Repeated Logos Text for Effect (since we don't have SVGs handy, using stylized text) */}
+                    {["Google", "Stripe", "Vercel", "Linear", "Raycast", "Shopify", "Airbnb", "Discord"].map((brand, i) => (
+                        <span key={i} className="text-3xl md:text-5xl font-black text-white/10 uppercase tracking-tighter hover:text-white/30 transition-colors cursor-default">
+                            {brand}
+                        </span>
+                    ))}
+                </div>
+
+                <div className="absolute top-0 animate-marquee2 whitespace-nowrap flex items-center gap-16 md:gap-32 px-16">
+                    {/* Duplicate for seamless loop */}
+                    {["Google", "Stripe", "Vercel", "Linear", "Raycast", "Shopify", "Airbnb", "Discord"].map((brand, i) => (
+                        <span key={i} className="text-3xl md:text-5xl font-black text-white/10 uppercase tracking-tighter hover:text-white/30 transition-colors cursor-default">
+                            {brand}
+                        </span>
+                    ))}
+                </div>
+            </div>
+        </section>
+    );
+};
+
+
 const StartBuild = () => (
     <section className="py-32 md:py-48 bg-dark-base relative overflow-hidden flex flex-col items-center justify-center text-center px-6">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:40px_40px]" />
@@ -489,6 +573,7 @@ const StartBuild = () => (
 const About: React.FC = () => {
     return (
         <div className="bg-dark-base min-h-screen relative overflow-x-hidden font-sans selection:bg-teal-primary selection:text-black transition-colors duration-500 text-left">
+            <GrainOverlay />
             <AboutHero />
             <Metrics />
             <Manifesto />
@@ -496,6 +581,8 @@ const About: React.FC = () => {
             <Timeline />
             <Leadership />
             <GlobalFootprint />
+            <Awards />
+            <TrustedBy />
             <StartBuild />
             <Footer />
         </div>
