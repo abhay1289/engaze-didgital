@@ -36,14 +36,28 @@ const SectionHeader = ({ label, title, light = false }: { label: string, title: 
 
 // --- Hero Section: "The Digital Void" ---
 
+// --- Hero Section: "The Digital Void" ---
+
 const AboutHero = () => {
-    const containerRef = useRef(null);
+    const containerRef = useRef<HTMLDivElement>(null);
     const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start start", "end start"] });
     const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
     const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
+    // Mouse Spotlight Logic
+    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+    const handleMouseMove = (e: React.MouseEvent) => {
+        if (!containerRef.current) return;
+        const rect = containerRef.current.getBoundingClientRect();
+        setMousePosition({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+    };
+
     return (
-        <section ref={containerRef} className="relative h-[120vh] flex flex-col justify-center items-center overflow-hidden bg-dark-base">
+        <section
+            ref={containerRef}
+            onMouseMove={handleMouseMove}
+            className="relative h-[120vh] flex flex-col justify-center items-center overflow-hidden bg-dark-base"
+        >
             {/* Background: Digital Noise & Grid */}
             <div className="absolute inset-0 z-0 opacity-20 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] brightness-50 contrast-150" />
             <div className="absolute inset-0 z-0 opacity-20 [mask-image:radial-gradient(circle_at_center,black_40%,transparent_90%)]">
@@ -58,18 +72,6 @@ const AboutHero = () => {
                     className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200vh] h-[200vh] bg-[conic-gradient(from_0deg,transparent_0deg,transparent_340deg,rgba(54,184,165,0.05)_360deg)]"
                 />
             </div>
-
-            {/* Layered Ambient Orbs (Matched to Home) */}
-            <motion.div
-                animate={{ y: [0, -20, 0], opacity: [0.3, 0.6, 0.3] }}
-                transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute -left-1/4 top-0 w-[60vw] h-[60vw] bg-teal-primary/10 rounded-full blur-[120px] mix-blend-screen pointer-events-none"
-            />
-            <motion.div
-                animate={{ y: [0, 30, 0], opacity: [0.3, 0.5, 0.3] }}
-                transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                className="absolute -right-1/4 bottom-0 w-[50vw] h-[50vw] bg-indigo-500/10 rounded-full blur-[100px] mix-blend-screen pointer-events-none"
-            />
 
             {/* Content */}
             <motion.div style={{ y, opacity }} className="relative z-10 w-full px-6 flex flex-col items-center text-center">
@@ -86,13 +88,22 @@ const AboutHero = () => {
                     </motion.span>
                 </div>
 
-                <div className="flex flex-col items-center leading-none relative">
-                    {/* Glitch Effect Duplicate */}
-                    <div className="absolute inset-0 flex flex-col items-center justify-center opacity-30 blur-[2px] pointer-events-none mix-blend-screen">
-                        <h1 className="text-[14vw] font-black tracking-tighter text-teal-primary/50 translate-x-[2px]">THE ANOMALY</h1>
-                    </div>
-
-                    <h1 className="text-[14vw] font-black tracking-tighter text-white mix-blend-screen relative z-10">
+                <div className="flex flex-col items-center leading-none relative group cursor-default">
+                    {/* Spotlight Title */}
+                    <h1
+                        className="text-[14vw] font-black tracking-tighter text-white/10 relative z-10"
+                        style={{
+                            backgroundImage: `radial-gradient(circle 300px at ${mousePosition.x}px ${mousePosition.y}px, rgba(255,255,255,1), rgba(255,255,255,0.1))`,
+                            WebkitBackgroundClip: "text",
+                            backgroundClip: "text",
+                            color: "transparent",
+                            transition: "background-image 0s" // Instant update for mouse
+                        }}
+                    >
+                        THE ANOMALY
+                    </h1>
+                    {/* Base dim layer to ensure partial visibility */}
+                    <h1 className="text-[14vw] font-black tracking-tighter text-white/5 absolute inset-0 z-0">
                         THE ANOMALY
                     </h1>
                 </div>
@@ -112,19 +123,6 @@ const AboutHero = () => {
                 <span>Coordinates: 40.7128° N, 74.0060° W</span>
                 <span>System Status: Optimal</span>
             </div>
-
-            <motion.div
-                style={{ opacity }}
-                className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 text-white/20"
-            >
-                <div className="w-[1px] h-12 bg-white/10 overflow-hidden relative">
-                    <motion.div
-                        animate={{ top: ["-100%", "100%"] }}
-                        transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-                        className="absolute left-0 w-full h-1/2 bg-teal-primary"
-                    />
-                </div>
-            </motion.div>
         </section>
     );
 };
@@ -133,67 +131,37 @@ const AboutHero = () => {
 
 // --- Manifesto Section: "The Code" (Scramble Effect) ---
 
-const ScrambleString = ({ text, delay = 0 }: { text: string, delay?: number }) => {
-    const [display, setDisplay] = useState("");
-    const [done, setDone] = useState(false);
-    const ref = useRef(null);
-    const isInView = useInView(ref, { once: true, margin: "-100px" });
+// --- Manifesto Section: "Unused" (Removed ScrambleString) ---
 
-    useEffect(() => {
-        if (!isInView) return;
-
-        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&";
-        let iteration = 0;
-
-        const timeout = setTimeout(() => {
-            const interval = setInterval(() => {
-                setDisplay(
-                    text
-                        .split("")
-                        .map((letter, index) => {
-                            if (index < iteration) {
-                                return text[index];
-                            }
-                            return chars[Math.floor(Math.random() * chars.length)];
-                        })
-                        .join("")
-                );
-
-                if (iteration >= text.length) {
-                    clearInterval(interval);
-                    setDone(true);
-                }
-
-                iteration += 1 / 2; // Speed of decoding
-            }, 30);
-
-            return () => clearInterval(interval);
-        }, delay);
-
-        return () => clearTimeout(timeout);
-    }, [isInView, text, delay]);
-
-    return (
-        <span ref={ref} className={`${done ? "text-white" : "text-teal-primary"} transition-colors duration-500 font-mono`}>
-            {display}
-        </span>
-    );
-}
+// --- Manifesto Section: "The Code" (Focus Reveal) ---
+// Uses a mask to reveal text based on scroll position
 
 const Manifesto = () => {
+    const container = useRef(null);
+    const { scrollYProgress } = useScroll({
+        target: container,
+        offset: ["start 0.9", "end 0.5"]
+    });
+
     const content = "Legacy systems are the enemy of speed. In a world of infinite leverage, the only competitive advantage is velocity. We bridge the gap between high-level strategy and relentless engineering. We build the operating systems that power billion-dollar growth.";
     const words = content.split(" ");
 
     return (
         <section className="py-32 md:py-64 px-6 md:px-12 bg-dark-base relative z-10 text-left">
-            <div className="max-w-7xl mx-auto">
-                <p className="text-xl md:text-4xl lg:text-5xl font-bold leading-[1.4] tracking-tight text-left text-white/50">
-                    {/* We treat the whole paragraph as a series of scrambled words for effect, or just chunks */}
-                    {content.split('. ').map((sentence, i) => (
-                        <span key={i} className="mr-2 inline-block">
-                            <ScrambleString text={sentence + (i < content.split('. ').length - 1 ? '.' : '')} delay={i * 2000} />
-                        </span>
-                    ))}
+            <div ref={container} className="max-w-7xl mx-auto">
+                <p className="text-4xl md:text-7xl lg:text-8xl font-black leading-[0.9] tracking-tighter text-left flex flex-wrap gap-x-4 gap-y-2">
+                    {words.map((word, i) => {
+                        const start = i / words.length;
+                        const end = start + (1 / words.length);
+                        // eslint-disable-next-line react-hooks/rules-of-hooks
+                        const opacity = useTransform(scrollYProgress, [start, end], [0.1, 1]);
+
+                        return (
+                            <motion.span key={i} style={{ opacity }} className="text-white">
+                                {word}
+                            </motion.span>
+                        );
+                    })}
                 </p>
                 <div className="mt-20 flex items-center gap-4">
                     <div className="w-12 h-[1px] bg-teal-primary" />
@@ -206,75 +174,46 @@ const Manifesto = () => {
 
 // --- Values: "The Protocol" (Grid) ---
 
-const SpotlightCard = ({ item, index }: { item: any, index: number }) => {
-    const divRef = useRef<HTMLDivElement>(null);
-    const [isFocused, setIsFocused] = useState(false);
-    const [position, setPosition] = useState({ x: 0, y: 0 });
-    const [opacity, setOpacity] = useState(0);
+// --- Values: "The Protocol" (Sticky Stack) ---
 
-    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-        if (!divRef.current) return;
-        const div = divRef.current;
-        const rect = div.getBoundingClientRect();
-        setPosition({ x: e.clientX - rect.left, y: e.clientY - rect.top });
-    };
-
-    const handleFocus = () => {
-        setIsFocused(true);
-        setOpacity(1);
-    };
-
-    const handleBlur = () => {
-        setIsFocused(false);
-        setOpacity(0);
-    };
-
-    const handleMouseEnter = () => {
-        setOpacity(1);
-    };
-
-    const handleMouseLeave = () => {
-        setOpacity(0);
-    };
-
+const ProtocolCard = ({ item, index, progress }: { item: any, index: number, progress: any }) => {
     return (
-        <div
-            ref={divRef}
-            onMouseMove={handleMouseMove}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            className="group relative border border-white/10 bg-white/[0.02] overflow-hidden p-8 md:p-12 transition-all duration-500 hover:border-teal-primary/30 flex flex-col justify-between h-[400px] text-left"
+        <motion.div
+            className="sticky top-[20vh] flex flex-col items-start justify-between min-h-[60vh] p-12 mb-24 border border-white/10 bg-[#0A0A0A] backdrop-blur-xl overflow-hidden"
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: index * 0.1 }}
+            viewport={{ once: true }}
+            style={{
+                scale: useTransform(progress, [0, 1], [1, 0.95]),
+                marginBottom: `${(5 - index) * 10}px`
+            }}
         >
-            <div
-                className="pointer-events-none absolute -inset-px opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                style={{
-                    opacity,
-                    background: `radial-gradient(600px circle at ${position.x}px ${position.y}px, rgba(54, 184, 165, 0.15), transparent 40%)`,
-                }}
-            />
-
-            <div className="absolute top-6 right-6 opacity-20 group-hover:opacity-100 transition-opacity z-20">
-                <ArrowUpRight size={20} className="text-teal-primary" />
+            <div className="absolute top-0 right-0 p-12 opacity-20">
+                <item.icon size={120} strokeWidth={0.5} className="text-white" />
             </div>
 
             <div className="relative z-10">
-                <span className="font-mono text-[9px] text-teal-primary tracking-widest uppercase mb-4 block">/ 0{index + 1}</span>
-                <item.icon size={40} strokeWidth={1} className="text-white mb-8 group-hover:scale-110 transition-transform duration-500 group-hover:text-teal-primary" />
+                <span className="font-mono text-teal-primary text-xs uppercase tracking-widest mb-4 block">/ 0{index + 1} _ Axiom</span>
+                <h3 className="text-5xl md:text-7xl font-black text-white mb-8 tracking-tighter uppercase">{item.title}</h3>
             </div>
 
-            <div className="relative z-10">
-                <h3 className="text-3xl font-bold text-white mb-4">{item.title}</h3>
-                <p className="text-white/50 leading-relaxed max-w-sm group-hover:text-white/80 transition-colors">
+            <div className="relative z-10 max-w-2xl">
+                <p className="text-white/60 text-xl md:text-2xl leading-relaxed">
                     {item.desc}
                 </p>
             </div>
-        </div>
+
+            {/* Animated Gradient Border */}
+            <div className="absolute inset-0 border border-teal-primary/0 hover:border-teal-primary/20 transition-colors duration-500 pointer-events-none" />
+        </motion.div>
     );
-};
+}
 
 const ProtocolSection = () => {
+    const container = useRef(null);
+    const { scrollYProgress } = useScroll({ target: container, offset: ["start start", "end end"] });
+
     const values = [
         { title: "Radical Transparency", desc: "No black boxes. We share our process, our code, and our data. Trust is engineered, not promised.", icon: Code },
         { title: "Velocity Over Perfection", desc: "Ship fast, break things, fix faster. The market rewards speed, not hesitation.", icon: Zap },
@@ -285,11 +224,11 @@ const ProtocolSection = () => {
     ];
 
     return (
-        <section className="bg-dark-base py-32 border-t border-white/5">
+        <section ref={container} className="bg-dark-base py-32 border-t border-white/5 relative">
             <SectionHeader label="The Protocol" title="Core Axioms" />
-            <div className="max-w-[1800px] mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="max-w-5xl mx-auto px-6">
                 {values.map((v, i) => (
-                    <SpotlightCard key={i} item={v} index={i} />
+                    <ProtocolCard key={i} item={v} index={i} progress={scrollYProgress} />
                 ))}
             </div>
         </section>
@@ -308,28 +247,44 @@ const timelineEvents = [
 const Timeline = () => {
     return (
         <section className="py-32 bg-dark-base relative overflow-hidden">
-            {/* Center Line */}
-            <div className="absolute left-[20px] md:left-1/2 top-0 bottom-0 w-[1px] bg-white/10 -translate-x-1/2" />
+            {/* Center Line with Scanning Effect */}
+            <div className="absolute left-[20px] md:left-1/2 top-0 bottom-0 w-[1px] bg-white/5 -translate-x-1/2">
+                <motion.div
+                    animate={{ top: ["0%", "100%"] }}
+                    transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+                    className="absolute top-0 w-full h-[200px] bg-gradient-to-b from-transparent via-teal-primary to-transparent opacity-50"
+                />
+            </div>
 
             <div className="max-w-5xl mx-auto px-6 relative z-10">
                 {timelineEvents.map((event, i) => (
-                    <div key={i} className={`flex flex-col md:flex-row items-start md:items-center gap-8 md:gap-24 mb-24 ${i % 2 === 0 ? 'md:flex-row-reverse' : ''}`}>
+                    <div key={i} className={`flex flex-col md:flex-row items-start md:items-center gap-8 md:gap-24 mb-32 ${i % 2 === 0 ? 'md:flex-row-reverse' : ''}`}>
                         {/* Content Side */}
                         <div className="w-full md:w-1/2 text-left">
-                            <div className={`p-8 border border-white/10 bg-white/[0.02] hover:border-teal-primary/50 transition-colors duration-500 relative group`}>
-                                <span className="font-mono text-teal-primary text-xs mb-2 block">{event.year}</span>
-                                <h3 className="text-2xl font-bold text-white mb-4">{event.title}</h3>
-                                <p className="text-white/60 text-sm leading-relaxed">{event.desc}</p>
-
-                                {/* Connector Node */}
-                                <div className={`absolute top-1/2 ${i % 2 === 0 ? '-left-[53px]' : '-right-[53px]'} w-3 h-3 bg-dark-base border border-teal-primary rounded-full hidden md:block z-20`}>
-                                    <div className="absolute inset-0 bg-teal-primary animate-ping opacity-50 rounded-full" />
-                                </div>
-                            </div>
+                            <motion.div
+                                initial={{ opacity: 0, x: i % 2 === 0 ? 50 : -50 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                viewport={{ margin: "-100px" }}
+                                transition={{ duration: 0.8 }}
+                                className={`p-8 border-l-2 ${i % 2 === 0 ? 'md:border-l-0 md:border-r-2 md:text-right' : 'border-l-2'} border-teal-primary/30 relative`}
+                            >
+                                <span className="font-mono text-teal-primary text-4xl font-bold opacity-20 absolute -top-10 left-0 md:left-auto md:right-0">{event.year}</span>
+                                <h3 className="text-3xl font-bold text-white mb-4 relative z-10">{event.title}</h3>
+                                <p className="text-white/60 text-sm leading-relaxed relative z-10">{event.desc}</p>
+                            </motion.div>
                         </div>
 
                         {/* Spacer for Center Line */}
-                        <div className="hidden md:block w-[1px]" />
+                        <div className="hidden md:block w-[1px] relative">
+                            {/* Central Node Pulse */}
+                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-dark-base border border-teal-primary">
+                                <motion.div
+                                    animate={{ scale: [1, 2], opacity: [0.5, 0] }}
+                                    transition={{ duration: 2, repeat: Infinity }}
+                                    className="absolute inset-0 rounded-full bg-teal-primary"
+                                />
+                            </div>
+                        </div>
 
                         {/* Empty Side for Balance */}
                         <div className="w-full md:w-1/2 hidden md:block" />
@@ -345,6 +300,8 @@ const Timeline = () => {
 
 // --- Leadership: "Holographic Cards" ---
 
+// --- Leadership: "Interactive Index" ---
+
 const Leadership = () => {
     const leaders = [
         { name: "Alex V.", role: "Principal Architect", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?fit=crop&w=800&q=80" },
@@ -353,36 +310,67 @@ const Leadership = () => {
         { name: "Emily R.", role: "Growth Strategist", img: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?fit=crop&w=800&q=80" }
     ];
 
+    const [activeIndex, setActiveIndex] = useState<number | null>(null);
+
     return (
-        <section className="py-32 bg-dark-base border-t border-white/5">
+        <section className="py-32 bg-dark-base border-t border-white/5 relative min-h-screen flex flex-col justify-center">
             <SectionHeader label="Intelligence" title="The Architects" />
-            <div className="max-w-[1800px] mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                {leaders.map((leader, i) => (
-                    <div key={i} className="group cursor-pointer relative h-[500px] overflow-hidden bg-white/[0.02]">
-                        {/* Scanline Overlay */}
-                        <div className="absolute inset-0 z-20 pointer-events-none opacity-0 group-hover:opacity-10 bg-[linear-gradient(to_bottom,transparent_50%,rgba(0,0,0,0.5)_51%)] bg-[size:100%_4px]" />
 
-                        <img
-                            src={leader.img}
-                            alt={leader.name}
-                            className="absolute inset-0 w-full h-full object-cover grayscale transition-all duration-700 group-hover:grayscale-0 group-hover:scale-110"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-dark-base via-transparent to-transparent opacity-90" />
-
-                        {/* Glitch/Holographic Border on Hover */}
-                        <div className="absolute inset-0 border border-teal-primary/0 group-hover:border-teal-primary/50 transition-colors duration-300 z-30" />
-
-                        <div className="absolute bottom-0 left-0 w-full p-8 text-left z-30">
-                            <div className="w-full h-[1px] bg-white/20 mb-6 origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
-                            <h3 className="text-3xl font-bold text-white mb-2 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">{leader.name}</h3>
-                            <span className="text-teal-primary font-mono text-xs uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 block">{leader.role}</span>
+            <div className="max-w-[1800px] mx-auto px-6 md:px-12 w-full flex flex-col md:flex-row gap-24">
+                {/* List Side */}
+                <div className="w-full md:w-1/2 flex flex-col pointer-events-auto z-20">
+                    {leaders.map((leader, i) => (
+                        <div
+                            key={i}
+                            onMouseEnter={() => setActiveIndex(i)}
+                            onMouseLeave={() => setActiveIndex(null)}
+                            className="group relative border-b border-white/10 py-12 cursor-pointer transition-all duration-300 hover:pl-8"
+                        >
+                            <div className="flex items-center justify-between">
+                                <h3 className={`text-4xl md:text-6xl font-black uppercase tracking-tighter transition-colors duration-300 ${activeIndex === i ? 'text-teal-primary' : 'text-white/40 group-hover:text-white'}`}>
+                                    {leader.name}
+                                </h3>
+                                <ArrowUpRight className={`transition-all duration-300 ${activeIndex === i ? 'text-teal-primary opacity-100 rotate-45' : 'text-white/20 opacity-0'}`} size={32} />
+                            </div>
+                            <span className="font-mono text-xs uppercase tracking-widest text-white/40 mt-2 block group-hover:text-white transition-colors">{leader.role}</span>
                         </div>
+                    ))}
+                </div>
 
-                        {/* Editorial Lines */}
-                        <div className="absolute top-4 left-4 w-12 h-12 border-t border-l border-white/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-30" />
-                        <div className="absolute bottom-4 right-4 w-12 h-12 border-b border-r border-white/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-30" />
+                {/* Preview Side (Fixed) */}
+                <div className="hidden md:block w-full md:w-1/2 relative h-[600px]">
+                    <div className="sticky top-32 w-full h-full">
+                        {leaders.map((leader, i) => (
+                            <motion.div
+                                key={i}
+                                initial={{ opacity: 0, scale: 0.9, rotate: -2 }}
+                                animate={{
+                                    opacity: activeIndex === i ? 1 : 0,
+                                    scale: activeIndex === i ? 1 : 0.9,
+                                    rotate: activeIndex === i ? 0 : -2
+                                }}
+                                transition={{ duration: 0.4, ease: "easeOut" }}
+                                className="absolute inset-0 bg-white/[0.05] border border-white/10 overflow-hidden"
+                            >
+                                <img src={leader.img} alt={leader.name} className="w-full h-full object-cover opacity-80" />
+                                <div className="absolute inset-0 bg-teal-primary/10 mix-blend-overlay" />
+
+                                {/* Scanline */}
+                                <div className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent_50%,rgba(0,0,0,0.5)_51%)] bg-[size:100%_4px] opacity-20" />
+
+                                <div className="absolute bottom-8 left-8 p-4 bg-black/50 backdrop-blur-md border border-white/10">
+                                    <span className="text-teal-primary font-mono text-xs uppercase block">{leader.role}</span>
+                                </div>
+                            </motion.div>
+                        ))}
+
+                        {activeIndex === null && (
+                            <div className="absolute inset-0 flex items-center justify-center border border-white/5 bg-white/[0.01]">
+                                <span className="font-mono text-white/20 text-xs uppercase tracking-widest">Select an Agent</span>
+                            </div>
+                        )}
                     </div>
-                ))}
+                </div>
             </div>
         </section>
     );
