@@ -1,31 +1,33 @@
-import React, { useRef, useState, useMemo } from 'react';
-import { motion, useScroll, useTransform, useSpring, useInView, MotionValue } from 'framer-motion';
+import React, { useRef, useState, useEffect } from 'react';
+import { motion, useScroll, useTransform, useSpring, useInView } from 'framer-motion';
 import Footer from './Footer';
 import Magnetic from './ui/Magnetic';
-import { ArrowUpRight, Globe, Target, Zap, Shield, ChevronDown, Plus } from 'lucide-react';
+import { ArrowUpRight, Globe, Target, Zap, Shield, ChevronDown, Plus, Radio, MoveUpRight, Code, Box } from 'lucide-react';
 
 // --- Shared Components ---
 
 const SectionHeader = ({ label, title, light = false }: { label: string, title: React.ReactNode, light?: boolean }) => (
     <div className="mb-20 md:mb-32 px-6 md:px-12 max-w-[1800px] mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 pb-8 border-b border-current" style={{ borderColor: light ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.1)' }}>
-            <div className="text-left">
-                <span className={`font-mono text-[10px] uppercase tracking-[0.4em] mb-6 block ${light ? 'text-teal-primary' : 'text-teal-primary'}`}>
-                    {label}
-                </span>
-                <h2 className={`text-4xl md:text-7xl font-bold tracking-tighter leading-[0.9] text-left ${light ? 'text-dark-base' : 'text-white'}`}>
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 pb-8 border-b border-white/10">
+            <div className="text-left w-full">
+                <div className="flex items-center justify-between w-full mb-6">
+                    <span className={`font-mono text-[10px] uppercase tracking-[0.4em] ${light ? 'text-teal-primary' : 'text-teal-primary'}`}>
+                        {label}
+                    </span>
+                    <div className="hidden md:flex items-center gap-2 font-mono text-[9px] uppercase tracking-widest text-white/30">
+                        <div className="w-1.5 h-1.5 rounded-full bg-teal-primary animate-pulse" />
+                        System_Active
+                    </div>
+                </div>
+                <h2 className={`text-5xl md:text-8xl font-black tracking-tighter leading-[0.9] text-left uppercase ${light ? 'text-dark-base' : 'text-white'}`}>
                     {title}
                 </h2>
-            </div>
-            <div className={`hidden md:flex items-center gap-2 font-mono text-[10px] uppercase tracking-widest ${light ? 'text-dark-base/40' : 'text-white/40'}`}>
-                <div className="w-2 h-2 rounded-full bg-teal-primary animate-pulse" />
-                System_Active
             </div>
         </div>
     </div>
 );
 
-// --- Hero Section ---
+// --- Hero Section: "The Digital Void" ---
 
 const AboutHero = () => {
     const containerRef = useRef(null);
@@ -33,17 +35,20 @@ const AboutHero = () => {
     const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
     const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
-    const words = ["ENGINEERING", "THE_FUTURE"];
-
     return (
         <section ref={containerRef} className="relative h-[120vh] flex flex-col justify-center items-center overflow-hidden bg-dark-base">
-            {/* Background Grid Engine */}
+            {/* Background: Digital Noise & Grid */}
+            <div className="absolute inset-0 z-0 opacity-20 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] brightness-50 contrast-150" />
             <div className="absolute inset-0 z-0 opacity-20 [mask-image:radial-gradient(circle_at_center,black_40%,transparent_90%)]">
                 <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:60px_60px]" />
+            </div>
+
+            {/* Scanning Light Effect */}
+            <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
                 <motion.div
-                    animate={{ top: ["-10%", "110%"] }}
-                    transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-                    className="absolute left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-teal-primary/30 to-transparent"
+                    animate={{ rotate: [0, 360] }}
+                    transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
+                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200vh] h-[200vh] bg-[conic-gradient(from_0deg,transparent_0deg,transparent_340deg,rgba(54,184,165,0.05)_360deg)]"
                 />
             </div>
 
@@ -56,63 +61,66 @@ const AboutHero = () => {
                     />
                     <motion.span
                         initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1 }}
-                        className="font-mono text-[10px] text-teal-primary tracking-[0.5em] uppercase"
+                        className="font-mono text-[9px] text-teal-primary tracking-[0.5em] uppercase border border-teal-primary/30 px-3 py-1 rounded-full backdrop-blur-md"
                     >
-                        Since 2018
+                        Est. 2018 — Global Operations
                     </motion.span>
                 </div>
 
-                <div className="flex flex-col items-center leading-none">
-                    {words.map((word, i) => (
-                        <div key={i} className="overflow-hidden">
-                            <motion.h1
-                                initial={{ y: "100%" }}
-                                animate={{ y: 0 }}
-                                transition={{
-                                    delay: 0.2 + (i * 0.1),
-                                    duration: 1.5,
-                                    ease: [0.16, 1, 0.3, 1]
-                                }}
-                                className="text-[12vw] font-black tracking-tighter text-white mix-blend-difference"
-                            >
-                                {word}
-                            </motion.h1>
-                        </div>
-                    ))}
+                <div className="flex flex-col items-center leading-none relative">
+                    {/* Glitch Effect Duplicate */}
+                    <div className="absolute inset-0 flex flex-col items-center justify-center opacity-30 blur-[2px] pointer-events-none mix-blend-screen">
+                        <h1 className="text-[14vw] font-black tracking-tighter text-teal-primary/50 translate-x-[2px]">THE ANOMALY</h1>
+                    </div>
+
+                    <h1 className="text-[14vw] font-black tracking-tighter text-white mix-blend-screen relative z-10">
+                        THE ANOMALY
+                    </h1>
                 </div>
 
                 <motion.p
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 1.2, duration: 1 }}
-                    className="mt-12 max-w-xl text-lg md:text-xl text-white/50 font-light leading-relaxed"
+                    className="mt-12 max-w-2xl text-lg md:text-2xl text-white/60 font-light leading-relaxed tracking-wide"
                 >
-                    We are the anomaly. Architects of algorithmic infrastructure for billion-dollar valuations.
+                    We don't just write code. We architect <span className="text-white font-medium">revenue engines</span> for the world's most ambitious brands.
                 </motion.p>
             </motion.div>
 
-            {/* Scroll Indicator */}
+            {/* HUD Elements */}
+            <div className="absolute bottom-12 left-12 hidden md:flex flex-col gap-2 text-white/20 font-mono text-[9px] uppercase tracking-widest text-left">
+                <span>Coordinates: 40.7128° N, 74.0060° W</span>
+                <span>System Status: Optimal</span>
+            </div>
+
             <motion.div
                 style={{ opacity }}
                 className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 text-white/20"
             >
-                <div className="w-[1px] h-12 bg-white/10" />
-                <span className="text-[9px] font-mono tracking-[0.3em] uppercase">Scroll to Initialize</span>
+                <div className="w-[1px] h-12 bg-white/10 overflow-hidden relative">
+                    <motion.div
+                        animate={{ top: ["-100%", "100%"] }}
+                        transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                        className="absolute left-0 w-full h-1/2 bg-teal-primary"
+                    />
+                </div>
             </motion.div>
         </section>
     );
 };
 
-// --- Manifesto Section ---
+// --- Manifesto Section: "The Code" ---
 
 const ManifestoWord = ({ word, i, length, scrollYProgress }: { word: string, i: number, length: number, scrollYProgress: any }) => {
     const start = i / length;
     const end = start + (1 / length);
-    const opacity = useTransform(scrollYProgress, [start, end], [0.1, 1]);
+    const opacity = useTransform(scrollYProgress, [start, end], [0.15, 1]);
+    const color = useTransform(scrollYProgress, [start, end], ["#ffffff", "#36B8A5"]);
 
     return (
-        <motion.span style={{ opacity }} className="text-white transition-opacity duration-300">
-            {word}
+        <motion.span style={{ opacity, color: i % 5 === 0 ? color : undefined }} className="transition-colors duration-200">
+            {word}{" "}
         </motion.span>
     );
 };
@@ -121,16 +129,16 @@ const Manifesto = () => {
     const container = useRef(null);
     const { scrollYProgress } = useScroll({
         target: container,
-        offset: ["start 0.8", "end 0.8"]
+        offset: ["start 0.8", "end 0.6"]
     });
 
-    const content = "Old models are obsolete. We bridge the gap between high-level strategy and relentless engineering. We don't just build websites; we architect revenue engines.";
+    const content = "Legacy systems are the enemy of speed. In a world of infinite leverage, the only competitive advantage is velocity. We bridge the gap between high-level strategy and relentless engineering. We build the operating systems that power billion-dollar growth.";
     const words = content.split(" ");
 
     return (
-        <section className="py-32 md:py-48 px-6 md:px-12 bg-dark-base relative z-10 text-left">
-            <div ref={container} className="max-w-6xl mx-auto">
-                <p className="text-4xl md:text-6xl lg:text-7xl font-bold leading-[1.1] tracking-tight flex flex-wrap gap-x-[0.25em] gap-y-[0.1em] justify-start text-left">
+        <section className="py-32 md:py-64 px-6 md:px-12 bg-dark-base relative z-10 text-left">
+            <div ref={container} className="max-w-7xl mx-auto">
+                <p className="text-4xl md:text-7xl lg:text-8xl font-bold leading-[1] tracking-tight flex flex-wrap justify-start text-left text-white">
                     {words.map((word, i) => (
                         <ManifestoWord
                             key={i}
@@ -141,244 +149,174 @@ const Manifesto = () => {
                         />
                     ))}
                 </p>
-                <div className="mt-20 w-full h-[1px] bg-white/10" />
+                <div className="mt-20 flex items-center gap-4">
+                    <div className="w-12 h-[1px] bg-teal-primary" />
+                    <span className="font-mono text-teal-primary text-xs uppercase tracking-widest">Our Doctrine</span>
+                </div>
             </div>
         </section>
     );
 };
 
-// --- Horizontal Timeline ---
+// --- Values: "The Protocol" (Grid) ---
 
-const timelineItems = [
-    { year: "2018", title: "Inception", desc: "Founded with a mission to bridge the gap in digital engineering.", img: "https://images.unsplash.com/photo-1497366216548-37526070297c" },
-    { year: "2020", title: "Evolution", desc: "Shifted focus to enterprise-grade digital transformation.", img: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b" },
-    { year: "2022", title: "Expansion", desc: "Established distributed teams across key global markets.", img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab" },
-    { year: "2024", title: "Scale", desc: "Partnering with Fortune 500 innovators on critical infrastructure.", img: "https://images.unsplash.com/photo-1519389950473-47ba0277781c" },
-];
-
-const HorizontalTimeline = () => {
-    const targetRef = useRef<HTMLDivElement>(null);
-    const { scrollYProgress } = useScroll({ target: targetRef });
-    const x = useTransform(scrollYProgress, [0, 1], ["0%", "-75%"]);
-
+const ValueCard = ({ item, index }: { item: any, index: number }) => {
     return (
-        <section ref={targetRef} className="hidden md:block relative h-[400vh] bg-dark-base">
-            <div className="sticky top-0 h-screen flex flex-col justify-center overflow-hidden">
-                <div className="absolute top-12 left-12 z-20 text-left">
-                    <span className="font-mono text-[10px] text-teal-primary tracking-[0.4em] uppercase">Chronology</span>
-                </div>
-
-                <motion.div style={{ x }} className="flex gap-24 px-24 h-[70vh] items-center">
-                    {timelineItems.map((item, i) => (
-                        <div key={i} className="relative w-[40vw] h-full flex-shrink-0 group text-left">
-                            <div className="absolute -top-16 left-0 text-[120px] font-bold text-white/5 font-mono leading-none">
-                                {item.year}
-                            </div>
-                            <div className="relative w-full h-full overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-700 ease-out border-l border-white/10 pl-8">
-                                <div className="w-full h-[60%] overflow-hidden relative mb-8">
-                                    <div className="absolute inset-0 bg-teal-primary/20 mix-blend-overlay z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                                    <motion.img
-                                        src={`${item.img}?auto=format&fit=crop&w=1600&q=80`}
-                                        alt={item.title}
-                                        className="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-1000"
-                                    />
-                                </div>
-
-                                <div className="flex flex-col gap-4 text-left">
-                                    <span className="font-mono text-teal-primary text-xs tracking-widest uppercase">/ {item.year}</span>
-                                    <h3 className="text-4xl font-bold text-white tracking-tight">{item.title}</h3>
-                                    <p className="text-white/60 text-lg font-light leading-relaxed max-w-md">{item.desc}</p>
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                </motion.div>
-
-                {/* Progress Line */}
-                <div className="absolute bottom-24 left-0 w-full h-[1px] bg-white/5">
-                    <motion.div style={{ scaleX: scrollYProgress, originX: 0 }} className="h-full bg-teal-primary" />
-                </div>
+        <div className="group relative border border-white/10 bg-white/[0.02] hover:bg-white/[0.04] p-8 md:p-12 transition-all duration-500 hover:border-teal-primary/30 flex flex-col justify-between h-[400px] text-left">
+            <div className="absolute top-6 right-6 opacity-20 group-hover:opacity-100 transition-opacity">
+                <ArrowUpRight size={20} className="text-teal-primary" />
             </div>
-        </section>
+
+            <div>
+                <span className="font-mono text-[9px] text-teal-primary tracking-widest uppercase mb-4 block">/ 0{index + 1}</span>
+                <item.icon size={40} strokeWidth={1} className="text-white mb-8 group-hover:scale-110 transition-transform duration-500 group-hover:text-teal-primary" />
+            </div>
+
+            <div className="relative z-10">
+                <h3 className="text-3xl font-bold text-white mb-4">{item.title}</h3>
+                <p className="text-white/50 leading-relaxed max-w-sm group-hover:text-white/80 transition-colors">
+                    {item.desc}
+                </p>
+            </div>
+
+            {/* Gradient Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-teal-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+        </div>
     );
 };
-
-// --- Mobile Timeline Fallback ---
-const MobileTimeline = () => (
-    <section className="md:hidden py-24 bg-dark-base px-6 text-left">
-        <SectionHeader label="Chronology" title="Our Journey" />
-        <div className="flex flex-col gap-16 border-l border-white/10 pl-8 ml-4 text-left">
-            {timelineItems.map((item, i) => (
-                <div key={i} className="relative text-left">
-                    <div className="absolute -left-[39px] top-0 w-5 h-5 rounded-full bg-dark-base border border-teal-primary flex items-center justify-center">
-                        <div className="w-1.5 h-1.5 bg-teal-primary rounded-full" />
-                    </div>
-                    <span className="text-teal-primary font-mono text-xs mb-2 block">{item.year}</span>
-                    <h3 className="text-3xl font-bold text-white mb-4">{item.title}</h3>
-                    <p className="text-white/60 text-sm leading-relaxed mb-6">{item.desc}</p>
-                    <div className="h-48 overflow-hidden relative">
-                        <img src={`${item.img}?auto=format&fit=crop&w=800&q=80`} alt={item.title} className="w-full h-full object-cover grayscale" />
-                    </div>
-                </div>
-            ))}
-        </div>
-    </section>
-);
-
-
-// --- Protocol (Sticky Cards) ---
-
-const cards = [
-    { title: "Data Truth", desc: "We simplify complexity. Our decisions are rooted in measurable data points, not assumptions.", icon: Target, id: "01" },
-    { title: "Velocity", desc: "Speed is a feature. We engineer systems designed for rapid deployment and continuous iteration.", icon: Zap, id: "02" },
-    { title: "Precision", desc: "Quality is non-negotiable. We adhere to strict coding standards and automated testing protocols.", icon: Shield, id: "03" },
-];
 
 const ProtocolSection = () => {
+    const values = [
+        { title: "Radical Transparency", desc: "No black boxes. We share our process, our code, and our data. Trust is engineered, not promised.", icon: Code },
+        { title: "Velocity Over Perfection", desc: "Ship fast, break things, fix faster. The market rewards speed, not hesitation.", icon: Zap },
+        { title: "First Principles", desc: "We don't copy. We deconstruct problems to their core truths and build up from there.", icon: Box },
+    ];
+
     return (
-        <div className="bg-dark-base py-32 md:py-48">
-            <SectionHeader label="The Protocol" title={<>Engineer. <span className="text-white/40">Scale.</span></>} />
-
-            <div className="flex flex-col items-center px-4 md:px-6 gap-6 md:gap-12">
-                {cards.map((card, i) => {
-                    return (
-                        <div
-                            key={i}
-                            className="sticky top-32 w-full max-w-5xl bg-[#0A0A0A] border border-white/10 p-8 md:p-16 flex flex-col md:flex-row justify-between gap-12 group transition-all duration-500 hover:border-teal-primary/30 text-left"
-                            style={{
-                                minHeight: '400px',
-                                transformOrigin: 'top center',
-                            }}
-                        >
-                            {/* Decorative Corner */}
-                            <div className="absolute top-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                                <ArrowUpRight className="text-teal-primary" />
-                            </div>
-
-                            <div className="flex flex-col justify-between h-full relative z-10 text-left">
-                                <div className="text-left">
-                                    <span className="font-mono text-xs text-teal-primary tracking-widest mb-6 block">/ {card.id}</span>
-                                    <div className="w-16 h-16 rounded-full border border-white/10 flex items-center justify-center text-white mb-8 group-hover:bg-teal-primary group-hover:text-black transition-colors duration-500">
-                                        <card.icon size={28} strokeWidth={1.5} />
-                                    </div>
-                                    <h3 className="text-4xl md:text-6xl font-bold text-white mb-6 tracking-tight text-left">{card.title}</h3>
-                                </div>
-                                <div className="hidden md:block w-8 h-[1px] bg-white/20 group-hover:w-24 group-hover:bg-teal-primary transition-all duration-500" />
-                            </div>
-
-                            <div className="md:max-w-xs flex flex-col justify-end text-left">
-                                <p className="text-lg text-white/60 font-light leading-relaxed text-left">
-                                    {card.desc}
-                                </p>
-                            </div>
-
-                            {/* Background Glow */}
-                            <div className="absolute inset-0 bg-gradient-to-br from-teal-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
-                        </div>
-                    );
-                })}
+        <section className="bg-dark-base py-32 border-t border-white/5">
+            <SectionHeader label="The Protocol" title="Core Axioms" />
+            <div className="max-w-[1800px] mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+                {values.map((v, i) => (
+                    <ValueCard key={i} item={v} index={i} />
+                ))}
             </div>
-        </div>
+        </section>
     );
 };
 
-// --- Leadership (The Architects) ---
+// --- Timeline: "Vertical Neural Spine" ---
 
-const leaders = [
-    { name: "Alex V.", role: "Principal Architect", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?fit=crop&w=400&h=400" },
-    { name: "Sarah J.", role: "Design Director", img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?fit=crop&w=400&h=400" },
-    { name: "David L.", role: "Tech Lead", img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?fit=crop&w=400&h=400" },
-    { name: "Emily R.", role: "Growth Strategist", img: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?fit=crop&w=400&h=400" }
+const timelineEvents = [
+    { year: "2018", title: "Genesis Block", desc: "Engaze founded. A skeleton crew focusing on pure code architecture for early-stage startups." },
+    { year: "2020", title: "Series A Partners", desc: "Expanded to enterprise services. Became the technical backbone for 3 unicorns." },
+    { year: "2022", title: "Global Mesh", desc: "Opened distributed hubs in Singapore and Berlin. Launched 'Engaze Labs' for internal R&D." },
+    { year: "2024", title: "The Singularity", desc: "Integration of AI-native workflows. Delivering billion-dollar infrastructure as a service." },
 ];
 
-const Leadership = () => (
-    <section className="py-32 bg-dark-base border-t border-white/5">
-        <SectionHeader label="Leadership" title="The Architects" />
-        <div className="max-w-[1800px] mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-16">
-            {leaders.map((leader, i) => (
-                <div key={i} className="group cursor-pointer text-left">
-                    <div className="relative overflow-hidden mb-8 aspect-[3/4]">
-                        <div className="absolute inset-0 bg-teal-primary/20 mix-blend-color z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+const Timeline = () => {
+    return (
+        <section className="py-32 bg-dark-base relative overflow-hidden">
+            {/* Center Line */}
+            <div className="absolute left-[20px] md:left-1/2 top-0 bottom-0 w-[1px] bg-white/10 -translate-x-1/2" />
+
+            <div className="max-w-5xl mx-auto px-6 relative z-10">
+                {timelineEvents.map((event, i) => (
+                    <div key={i} className={`flex flex-col md:flex-row items-start md:items-center gap-8 md:gap-24 mb-24 ${i % 2 === 0 ? 'md:flex-row-reverse' : ''}`}>
+                        {/* Content Side */}
+                        <div className="w-full md:w-1/2 text-left">
+                            <div className={`p-8 border border-white/10 bg-white/[0.02] hover:border-teal-primary/50 transition-colors duration-500 relative group`}>
+                                <span className="font-mono text-teal-primary text-xs mb-2 block">{event.year}</span>
+                                <h3 className="text-2xl font-bold text-white mb-4">{event.title}</h3>
+                                <p className="text-white/60 text-sm leading-relaxed">{event.desc}</p>
+
+                                {/* Connector Node */}
+                                <div className={`absolute top-1/2 ${i % 2 === 0 ? '-left-[53px]' : '-right-[53px]'} w-3 h-3 bg-dark-base border border-teal-primary rounded-full hidden md:block z-20`}>
+                                    <div className="absolute inset-0 bg-teal-primary animate-ping opacity-50 rounded-full" />
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Spacer for Center Line */}
+                        <div className="hidden md:block w-[1px]" />
+
+                        {/* Empty Side for Balance */}
+                        <div className="w-full md:w-1/2 hidden md:block" />
+                    </div>
+                ))}
+            </div>
+        </section>
+    );
+};
+
+
+// --- Leadership: "Holographic Cards" ---
+
+const Leadership = () => {
+    const leaders = [
+        { name: "Alex V.", role: "Principal Architect", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?fit=crop&w=800&q=80" },
+        { name: "Sarah J.", role: "Design Director", img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?fit=crop&w=800&q=80" },
+        { name: "David L.", role: "Tech Lead", img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?fit=crop&w=800&q=80" },
+        { name: "Emily R.", role: "Growth Strategist", img: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?fit=crop&w=800&q=80" }
+    ];
+
+    return (
+        <section className="py-32 bg-dark-base border-t border-white/5">
+            <SectionHeader label="Intelligence" title="The Architects" />
+            <div className="max-w-[1800px] mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                {leaders.map((leader, i) => (
+                    <div key={i} className="group cursor-pointer relative h-[500px] overflow-hidden">
                         <img
                             src={leader.img}
                             alt={leader.name}
-                            className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700 scale-100 group-hover:scale-105"
+                            className="absolute inset-0 w-full h-full object-cover grayscale transition-all duration-700 group-hover:grayscale-0 group-hover:scale-105"
                         />
+                        <div className="absolute inset-0 bg-gradient-to-t from-dark-base via-transparent to-transparent opacity-90" />
+
+                        <div className="absolute bottom-0 left-0 w-full p-8 text-left">
+                            <div className="w-full h-[1px] bg-white/20 mb-6 origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
+                            <h3 className="text-3xl font-bold text-white mb-2 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">{leader.name}</h3>
+                            <span className="text-teal-primary font-mono text-xs uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 block">{leader.role}</span>
+                        </div>
+
                         {/* Editorial Lines */}
-                        <div className="absolute top-4 left-4 w-2 h-2 border-t border-l border-white/50 opacity-0 group-hover:opacity-100 transition-opacity" />
-                        <div className="absolute bottom-4 right-4 w-2 h-2 border-b border-r border-white/50 opacity-0 group-hover:opacity-100 transition-opacity" />
+                        <div className="absolute top-4 left-4 w-12 h-12 border-t border-l border-white/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                        <div className="absolute bottom-4 right-4 w-12 h-12 border-b border-r border-white/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     </div>
-                    <div className="flex flex-col gap-1 items-start text-left">
-                        <h3 className="text-2xl font-bold text-white text-left">{leader.name}</h3>
-                        <span className="font-mono text-xs text-teal-primary tracking-widest uppercase text-left">{leader.role}</span>
-                    </div>
+                ))}
+            </div>
+        </section>
+    );
+};
+
+// --- Metrics: "Impact Data" ---
+const Metrics = () => (
+    <section className="py-24 bg-teal-primary/5 border-y border-white/5">
+        <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-12 text-center md:text-left">
+            {[
+                { label: "Years Active", value: "06" },
+                { label: "Projects Shipped", value: "140+" },
+                { label: "Team Members", value: "45" },
+                { label: "Global Hubs", value: "04" },
+            ].map((stat, i) => (
+                <div key={i} className="flex flex-col items-center md:items-start">
+                    <span className="text-5xl md:text-7xl font-bold text-white tracking-tight mb-2">{stat.value}</span>
+                    <span className="font-mono text-[10px] uppercase tracking-widest text-teal-primary">{stat.label}</span>
                 </div>
             ))}
         </div>
     </section>
 );
 
-// --- Global Footprint ---
-
-const locations = [
-    { city: "New York", code: "NYC", coords: "40.7128° N, 74.0060° W", status: "Active" },
-    { city: "London", code: "LDN", coords: "51.5074° N, 0.1278° W", status: "Active" },
-    { city: "Singapore", code: "SGP", coords: "1.3521° N, 103.8198° E", status: "Active" },
-    { city: "Berlin", code: "BER", coords: "52.5200° N, 13.4050° E", status: "Active" },
-];
-
-const GlobalFootprint = () => {
-    return (
-        <section className="py-32 bg-dark-base border-t border-white/5">
-            <div className="max-w-[1800px] mx-auto px-6 md:px-12">
-                <div className="flex flex-col md:flex-row justify-between mb-24 items-start md:items-end">
-                    <div className="text-left">
-                        <span className="font-mono text-[10px] text-teal-primary uppercase tracking-[0.4em] mb-4 block">Network</span>
-                        <h2 className="text-4xl font-bold text-white">Global Nodes</h2>
-                    </div>
-                    <div className="hidden md:flex items-center gap-2 self-end text-white/40 font-mono text-xs">
-                        <Globe size={14} />
-                        Distributed Operations
-                    </div>
-                </div>
-
-                <div className="grid grid-cols-1 border-t border-white/10">
-                    {locations.map((loc, i) => (
-                        <div key={i} className="group flex flex-col md:flex-row justify-between items-start md:items-center py-12 border-b border-white/10 hover:bg-white/[0.02] transition-colors cursor-default md:px-8 gap-8 md:gap-0">
-                            <div className="flex items-center gap-12 w-full md:w-auto text-left">
-                                <span className="font-mono text-white/20 text-xs">0{i + 1}</span>
-                                <span className="text-5xl md:text-7xl font-bold text-white/40 group-hover:text-white transition-colors duration-500 uppercase tracking-tighter">
-                                    {loc.code}
-                                </span>
-                            </div>
-
-                            <div className="flex justify-between w-full md:w-auto md:gap-32 mt-0 md:mt-0 items-center">
-                                <div className="flex flex-col text-left">
-                                    <span className="text-white text-lg font-bold">{loc.city}</span>
-                                    <span className="text-white/40 font-mono text-xs">{loc.coords}</span>
-                                </div>
-                                <div className="w-2 h-2 rounded-full bg-teal-primary shadow-[0_0_10px_#36B8A5]" />
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            </div>
-        </section>
-    );
-};
-
-// --- Main Layout ---
 
 const About: React.FC = () => {
     return (
         <div className="bg-dark-base min-h-screen relative overflow-x-hidden font-sans selection:bg-teal-primary selection:text-black transition-colors duration-500 text-left">
             <AboutHero />
+            <Metrics />
             <Manifesto />
-            <HorizontalTimeline />
-            <MobileTimeline />
             <ProtocolSection />
+            <Timeline />
             <Leadership />
-            <GlobalFootprint />
             <Footer />
         </div>
     );
