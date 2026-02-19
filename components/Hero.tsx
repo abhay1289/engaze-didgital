@@ -58,23 +58,22 @@ const Hero: React.FC = () => {
             const touchEndY = e.changedTouches[0].clientY;
             const deltaY = touchStartY - touchEndY;
 
-            // If user swipes UP (scrolls down) and is at top
-            if (deltaY > 50 && window.scrollY < 50) {
+            // If user swipes UP (scrolls down) just a little (sensitive)
+            if (deltaY > 30 && window.scrollY < 50) {
                 isNavigating = true;
                 const heroHeight = containerRef.current?.offsetHeight || window.innerHeight;
                 window.scrollTo({
                     top: heroHeight,
                     behavior: 'smooth'
                 });
-                // Reset flag after animation roughly completes
                 setTimeout(() => { isNavigating = false; }, 1000);
             }
         };
 
         const handleWheel = (e: WheelEvent) => {
             if (isNavigating) return;
-            // If user scrolls DOWN and is at top
-            if (e.deltaY > 20 && window.scrollY < 50) {
+            // Catch even slow scrolls (deltaY > 5)
+            if (e.deltaY > 5 && window.scrollY < 50) {
                 isNavigating = true;
                 const heroHeight = containerRef.current?.offsetHeight || window.innerHeight;
 
@@ -84,7 +83,7 @@ const Hero: React.FC = () => {
                     behavior: 'smooth'
                 });
 
-                e.preventDefault(); // Create a cleaner "snap" start
+                e.preventDefault();
                 setTimeout(() => { isNavigating = false; }, 1200);
             }
         };
@@ -107,14 +106,14 @@ const Hero: React.FC = () => {
         };
     }, []);
 
-    // Dynamic transforms for premium layering
-    const textScale = useTransform(smoothProgress, [0, 0.5], [1, 2.8]);
-    const textOpacity = useTransform(smoothProgress, [0.1, 0.45], [1, 0]);
-    const textBlur = useTransform(smoothProgress, [0, 0.4], ["blur(0px)", "blur(15px)"]);
-    const letterSpacing = useTransform(smoothProgress, [0, 0.4], ["-0.05em", "0.15em"]);
+    // Dynamic transforms for premium layering - Optimized for shorter scroll
+    const textScale = useTransform(smoothProgress, [0, 0.2], [1, 1.5]);
+    const textOpacity = useTransform(smoothProgress, [0, 0.15], [1, 0]);
+    const textBlur = useTransform(smoothProgress, [0, 0.15], ["blur(0px)", "blur(10px)"]);
+    const letterSpacing = useTransform(smoothProgress, [0, 0.2], ["-0.05em", "0.05em"]);
 
-    const uiOpacity = useTransform(smoothProgress, [0, 0.25], [1, 0]);
-    const uiY = useTransform(smoothProgress, [0, 0.25], [0, 30]);
+    const uiOpacity = useTransform(smoothProgress, [0, 0.1], [1, 0]);
+    const uiY = useTransform(smoothProgress, [0, 0.1], [0, 20]);
 
     const orb1Y = useTransform(smoothProgress, [0, 1], ["-10%", "30%"]);
     const orb2Y = useTransform(smoothProgress, [0, 1], ["20%", "-40%"]);
@@ -130,7 +129,7 @@ const Hero: React.FC = () => {
             onMouseMove={handleMouseMove}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
-            className="relative w-full h-[100dvh] md:h-[250vh] bg-dark-base overflow-clip cursor-none"
+            className="relative w-full h-[100dvh] md:h-[110vh] bg-dark-base overflow-clip cursor-none"
         >
             {/* BACKGROUND LAYER: The "Architected Environment" */}
             <div className="sticky top-0 z-10 h-[100dvh] w-full flex flex-col items-center justify-center overflow-visible md:overflow-hidden">
