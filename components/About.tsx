@@ -1,8 +1,8 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { motion, useScroll, useTransform, useSpring, useInView } from 'framer-motion';
+import { motion, useScroll, useTransform, useSpring, useInView, useMotionValue, useMotionTemplate } from 'framer-motion';
 import Footer from './Footer';
 import Magnetic from './ui/Magnetic';
-import { ArrowUpRight, Globe, Target, Zap, Shield, ChevronDown, Plus, Radio, MoveUpRight, Code, Box } from 'lucide-react';
+import { ArrowUpRight, Globe, Target, Zap, Shield, ChevronDown, Plus, Radio, MoveUpRight, Code, Box, Layers, Activity } from 'lucide-react';
 
 // --- Shared Components ---
 
@@ -124,41 +124,68 @@ const AboutHero = () => {
 
 // --- Manifesto Section: "The Code" ---
 
-const ManifestoWord = ({ word, i, length, scrollYProgress }: { word: string, i: number, length: number, scrollYProgress: any }) => {
-    const start = i / length;
-    const end = start + (1 / length);
-    const opacity = useTransform(scrollYProgress, [start, end], [0.15, 1]);
-    const color = useTransform(scrollYProgress, [start, end], ["#ffffff", "#36B8A5"]);
+// --- Manifesto Section: "The Code" (Scramble Effect) ---
+
+const ScrambleString = ({ text, delay = 0 }: { text: string, delay?: number }) => {
+    const [display, setDisplay] = useState("");
+    const [done, setDone] = useState(false);
+    const ref = useRef(null);
+    const isInView = useInView(ref, { once: true, margin: "-100px" });
+
+    useEffect(() => {
+        if (!isInView) return;
+
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&";
+        let iteration = 0;
+
+        const timeout = setTimeout(() => {
+            const interval = setInterval(() => {
+                setDisplay(
+                    text
+                        .split("")
+                        .map((letter, index) => {
+                            if (index < iteration) {
+                                return text[index];
+                            }
+                            return chars[Math.floor(Math.random() * chars.length)];
+                        })
+                        .join("")
+                );
+
+                if (iteration >= text.length) {
+                    clearInterval(interval);
+                    setDone(true);
+                }
+
+                iteration += 1 / 2; // Speed of decoding
+            }, 30);
+
+            return () => clearInterval(interval);
+        }, delay);
+
+        return () => clearTimeout(timeout);
+    }, [isInView, text, delay]);
 
     return (
-        <motion.span style={{ opacity, color: i % 5 === 0 ? color : undefined }} className="transition-colors duration-200">
-            {word}{" "}
-        </motion.span>
+        <span ref={ref} className={`${done ? "text-white" : "text-teal-primary"} transition-colors duration-500 font-mono`}>
+            {display}
+        </span>
     );
-};
+}
 
 const Manifesto = () => {
-    const container = useRef(null);
-    const { scrollYProgress } = useScroll({
-        target: container,
-        offset: ["start 0.8", "end 0.6"]
-    });
-
     const content = "Legacy systems are the enemy of speed. In a world of infinite leverage, the only competitive advantage is velocity. We bridge the gap between high-level strategy and relentless engineering. We build the operating systems that power billion-dollar growth.";
     const words = content.split(" ");
 
     return (
         <section className="py-32 md:py-64 px-6 md:px-12 bg-dark-base relative z-10 text-left">
-            <div ref={container} className="max-w-7xl mx-auto">
-                <p className="text-4xl md:text-7xl lg:text-8xl font-bold leading-[1] tracking-tight flex flex-wrap justify-start text-left text-white">
-                    {words.map((word, i) => (
-                        <ManifestoWord
-                            key={i}
-                            word={word}
-                            i={i}
-                            length={words.length}
-                            scrollYProgress={scrollYProgress}
-                        />
+            <div className="max-w-7xl mx-auto">
+                <p className="text-xl md:text-4xl lg:text-5xl font-bold leading-[1.4] tracking-tight text-left text-white/50">
+                    {/* We treat the whole paragraph as a series of scrambled words for effect, or just chunks */}
+                    {content.split('. ').map((sentence, i) => (
+                        <span key={i} className="mr-2 inline-block">
+                            <ScrambleString text={sentence + (i < content.split('. ').length - 1 ? '.' : '')} delay={i * 2000} />
+                        </span>
                     ))}
                 </p>
                 <div className="mt-20 flex items-center gap-4">
@@ -172,14 +199,60 @@ const Manifesto = () => {
 
 // --- Values: "The Protocol" (Grid) ---
 
-const ValueCard = ({ item, index }: { item: any, index: number }) => {
+const SpotlightCard = ({ item, index }: { item: any, index: number }) => {
+    const divRef = useRef<HTMLDivElement>(null);
+    const [isFocused, setIsFocused] = useState(false);
+    const [position, setPosition] = useState({ x: 0, y: 0 });
+    const [opacity, setOpacity] = useState(0);
+
+    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+        if (!divRef.current) return;
+        const div = divRef.current;
+        const rect = div.getBoundingClientRect();
+        setPosition({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+    };
+
+    const handleFocus = () => {
+        setIsFocused(true);
+        setOpacity(1);
+    };
+
+    const handleBlur = () => {
+        setIsFocused(false);
+        setOpacity(0);
+    };
+
+    const handleMouseEnter = () => {
+        setOpacity(1);
+    };
+
+    const handleMouseLeave = () => {
+        setOpacity(0);
+    };
+
     return (
-        <div className="group relative border border-white/10 bg-white/[0.02] hover:bg-white/[0.04] p-8 md:p-12 transition-all duration-500 hover:border-teal-primary/30 flex flex-col justify-between h-[400px] text-left">
-            <div className="absolute top-6 right-6 opacity-20 group-hover:opacity-100 transition-opacity">
+        <div
+            ref={divRef}
+            onMouseMove={handleMouseMove}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            className="group relative border border-white/10 bg-white/[0.02] overflow-hidden p-8 md:p-12 transition-all duration-500 hover:border-teal-primary/30 flex flex-col justify-between h-[400px] text-left"
+        >
+            <div
+                className="pointer-events-none absolute -inset-px opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                style={{
+                    opacity,
+                    background: `radial-gradient(600px circle at ${position.x}px ${position.y}px, rgba(54, 184, 165, 0.15), transparent 40%)`,
+                }}
+            />
+
+            <div className="absolute top-6 right-6 opacity-20 group-hover:opacity-100 transition-opacity z-20">
                 <ArrowUpRight size={20} className="text-teal-primary" />
             </div>
 
-            <div>
+            <div className="relative z-10">
                 <span className="font-mono text-[9px] text-teal-primary tracking-widest uppercase mb-4 block">/ 0{index + 1}</span>
                 <item.icon size={40} strokeWidth={1} className="text-white mb-8 group-hover:scale-110 transition-transform duration-500 group-hover:text-teal-primary" />
             </div>
@@ -190,9 +263,6 @@ const ValueCard = ({ item, index }: { item: any, index: number }) => {
                     {item.desc}
                 </p>
             </div>
-
-            {/* Gradient Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-teal-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
         </div>
     );
 };
@@ -202,14 +272,17 @@ const ProtocolSection = () => {
         { title: "Radical Transparency", desc: "No black boxes. We share our process, our code, and our data. Trust is engineered, not promised.", icon: Code },
         { title: "Velocity Over Perfection", desc: "Ship fast, break things, fix faster. The market rewards speed, not hesitation.", icon: Zap },
         { title: "First Principles", desc: "We don't copy. We deconstruct problems to their core truths and build up from there.", icon: Box },
+        { title: "Modular Architecture", desc: "Systems designed to scale. Component-driven development ensuring infinite flexibility.", icon: Layers },
+        { title: "Data-Driven Design", desc: "Aesthetics backed by analytics. Every pixel serves a purpose in the user journey.", icon: Activity },
+        { title: "Global Compliance", desc: "Built for the world. Standards-compliant code that works across borders and devices.", icon: Globe },
     ];
 
     return (
         <section className="bg-dark-base py-32 border-t border-white/5">
             <SectionHeader label="The Protocol" title="Core Axioms" />
-            <div className="max-w-[1800px] mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="max-w-[1800px] mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {values.map((v, i) => (
-                    <ValueCard key={i} item={v} index={i} />
+                    <SpotlightCard key={i} item={v} index={i} />
                 ))}
             </div>
         </section>
@@ -300,7 +373,37 @@ const Leadership = () => {
     );
 };
 
-// --- Metrics: "Impact Data" ---
+// --- Metrics: "Impact Data" with CountUp ---
+const Counter = ({ value, label }: { value: string, label: string }) => {
+    const ref = useRef(null);
+    const isInView = useInView(ref);
+    const numericValue = parseInt(value.replace(/\D/g, '')); // Extract number
+    const suffix = value.replace(/[0-9]/g, ''); // Extract suffix like '+'
+
+    const springValue = useSpring(0, {
+        stiffness: 100,
+        damping: 30,
+        restDelta: 0.001
+    });
+
+    useEffect(() => {
+        if (isInView) {
+            springValue.set(numericValue);
+        }
+    }, [isInView, numericValue, springValue]);
+
+    const displayValue = useTransform(springValue, (current) => Math.round(current) + suffix);
+
+    return (
+        <div ref={ref} className="flex flex-col items-center md:items-start group">
+            <motion.span className="text-5xl md:text-7xl font-bold text-white tracking-tight mb-2 group-hover:text-teal-primary transition-colors duration-500">
+                {String(value).includes('06') || String(value).includes('04') ? <motion.span>{displayValue}</motion.span> : <span>{value}</span>}
+            </motion.span>
+            <span className="font-mono text-[10px] uppercase tracking-widest text-teal-primary/60 group-hover:text-teal-primary transition-colors">{label}</span>
+        </div>
+    );
+};
+
 const Metrics = () => (
     <section className="py-24 bg-teal-primary/5 border-y border-white/5">
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-12 text-center md:text-left">
@@ -310,14 +413,54 @@ const Metrics = () => (
                 { label: "Team Members", value: "45" },
                 { label: "Global Hubs", value: "04" },
             ].map((stat, i) => (
-                <div key={i} className="flex flex-col items-center md:items-start">
-                    <span className="text-5xl md:text-7xl font-bold text-white tracking-tight mb-2">{stat.value}</span>
-                    <span className="font-mono text-[10px] uppercase tracking-widest text-teal-primary">{stat.label}</span>
-                </div>
+                <Counter key={i} value={stat.value} label={stat.label} />
             ))}
         </div>
     </section>
 );
+
+
+// --- Global Footprint: "Wireframe Globe" ---
+const GlobalFootprint = () => {
+    return (
+        <section className="py-32 bg-dark-base border-t border-white/5 overflow-hidden">
+            <div className="max-w-[1800px] mx-auto px-6 md:px-12 flex flex-col md:flex-row items-center gap-12">
+                <div className="w-full md:w-1/2 text-left">
+                    <span className="font-mono text-teal-primary text-xs uppercase tracking-widest mb-6 block">Global Infrastructure</span>
+                    <h2 className="text-5xl md:text-7xl font-black text-white tracking-tighter mb-8 leading-[0.9]">
+                        DISTRIBUTED <br /><span className="text-white/30">OPERATIONS.</span>
+                    </h2>
+                    <p className="text-white/60 text-lg leading-relaxed max-w-md mb-12">
+                        Our decentralized network ensures 24/7 uptime and rapid deployment capabilities across all major time zones.
+                    </p>
+
+                    <div className="grid grid-cols-2 gap-8">
+                        {["New York", "London", "Singapore", "Berlin"].map((city, i) => (
+                            <div key={i} className="flex items-center gap-3">
+                                <div className="w-1.5 h-1.5 bg-teal-primary rounded-full animate-pulse" />
+                                <span className="text-white font-mono uppercase tracking-widest text-xs">{city}</span>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                <div className="w-full md:w-1/2 relative h-[500px] flex items-center justify-center opacity-40 mix-blend-screen">
+                    {/* Simplified CSS Sphere Representation */}
+                    <motion.div
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                        className="w-[400px] h-[400px] border border-teal-primary/30 rounded-full relative"
+                    >
+                        <div className="absolute inset-0 border border-white/10 rounded-full rotate-45 transform scale-90" />
+                        <div className="absolute inset-0 border border-white/10 rounded-full -rotate-45 transform scale-90" />
+                        <div className="absolute top-1/2 left-0 w-full h-[1px] bg-teal-primary/20" />
+                        <div className="absolute left-1/2 top-0 w-[1px] h-full bg-teal-primary/20" />
+                    </motion.div>
+                </div>
+            </div>
+        </section>
+    );
+};
 
 
 const StartBuild = () => (
@@ -352,6 +495,7 @@ const About: React.FC = () => {
             <ProtocolSection />
             <Timeline />
             <Leadership />
+            <GlobalFootprint />
             <StartBuild />
             <Footer />
         </div>
