@@ -61,7 +61,7 @@ const Hero: React.FC = () => {
             className="relative w-full h-[250vh] bg-dark-base overflow-clip cursor-none"
         >
             {/* BACKGROUND LAYER: The "Architected Environment" */}
-            <div className="sticky top-0 h-[100dvh] w-full flex flex-col items-center justify-center overflow-hidden">
+            <div className="sticky top-0 z-10 h-screen md:h-[100dvh] w-full flex flex-col items-center justify-center overflow-visible md:overflow-hidden">
 
                 {/* Precision Grid */}
                 <div className="absolute inset-0 z-0 opacity-20 [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_90%)]">
@@ -156,7 +156,7 @@ const Hero: React.FC = () => {
                 {/* CTA LAYER (Integrated into Grid) */}
                 <motion.div
                     style={{ opacity: uiOpacity, y: uiY }}
-                    className="relative md:absolute bottom-0 md:bottom-24 z-20 flex flex-col items-center w-full px-6 pb-12 md:pb-0"
+                    className="relative md:absolute bottom-0 md:bottom-24 z-20 flex flex-col items-center w-full px-6 pb-24 md:pb-0"
                 >
                     <div className="flex flex-col md:flex-row gap-8 items-center justify-center w-full max-w-6xl">
                         <div className="flex gap-4 w-full md:w-auto justify-center">
