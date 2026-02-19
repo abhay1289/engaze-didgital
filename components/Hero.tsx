@@ -92,22 +92,22 @@ const Hero: React.FC = () => {
                         filter: textBlur,
                         letterSpacing: letterSpacing
                     }}
-                    className="relative z-10 flex-1 md:flex-none flex flex-col items-center justify-center text-center origin-center will-change-transform w-full"
+                    className="relative z-10 flex flex-col items-center justify-center text-center origin-center will-change-transform w-full py-12 md:py-0"
                 >
                     <div className="flex flex-col items-center gap-0">
                         {/* Top Word with Sophisticated Reveal */}
-                        <div className="flex overflow-hidden pb-2 md:pb-4">
+                        <div className="flex overflow-hidden pb-1 md:pb-4">
                             {characters.top.map((char, i) => (
                                 <motion.span
                                     key={i}
                                     initial={{ y: "110%", opacity: 0, scale: 0.8 }}
                                     animate={{ y: 0, opacity: 1, scale: 1 }}
                                     transition={{
-                                        delay: 0.3 + (i * 0.06),
-                                        duration: 1.5,
+                                        delay: 0.1 + (i * 0.04),
+                                        duration: 0.8,
                                         ease: [0.22, 1, 0.36, 1]
                                     }}
-                                    className="text-[13vw] md:text-[11vw] font-black leading-none tracking-tighter text-white select-none drop-shadow-2xl"
+                                    className="text-[17vw] md:text-[11vw] font-black leading-none tracking-tighter text-white select-none drop-shadow-2xl"
                                 >
                                     {char}
                                 </motion.span>
@@ -115,18 +115,18 @@ const Hero: React.FC = () => {
                         </div>
 
                         {/* Bottom Word with Gradient Mask */}
-                        <div className="flex overflow-hidden -mt-4 md:-mt-8">
+                        <div className="flex overflow-hidden -mt-2 md:-mt-8">
                             {characters.bottom.map((char, i) => (
                                 <motion.span
                                     key={i}
                                     initial={{ y: "110%", opacity: 0, scale: 0.8 }}
                                     animate={{ y: 0, opacity: 1, scale: 1 }}
                                     transition={{
-                                        delay: 0.6 + (i * 0.06),
-                                        duration: 1.5,
+                                        delay: 0.2 + (i * 0.04),
+                                        duration: 0.8,
                                         ease: [0.22, 1, 0.36, 1]
                                     }}
-                                    className="text-[13vw] md:text-[11vw] font-black leading-none tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-teal-primary via-teal-secondary to-teal-tertiary select-none"
+                                    className="text-[17vw] md:text-[11vw] font-black leading-none tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-teal-primary via-teal-secondary to-teal-tertiary select-none"
                                 >
                                     {char}
                                 </motion.span>
@@ -135,18 +135,18 @@ const Hero: React.FC = () => {
                     </div>
 
                     {/* Architectural Subtitle */}
-                    <div className="relative mt-6 md:mt-12 overflow-hidden px-4 md:px-8 max-w-[90vw] md:max-w-none">
+                    <div className="relative mt-8 md:mt-12 overflow-hidden px-4 md:px-8 max-w-[90vw] md:max-w-none">
                         <motion.div
                             initial={{ width: 0 }}
                             animate={{ width: "100%" }}
-                            transition={{ delay: 1.8, duration: 1.2, ease: "circOut" }}
+                            transition={{ delay: 0.5, duration: 0.8, ease: "circOut" }}
                             className="absolute inset-0 bg-white/5 backdrop-blur-sm -z-10 rounded-full border border-white/10 hidden md:block"
                         />
                         <motion.p
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 2, duration: 1 }}
-                            className="px-2 md:px-6 py-2 font-mono text-[10px] md:text-[10px] text-teal-primary/80 tracking-[0.1em] md:tracking-[0.6em] uppercase text-center leading-relaxed md:whitespace-nowrap"
+                            transition={{ delay: 0.6, duration: 0.5 }}
+                            className="px-2 md:px-6 py-2 font-mono text-[11px] md:text-[10px] text-teal-primary/80 tracking-[0.1em] md:tracking-[0.6em] uppercase text-center leading-relaxed md:whitespace-nowrap"
                         >
                             We build the operating systems for <span className="text-white font-bold">billion-dollar growth</span>
                         </motion.p>
