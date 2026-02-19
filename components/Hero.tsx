@@ -44,43 +44,68 @@ const Hero: React.FC = () => {
         return () => window.removeEventListener('resize', checkMobile);
     }, []);
 
-    // Mobile "Single Scroll" Logic
+    // Universal "Single Scroll" Logic (Mobile & Desktop)
     useEffect(() => {
-        if (!isMobile) return;
-
         let touchStartY = 0;
+        let isNavigating = false;
 
         const handleTouchStart = (e: TouchEvent) => {
             touchStartY = e.touches[0].clientY;
         };
 
         const handleTouchEnd = (e: TouchEvent) => {
+            if (isNavigating) return;
             const touchEndY = e.changedTouches[0].clientY;
             const deltaY = touchStartY - touchEndY;
 
-            // If user swipes UP (scrolls down) more than 50px AND is near the top
-            if (deltaY > 50 && window.scrollY < 100) {
-                // Smoothly scroll to the next section (100dvh)
+            // If user swipes UP (scrolls down) and is at top
+            if (deltaY > 50 && window.scrollY < 50) {
+                isNavigating = true;
+                const heroHeight = containerRef.current?.offsetHeight || window.innerHeight;
                 window.scrollTo({
-                    top: window.innerHeight,
+                    top: heroHeight,
                     behavior: 'smooth'
                 });
+                // Reset flag after animation roughly completes
+                setTimeout(() => { isNavigating = false; }, 1000);
+            }
+        };
+
+        const handleWheel = (e: WheelEvent) => {
+            if (isNavigating) return;
+            // If user scrolls DOWN and is at top
+            if (e.deltaY > 20 && window.scrollY < 50) {
+                isNavigating = true;
+                const heroHeight = containerRef.current?.offsetHeight || window.innerHeight;
+
+                // Use smooth scroll to skip Hero
+                window.scrollTo({
+                    top: heroHeight,
+                    behavior: 'smooth'
+                });
+
+                e.preventDefault(); // Create a cleaner "snap" start
+                setTimeout(() => { isNavigating = false; }, 1200);
             }
         };
 
         const container = containerRef.current;
         if (container) {
-            container.addEventListener('touchstart', handleTouchStart, { passive: true });
-            container.addEventListener('touchend', handleTouchEnd, { passive: true });
+            // Passive: false for wheel allows preventDefault (optional, but cleaner for snap)
+            // But standard 'wheel' listeners are passive by default in some browsers, 
+            // so we might just let it scroll. Let's try passive: false if we want to cancel the partial scroll.
+            // Actually, for broad compatibility, we'll just detect and jump.
+            window.addEventListener('wheel', handleWheel, { passive: false });
+            window.addEventListener('touchstart', handleTouchStart, { passive: true });
+            window.addEventListener('touchend', handleTouchEnd, { passive: true });
         }
 
         return () => {
-            if (container) {
-                container.removeEventListener('touchstart', handleTouchStart);
-                container.removeEventListener('touchend', handleTouchEnd);
-            }
+            window.removeEventListener('wheel', handleWheel);
+            window.removeEventListener('touchstart', handleTouchStart);
+            window.removeEventListener('touchend', handleTouchEnd);
         };
-    }, [isMobile]);
+    }, []);
 
     // Dynamic transforms for premium layering
     const textScale = useTransform(smoothProgress, [0, 0.5], [1, 2.8]);
