@@ -158,16 +158,7 @@ const Hero: React.FC = () => {
                     style={{ opacity: uiOpacity, y: uiY }}
                     className="absolute bottom-12 md:bottom-24 z-20 flex flex-col items-center w-full px-6"
                 >
-                    <div className="flex flex-col md:flex-row gap-8 items-center justify-between w-full max-w-6xl md:border-t md:border-white/10 md:pt-12">
-                        <div className="flex gap-4 items-center hidden md:flex">
-                            <div className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center animate-pulse">
-                                <span className="w-1.5 h-1.5 bg-teal-primary rounded-full shadow-[0_0_10px_#36B8A5]" />
-                            </div>
-                            <p className="max-w-[240px] text-white/40 text-[11px] font-mono leading-relaxed uppercase tracking-wider">
-                                Initializing strategic infrastructure for industrial level scale.
-                            </p>
-                        </div>
-
+                    <div className="flex flex-col md:flex-row gap-8 items-center justify-center w-full max-w-6xl">
                         <div className="flex gap-4 w-full md:w-auto justify-center">
                             <Magnetic strength={20}>
                                 <button className="group relative flex items-center justify-center gap-4 md:gap-6 px-8 md:px-12 py-4 md:py-5 bg-white text-dark-base rounded-full text-[11px] md:text-[11px] font-black tracking-[0.2em] md:tracking-[0.3em] uppercase transition-all duration-500 hover:scale-105 shadow-glow overflow-hidden whitespace-nowrap w-full md:w-auto">
