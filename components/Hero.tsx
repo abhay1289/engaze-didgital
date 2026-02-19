@@ -133,7 +133,7 @@ const Hero: React.FC = () => {
             className="relative w-full h-[100dvh] md:h-[250vh] bg-dark-base overflow-clip cursor-none"
         >
             {/* BACKGROUND LAYER: The "Architected Environment" */}
-            <div className="sticky top-0 z-10 h-screen md:h-[100dvh] w-full flex flex-col items-center justify-center overflow-visible md:overflow-hidden">
+            <div className="sticky top-0 z-10 h-[100dvh] w-full flex flex-col items-center justify-center overflow-visible md:overflow-hidden">
 
                 {/* Precision Grid */}
                 <div className="absolute inset-0 z-0 opacity-20 [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_90%)]">
@@ -164,7 +164,7 @@ const Hero: React.FC = () => {
                         filter: isMobile ? "blur(0px)" : textBlur,
                         letterSpacing: isMobile ? "-0.05em" : letterSpacing
                     }}
-                    className="relative z-10 flex flex-col items-center justify-center text-center origin-center will-change-transform w-full py-12 md:py-0"
+                    className="relative z-10 flex flex-col items-center justify-center text-center origin-center will-change-transform w-full h-full md:h-auto"
                 >
                     <div className="flex flex-col items-center gap-0">
                         {/* Top Word with Sophisticated Reveal */}
@@ -228,7 +228,7 @@ const Hero: React.FC = () => {
                 {/* CTA LAYER (Integrated into Grid) */}
                 <motion.div
                     style={{ opacity: uiOpacity, y: uiY }}
-                    className="relative md:absolute bottom-0 md:bottom-24 z-20 flex flex-col items-center w-full px-6 pb-24 md:pb-0"
+                    className="absolute bottom-20 md:bottom-24 z-20 flex flex-col items-center w-full px-6"
                 >
                     <div className="flex flex-col md:flex-row gap-8 items-center justify-center w-full max-w-6xl">
                         <div className="flex gap-4 w-full md:w-auto justify-center">
