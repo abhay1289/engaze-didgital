@@ -52,6 +52,18 @@ const AboutHero = () => {
                 />
             </div>
 
+            {/* Layered Ambient Orbs (Matched to Home) */}
+            <motion.div
+                animate={{ y: [0, -20, 0], opacity: [0.3, 0.6, 0.3] }}
+                transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute -left-1/4 top-0 w-[60vw] h-[60vw] bg-teal-primary/10 rounded-full blur-[120px] mix-blend-screen pointer-events-none"
+            />
+            <motion.div
+                animate={{ y: [0, 30, 0], opacity: [0.3, 0.5, 0.3] }}
+                transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                className="absolute -right-1/4 bottom-0 w-[50vw] h-[50vw] bg-indigo-500/10 rounded-full blur-[100px] mix-blend-screen pointer-events-none"
+            />
+
             {/* Content */}
             <motion.div style={{ y, opacity }} className="relative z-10 w-full px-6 flex flex-col items-center text-center">
                 <div className="mb-12 flex flex-col items-center gap-4">
@@ -308,6 +320,29 @@ const Metrics = () => (
 );
 
 
+const StartBuild = () => (
+    <section className="py-32 md:py-48 bg-dark-base relative overflow-hidden flex flex-col items-center justify-center text-center px-6">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:40px_40px]" />
+
+        <div className="relative z-10 max-w-4xl mx-auto">
+            <span className="font-mono text-teal-primary text-xs uppercase tracking-widest mb-6 block">Ready to deploy?</span>
+            <h2 className="text-5xl md:text-8xl font-black text-white tracking-tighter mb-12 leading-[0.9]">
+                SCALE YOUR <br /><span className="text-teal-primary">VISION.</span>
+            </h2>
+
+            <div className="flex justify-center">
+                <Magnetic strength={30}>
+                    <button className="group relative flex items-center justify-center gap-4 px-12 py-6 bg-white text-dark-base rounded-full text-xs font-black tracking-[0.3em] uppercase transition-all duration-500 hover:scale-105 shadow-[0_0_40px_-10px_rgba(255,255,255,0.3)] overflow-hidden">
+                        <span className="relative z-10">Start The Project</span>
+                        <ArrowUpRight size={18} className="relative z-10 group-hover:rotate-45 transition-transform duration-500" />
+                        <div className="absolute inset-0 bg-teal-primary translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
+                    </button>
+                </Magnetic>
+            </div>
+        </div>
+    </section>
+);
+
 const About: React.FC = () => {
     return (
         <div className="bg-dark-base min-h-screen relative overflow-x-hidden font-sans selection:bg-teal-primary selection:text-black transition-colors duration-500 text-left">
@@ -317,6 +352,7 @@ const About: React.FC = () => {
             <ProtocolSection />
             <Timeline />
             <Leadership />
+            <StartBuild />
             <Footer />
         </div>
     );
