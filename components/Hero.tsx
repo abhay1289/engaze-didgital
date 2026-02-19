@@ -61,7 +61,7 @@ const Hero: React.FC = () => {
             className="relative w-full h-[250vh] bg-dark-base overflow-clip cursor-none"
         >
             {/* BACKGROUND LAYER: The "Architected Environment" */}
-            <div className="sticky top-0 h-[100dvh] w-full flex items-center justify-center overflow-hidden">
+            <div className="sticky top-0 h-[100dvh] w-full flex flex-col items-center justify-center overflow-hidden">
 
                 {/* Precision Grid */}
                 <div className="absolute inset-0 z-0 opacity-20 [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_90%)]">
@@ -92,7 +92,7 @@ const Hero: React.FC = () => {
                         filter: textBlur,
                         letterSpacing: letterSpacing
                     }}
-                    className="relative z-10 flex flex-col items-center justify-center text-center origin-center will-change-transform pb-20 md:pb-0"
+                    className="relative z-10 flex-1 md:flex-none flex flex-col items-center justify-center text-center origin-center will-change-transform w-full"
                 >
                     <div className="flex flex-col items-center gap-0">
                         {/* Top Word with Sophisticated Reveal */}
@@ -107,7 +107,7 @@ const Hero: React.FC = () => {
                                         duration: 1.5,
                                         ease: [0.22, 1, 0.36, 1]
                                     }}
-                                    className="text-[14vw] md:text-[11vw] font-black leading-none tracking-tighter text-white select-none drop-shadow-2xl"
+                                    className="text-[13vw] md:text-[11vw] font-black leading-none tracking-tighter text-white select-none drop-shadow-2xl"
                                 >
                                     {char}
                                 </motion.span>
@@ -126,7 +126,7 @@ const Hero: React.FC = () => {
                                         duration: 1.5,
                                         ease: [0.22, 1, 0.36, 1]
                                     }}
-                                    className="text-[14vw] md:text-[11vw] font-black leading-none tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-teal-primary via-teal-secondary to-teal-tertiary select-none"
+                                    className="text-[13vw] md:text-[11vw] font-black leading-none tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-teal-primary via-teal-secondary to-teal-tertiary select-none"
                                 >
                                     {char}
                                 </motion.span>
@@ -156,7 +156,7 @@ const Hero: React.FC = () => {
                 {/* CTA LAYER (Integrated into Grid) */}
                 <motion.div
                     style={{ opacity: uiOpacity, y: uiY }}
-                    className="absolute bottom-12 md:bottom-24 z-20 flex flex-col items-center w-full px-6"
+                    className="relative md:absolute bottom-0 md:bottom-24 z-20 flex flex-col items-center w-full px-6 pb-12 md:pb-0"
                 >
                     <div className="flex flex-col md:flex-row gap-8 items-center justify-center w-full max-w-6xl">
                         <div className="flex gap-4 w-full md:w-auto justify-center">
