@@ -44,6 +44,44 @@ const Hero: React.FC = () => {
         return () => window.removeEventListener('resize', checkMobile);
     }, []);
 
+    // Mobile "Single Scroll" Logic
+    useEffect(() => {
+        if (!isMobile) return;
+
+        let touchStartY = 0;
+
+        const handleTouchStart = (e: TouchEvent) => {
+            touchStartY = e.touches[0].clientY;
+        };
+
+        const handleTouchEnd = (e: TouchEvent) => {
+            const touchEndY = e.changedTouches[0].clientY;
+            const deltaY = touchStartY - touchEndY;
+
+            // If user swipes UP (scrolls down) more than 50px AND is near the top
+            if (deltaY > 50 && window.scrollY < 100) {
+                // Smoothly scroll to the next section (100dvh)
+                window.scrollTo({
+                    top: window.innerHeight,
+                    behavior: 'smooth'
+                });
+            }
+        };
+
+        const container = containerRef.current;
+        if (container) {
+            container.addEventListener('touchstart', handleTouchStart, { passive: true });
+            container.addEventListener('touchend', handleTouchEnd, { passive: true });
+        }
+
+        return () => {
+            if (container) {
+                container.removeEventListener('touchstart', handleTouchStart);
+                container.removeEventListener('touchend', handleTouchEnd);
+            }
+        };
+    }, [isMobile]);
+
     // Dynamic transforms for premium layering
     const textScale = useTransform(smoothProgress, [0, 0.5], [1, 2.8]);
     const textOpacity = useTransform(smoothProgress, [0.1, 0.45], [1, 0]);

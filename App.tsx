@@ -20,6 +20,9 @@ const App: React.FC = () => {
   const [currentRoute, setCurrentRoute] = useState('home');
 
   useEffect(() => {
+    // Only initialize Lenis on desktop for smooth scrolling
+    if (window.innerWidth < 768) return;
+
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
