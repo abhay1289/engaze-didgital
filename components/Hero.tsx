@@ -35,6 +35,15 @@ const Hero: React.FC = () => {
         restDelta: 0.001
     });
 
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
+
     // Dynamic transforms for premium layering
     const textScale = useTransform(smoothProgress, [0, 0.5], [1, 2.8]);
     const textOpacity = useTransform(smoothProgress, [0.1, 0.45], [1, 0]);
@@ -58,7 +67,7 @@ const Hero: React.FC = () => {
             onMouseMove={handleMouseMove}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
-            className="relative w-full h-[250vh] bg-dark-base overflow-clip cursor-none"
+            className="relative w-full h-[100dvh] md:h-[250vh] bg-dark-base overflow-clip cursor-none"
         >
             {/* BACKGROUND LAYER: The "Architected Environment" */}
             <div className="sticky top-0 z-10 h-screen md:h-[100dvh] w-full flex flex-col items-center justify-center overflow-visible md:overflow-hidden">
@@ -70,11 +79,11 @@ const Hero: React.FC = () => {
 
                 {/* Layered Ambient Orbs */}
                 <motion.div
-                    style={{ y: orb1Y }}
+                    style={{ y: isMobile ? 0 : orb1Y }}
                     className="absolute -left-1/4 top-0 w-[60vw] h-[60vw] bg-teal-primary/5 rounded-full blur-[120px] mix-blend-screen"
                 />
                 <motion.div
-                    style={{ y: orb2Y }}
+                    style={{ y: isMobile ? 0 : orb2Y }}
                     className="absolute -right-1/4 bottom-0 w-[50vw] h-[50vw] bg-teal-secondary/5 rounded-full blur-[100px] mix-blend-screen"
                 />
 
@@ -87,10 +96,10 @@ const Hero: React.FC = () => {
                 {/* branding: Typography Architecture */}
                 <motion.div
                     style={{
-                        scale: textScale,
-                        opacity: textOpacity,
-                        filter: textBlur,
-                        letterSpacing: letterSpacing
+                        scale: isMobile ? 1 : textScale,
+                        opacity: isMobile ? 1 : textOpacity,
+                        filter: isMobile ? "blur(0px)" : textBlur,
+                        letterSpacing: isMobile ? "-0.05em" : letterSpacing
                     }}
                     className="relative z-10 flex flex-col items-center justify-center text-center origin-center will-change-transform w-full py-12 md:py-0"
                 >
