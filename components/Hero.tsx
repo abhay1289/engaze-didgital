@@ -1,124 +1,243 @@
-
-import React, { useRef, useState, useEffect } from 'react';
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
+import React, { useRef, useMemo, useState, useEffect } from 'react';
+import { motion, useScroll, useTransform, useSpring, useMotionValue } from 'framer-motion';
 import Magnetic from './ui/Magnetic';
-import { ArrowUpRight, Play } from 'lucide-react';
+import { ArrowUpRight, ChevronDown } from 'lucide-react';
 
 const Hero: React.FC = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [hasAutoScrolled, setHasAutoScrolled] = useState(false);
-  
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end start"]
-  });
+    const containerRef = useRef<HTMLDivElement>(null);
+    const [isHovered, setIsHovered] = useState(false);
 
-  const smoothProgress = useSpring(scrollYProgress, { 
-    mass: 0.4,
-    stiffness: 100, 
-    damping: 30, 
-    restDelta: 0.001 
-  });
+    // Mouse position for the premium 'Aura' effect
+    const mouseX = useMotionValue(0);
+    const mouseY = useMotionValue(0);
 
-  // Calculate dynamic ranges for mobile vs desktop to control "speed"
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-  const scaleLimit = isMobile ? 4 : 5;
-  const zoomEndRange = isMobile ? 0.18 : 0.45; // Significantly tighter range for mobile speed
-
-  const textScale = useTransform(smoothProgress, [0, zoomEndRange], [1, scaleLimit]); 
-  
-  // Adjust blur and opacity to trigger sooner on mobile to maintain rhythm
-  const blurStart = isMobile ? 0.15 : 0.4;
-  const blurEnd = isMobile ? 0.4 : 0.8;
-  const textBlur = useTransform(smoothProgress, [blurStart, blurEnd], ["0px", "10px"]);
-  
-  const opacityStart = isMobile ? 0.35 : 0.7;
-  const textOpacity = useTransform(smoothProgress, [opacityStart, 1], [1, 0]);
-
-  const uiOpacity = useTransform(smoothProgress, [0, 0.2], [1, 0]);
-  const uiY = useTransform(smoothProgress, [0, 0.2], [0, 30]);
-
-  // First-scroll auto-transition logic - Ultra responsive for mobile
-  useEffect(() => {
-    const handleFirstScroll = (e: Event) => {
-        if (!hasAutoScrolled && window.scrollY < 50) {
-            const servicesSection = document.getElementById('services');
-            if (servicesSection) {
-                setHasAutoScrolled(true);
-                servicesSection.scrollIntoView({ behavior: 'smooth' });
-                // Clean up listener immediately
-                window.removeEventListener('wheel', handleFirstScroll);
-                window.removeEventListener('touchstart', handleFirstScroll, { capture: true });
-            }
+    const handleMouseMove = (e: React.MouseEvent) => {
+        const { clientX, clientY } = e;
+        const rect = containerRef.current?.getBoundingClientRect();
+        if (rect) {
+            mouseX.set(clientX - rect.left);
+            mouseY.set(clientY - rect.top);
         }
     };
 
-    window.addEventListener('wheel', handleFirstScroll, { passive: true });
-    window.addEventListener('touchstart', handleFirstScroll, { passive: true, capture: true });
-    
-    return () => {
-      window.removeEventListener('wheel', handleFirstScroll);
-      window.removeEventListener('touchstart', handleFirstScroll);
-    };
-  }, [hasAutoScrolled]);
+    const auraX = useSpring(mouseX, { stiffness: 100, damping: 30 });
+    const auraY = useSpring(mouseY, { stiffness: 100, damping: 30 });
 
-  return (
-    <section 
-        ref={containerRef} 
-        className="relative w-full h-[130vh] md:h-[120vh] bg-dark-base transition-colors duration-700"
-    >
-        <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center overflow-hidden perspective-1000 px-6">
-            <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-                 <div className="absolute inset-0 bg-gradient-to-b from-dark-base via-transparent to-dark-base" />
-            </div>
+    const { scrollYProgress } = useScroll({
+        target: containerRef,
+        offset: ["start start", "end end"]
+    });
 
-            <motion.div 
-                style={{ 
-                    scale: textScale, 
-                    opacity: textOpacity, 
-                    filter: textBlur 
-                }}
-                className="relative z-10 flex flex-col items-center justify-center text-center origin-center will-change-[transform,opacity,filter] pointer-events-none"
-            >
-                <h1 className="text-[16vw] md:text-[11vw] font-bold leading-[0.85] tracking-tighter select-none mix-blend-overlay opacity-90">
-                    <span className="block text-light-neutral dark:text-white">ENGAZE</span>
-                    <span className="block text-teal-primary/50 dark:text-teal-primary/80">DIGITAL</span>
-                </h1>
-                <div className="absolute inset-0 flex flex-col items-center justify-center text-center z-10 mix-blend-normal">
-                     <h1 className="text-[16vw] md:text-[11vw] font-bold leading-[0.85] tracking-tighter select-none">
-                        <span className="block text-transparent bg-clip-text bg-gradient-to-b from-light-neutral to-light-neutral/50 dark:from-white dark:to-white/50">ENGAZE</span>
-                        <span className="block text-transparent bg-clip-text bg-gradient-to-b from-teal-primary to-teal-secondary">DIGITAL</span>
-                    </h1>
+    const smoothProgress = useSpring(scrollYProgress, {
+        mass: 0.5,
+        stiffness: 80,
+        damping: 30,
+        restDelta: 0.001
+    });
+
+    // Dynamic transforms for premium layering
+    const textScale = useTransform(smoothProgress, [0, 0.5], [1, 2.8]);
+    const textOpacity = useTransform(smoothProgress, [0.1, 0.45], [1, 0]);
+    const textBlur = useTransform(smoothProgress, [0, 0.4], ["blur(0px)", "blur(15px)"]);
+    const letterSpacing = useTransform(smoothProgress, [0, 0.4], ["-0.05em", "0.15em"]);
+
+    const uiOpacity = useTransform(smoothProgress, [0, 0.25], [1, 0]);
+    const uiY = useTransform(smoothProgress, [0, 0.25], [0, 30]);
+
+    const orb1Y = useTransform(smoothProgress, [0, 1], ["-10%", "30%"]);
+    const orb2Y = useTransform(smoothProgress, [0, 1], ["20%", "-40%"]);
+
+    const characters = useMemo(() => ({
+        top: "ENGAZE".split(""),
+        bottom: "DIGITAL".split("")
+    }), []);
+
+    return (
+        <section
+            ref={containerRef}
+            onMouseMove={handleMouseMove}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+            className="relative w-full h-[250vh] bg-dark-base overflow-clip cursor-none"
+        >
+            {/* BACKGROUND LAYER: The "Architected Environment" */}
+            <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
+
+                {/* Precision Grid & Scanline */}
+                <div className="absolute inset-0 z-0 opacity-20 [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_90%)]">
+                    <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:50px_50px]" />
+                    {/* Moving Scanline */}
+                    <motion.div
+                        animate={{ top: ["-10%", "110%"] }}
+                        transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+                        className="absolute left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-teal-primary/20 to-transparent z-10"
+                    />
                 </div>
-            </motion.div>
 
-            <motion.div 
-                style={{ opacity: uiOpacity, y: uiY }}
-                className="absolute bottom-24 z-20 flex flex-col items-center w-full px-6 md:px-12"
-            >
-                <p className="max-w-lg text-center text-light-dim mb-8 text-lg md:text-xl font-light leading-relaxed tracking-wide">
-                    We build the operating systems for <span className="text-light-neutral dark:text-white font-medium pb-1">billion-dollar growth</span>.
-                </p>
-                
-                <div className="flex flex-col md:flex-row gap-4 md:gap-5 w-full md:w-auto">
-                    <Magnetic strength={30}>
-                        <button className="w-full md:w-auto h-14 md:h-12 px-8 rounded-full bg-light-neutral dark:bg-white text-white dark:text-dark-base font-bold text-[14px] md:text-[13px] tracking-tight flex items-center justify-center gap-3 hover:bg-teal-primary dark:hover:bg-teal-primary hover:text-white transition-all duration-500 shadow-premium group">
-                            START ENGINE <ArrowUpRight size={14} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                        </button>
-                    </Magnetic>
-                    <Magnetic strength={20}>
-                        <button className="w-full md:w-auto flex items-center justify-center gap-3 h-14 md:h-12 px-7 rounded-full border border-dark-border dark:border-white/10 text-light-neutral dark:text-white font-medium text-[14px] md:text-[13px] tracking-tight hover:bg-black/5 dark:hover:bg-white/5 transition-colors backdrop-blur-md group">
-                            <div className="w-5 h-5 rounded-full bg-teal-primary/10 flex items-center justify-center group-hover:scale-110 transition-transform">
-                                <Play size={8} fill="currentColor" className="text-teal-primary" />
+                {/* Layered Ambient Orbs */}
+                <motion.div
+                    style={{ y: orb1Y }}
+                    className="absolute -left-1/4 top-0 w-[60vw] h-[60vw] bg-teal-primary/5 rounded-full blur-[120px] mix-blend-screen"
+                />
+                <motion.div
+                    style={{ y: orb2Y }}
+                    className="absolute -right-1/4 bottom-0 w-[50vw] h-[50vw] bg-teal-secondary/5 rounded-full blur-[100px] mix-blend-screen"
+                />
+
+                {/* Premium Mouse Aura */}
+                <motion.div
+                    style={{ left: auraX, top: auraY }}
+                    className="fixed w-[400px] h-[400px] bg-teal-primary/10 rounded-full blur-[100px] pointer-events-none -translate-x-1/2 -translate-y-1/2 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-700"
+                />
+
+                {/* Precision Cursor Dot */}
+                <motion.div
+                    style={{ left: auraX, top: auraY }}
+                    className="fixed w-2 h-2 bg-teal-primary rounded-full z-50 pointer-events-none -translate-x-1/2 -translate-y-1/2 shadow-[0_0_15px_#36B8A5]"
+                />
+
+                {/* EDITORIAL UI ELEMENTS */}
+                <motion.div style={{ opacity: uiOpacity, y: uiY }} className="absolute inset-0 z-20 pointer-events-none p-6 md:p-12">
+                    {/* Navigation Brackets */}
+                    <div className="absolute top-12 left-12 flex gap-4">
+                        <div className="w-1 h-8 bg-teal-primary/40" />
+                        <div className="flex flex-col gap-1 font-mono text-[8px] text-white/40 uppercase tracking-widest">
+                            <span>Sector 01</span>
+                            <span>Core_Initialization</span>
+                        </div>
+                    </div>
+
+                    {/* Meta Data Hub */}
+                    <div className="absolute top-12 right-12 flex flex-col items-end gap-1 font-mono text-[9px] tracking-[0.2em] text-white/40 uppercase text-right">
+                        <div className="flex gap-4 items-center">
+                            <span className="w-2 h-2 rounded-full bg-teal-primary animate-pulse" />
+                            <span>Neural_Link: Active</span>
+                        </div>
+                        <span>Latency: 14ms</span>
+                        <span>Stream: 48.2 GB/s</span>
+                    </div>
+
+                    {/* Scroll Interaction Indicator */}
+                    <div className="absolute bottom-12 left-12 md:left-auto md:right-12 flex items-center gap-6">
+                        <div className="flex flex-col items-end gap-1">
+                            <span className="font-mono text-[8px] text-white/20 uppercase tracking-[0.4em]">Vertical</span>
+                            <span className="font-mono text-[8px] text-white/50 uppercase tracking-[0.4em]">Traversal</span>
+                        </div>
+                        <div className="w-12 h-px bg-white/20" />
+                    </div>
+                </motion.div>
+
+                {/* branding: Typography Architecture */}
+                <motion.div
+                    style={{
+                        scale: textScale,
+                        opacity: textOpacity,
+                        filter: textBlur,
+                        letterSpacing: letterSpacing
+                    }}
+                    className="relative z-10 flex flex-col items-center justify-center text-center origin-center will-change-transform"
+                >
+                    <div className="flex flex-col items-center gap-0">
+                        {/* Top Word with Sophisticated Reveal */}
+                        <div className="flex overflow-hidden pb-2 md:pb-4">
+                            {characters.top.map((char, i) => (
+                                <motion.span
+                                    key={i}
+                                    initial={{ y: "110%", opacity: 0, scale: 0.8 }}
+                                    animate={{ y: 0, opacity: 1, scale: 1 }}
+                                    transition={{
+                                        delay: 0.3 + (i * 0.06),
+                                        duration: 1.5,
+                                        ease: [0.22, 1, 0.36, 1]
+                                    }}
+                                    className="text-[14vw] md:text-[11vw] font-black leading-none tracking-tighter text-white select-none drop-shadow-2xl"
+                                >
+                                    {char}
+                                </motion.span>
+                            ))}
+                        </div>
+
+                        {/* Bottom Word with Gradient Mask */}
+                        <div className="flex overflow-hidden -mt-4 md:-mt-8">
+                            {characters.bottom.map((char, i) => (
+                                <motion.span
+                                    key={i}
+                                    initial={{ y: "110%", opacity: 0, scale: 0.8 }}
+                                    animate={{ y: 0, opacity: 1, scale: 1 }}
+                                    transition={{
+                                        delay: 0.6 + (i * 0.06),
+                                        duration: 1.5,
+                                        ease: [0.22, 1, 0.36, 1]
+                                    }}
+                                    className="text-[14vw] md:text-[11vw] font-black leading-none tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-teal-primary via-teal-secondary to-teal-tertiary select-none"
+                                >
+                                    {char}
+                                </motion.span>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Architectural Subtitle */}
+                    <div className="relative mt-8 md:mt-12 overflow-hidden px-4 md:px-8 max-w-[90vw] md:max-w-none">
+                        <motion.div
+                            initial={{ width: 0 }}
+                            animate={{ width: "100%" }}
+                            transition={{ delay: 1.8, duration: 1.2, ease: "circOut" }}
+                            className="absolute inset-0 bg-white/5 backdrop-blur-sm -z-10 rounded-full border border-white/10 hidden md:block"
+                        />
+                        <motion.p
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 2, duration: 1 }}
+                            className="px-2 md:px-6 py-2 font-mono text-[10px] md:text-[10px] text-teal-primary/80 tracking-[0.2em] md:tracking-[0.6em] uppercase text-center leading-relaxed md:whitespace-nowrap"
+                        >
+                            We build operating systems for <span className="text-white font-bold">billion-dollar growth</span>
+                        </motion.p>
+                    </div>
+                </motion.div>
+
+                {/* CTA LAYER (Integrated into Grid) */}
+                <motion.div
+                    style={{ opacity: uiOpacity, y: uiY }}
+                    className="absolute bottom-16 md:bottom-24 z-20 flex flex-col items-center w-full px-6"
+                >
+                    <div className="flex flex-col md:flex-row gap-8 items-center justify-between w-full max-w-6xl md:border-t md:border-white/10 md:pt-12">
+                        <div className="flex gap-4 items-center hidden md:flex">
+                            <div className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center animate-pulse">
+                                <span className="w-1.5 h-1.5 bg-teal-primary rounded-full shadow-[0_0_10px_#36B8A5]" />
                             </div>
-                            SHOWREEL
-                        </button>
-                    </Magnetic>
+                            <p className="max-w-[240px] text-white/40 text-[11px] font-mono leading-relaxed uppercase tracking-wider">
+                                Initializing strategic infrastructure for industrial level scale.
+                            </p>
+                        </div>
+
+                        <div className="flex gap-4 w-full md:w-auto justify-center">
+                            <Magnetic strength={20}>
+                                <button className="group relative flex items-center justify-center gap-4 md:gap-6 px-8 md:px-12 py-4 md:py-5 bg-white text-dark-base rounded-full text-[12px] md:text-[11px] font-black tracking-[0.2em] md:tracking-[0.3em] uppercase transition-all duration-500 hover:scale-105 shadow-glow overflow-hidden whitespace-nowrap w-full md:w-auto">
+                                    <span className="relative z-10">Connect With Us</span>
+                                    <ArrowUpRight size={16} className="relative z-10 group-hover:rotate-45 transition-transform duration-500" />
+                                    <div className="absolute inset-0 bg-gradient-to-r from-teal-primary to-teal-tertiary translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
+                                </button>
+                            </Magnetic>
+                        </div>
+                    </div>
+                </motion.div>
+
+                {/* VERTICAL SYSTEM PROGRESS (The Precision Ruler) */}
+                <div className="absolute right-12 top-1/2 -translate-y-1/2 h-64 w-[2px] bg-white/5 hidden lg:flex flex-col justify-between items-center py-2 pointer-events-none">
+                    <motion.div
+                        style={{ height: useTransform(smoothProgress, [0, 1], ["0%", "100%"]) }}
+                        className="absolute top-0 w-full bg-teal-primary shadow-[0_0_15px_#36B8A5] left-0"
+                    />
+                    {[...Array(6)].map((_, i) => (
+                        <div key={i} className="w-3 h-[1px] bg-white/20 -ml-[5.5px]" />
+                    ))}
+                    <div className="absolute -left-12 top-0 text-[9px] font-mono text-white/20 uppercase tracking-tighter">00_Start</div>
+                    <div className="absolute -left-12 bottom-0 text-[9px] font-mono text-white/20 uppercase tracking-tighter">99_End_</div>
                 </div>
-            </motion.div>
-        </div>
-    </section>
-  );
+            </div>
+        </section>
+    );
 };
 
 export default Hero;

@@ -4,7 +4,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>TealHealth | Engineer Engagement</title>
+  <title>Engaze Digital | Engineering the Future</title>
+  <meta name="description"
+    content="Engaze Digital is a premium healthcare-meets-tech agency building high-velocity digital infrastructure and billion-dollar growth engines." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&display=swap"
@@ -74,24 +76,24 @@
   </script>
   <style>
     :root {
-      /* Light Mode Defaults (Premium Swiss/Tech Feel) */
-      --bg-base: #F4F5F6;
+      /* Light Mode Defaults (Premium Swiss/Tech Feel) - Refined */
+      --bg-base: #F0F2F5;
       --bg-surface: #FFFFFF;
-      --border-color: rgba(0, 0, 0, 0.08);
+      --border-color: rgba(15, 23, 42, 0.08);
       --text-main: #0F172A;
-      --text-dim: #64748B;
-      --glass-bg: rgba(255, 255, 255, 0.7);
-      --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.05);
-      --shadow-premium: 0 20px 40px -10px rgba(0, 0, 0, 0.08);
+      --text-dim: #475569;
+      --glass-bg: rgba(255, 255, 255, 0.85);
+      --shadow-glass: 0 8px 32px rgba(15, 23, 42, 0.08);
+      --shadow-premium: 0 25px 50px -12px rgba(15, 23, 42, 0.12);
     }
 
     :root.dark {
-      /* Dark Mode Defaults (Original Aesthetic) */
-      --bg-base: #050505;
+      /* Dark Mode Defaults (Original Aesthetic) - Refined */
+      --bg-base: #030303;
       --bg-surface: #0A0A0A;
-      --border-color: rgba(255, 255, 255, 0.08);
+      --border-color: rgba(255, 255, 255, 0.06);
       --text-main: #EBEBEB;
-      --text-dim: #888888;
+      --text-dim: #94A3B8;
       --glass-bg: rgba(10, 10, 10, 0.7);
       --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.36);
       --shadow-premium: 0 40px 80px -20px rgba(0, 0, 0, 0.6);
@@ -120,7 +122,7 @@
     body {
       background-color: var(--bg-base);
       color: var(--text-main);
-      cursor: none;
+      cursor: auto;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       overflow-x: hidden;
@@ -166,11 +168,19 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      background: radial-gradient(circle at 50% 50%, transparent 0%, rgba(0, 0, 0, 0.4) 100%);
+      background: radial-gradient(circle at 50% 50%, transparent 20%, rgba(15, 23, 42, 0.3) 100%);
       pointer-events: none;
       z-index: 5;
-      opacity: 0.6;
+      opacity: 0.15;
+      /* Subtle in light mode */
       mix-blend-mode: multiply;
+      transition: opacity 0.8s ease;
+    }
+
+    html.dark .vignette {
+      opacity: 0.5;
+      /* Stronger in dark mode */
+      background: radial-gradient(circle at 50% 50%, transparent 0%, rgba(0, 0, 0, 0.5) 100%);
     }
 
     /* Noise Overlay Animation */
@@ -211,8 +221,7 @@
 
 <body>
   <div id="root"></div>
-  <div class="vignette"></div>
-  <div class="noise-overlay"></div>
+
   <script type="module" src="/index.tsx"></script>
 </body>
 

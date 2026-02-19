@@ -59,7 +59,7 @@ const App: React.FC = () => {
       default:
         return (
           <>
-            <div className="relative z-10 bg-dark-base mb-[85vh] md:mb-[60vh] shadow-2xl shadow-black transition-all">
+            <div className="relative z-10 bg-dark-base mb-[85vh] md:mb-[80vh] shadow-2xl shadow-black transition-all">
               <Hero />
               <Services />
               <Metrics />
@@ -68,8 +68,8 @@ const App: React.FC = () => {
               <FAQ />
               <Testimonials />
             </div>
-            
-            <div className="fixed bottom-0 left-0 w-full h-[85vh] md:h-[60vh] z-0">
+
+            <div className="fixed bottom-0 left-0 w-full h-[85vh] md:h-[80vh] z-0">
               <Footer />
             </div>
           </>
@@ -79,7 +79,7 @@ const App: React.FC = () => {
 
   return (
     <div className="relative w-full min-h-screen bg-dark-base selection:bg-teal-primary selection:text-dark-base font-sans transition-colors duration-500">
-      <CustomCursor />
+
       <Navbar onNavigate={setCurrentRoute} currentRoute={currentRoute} />
       {renderContent()}
     </div>
