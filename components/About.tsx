@@ -343,6 +343,8 @@ const Timeline = () => {
 
 // --- Leadership: "Holographic Cards" ---
 
+// --- Leadership: "Holographic Cards" ---
+
 const Leadership = () => {
     const leaders = [
         { name: "Alex V.", role: "Principal Architect", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?fit=crop&w=800&q=80" },
@@ -356,23 +358,29 @@ const Leadership = () => {
             <SectionHeader label="Intelligence" title="The Architects" />
             <div className="max-w-[1800px] mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 {leaders.map((leader, i) => (
-                    <div key={i} className="group cursor-pointer relative h-[500px] overflow-hidden">
+                    <div key={i} className="group cursor-pointer relative h-[500px] overflow-hidden bg-white/[0.02]">
+                        {/* Scanline Overlay */}
+                        <div className="absolute inset-0 z-20 pointer-events-none opacity-0 group-hover:opacity-10 bg-[linear-gradient(to_bottom,transparent_50%,rgba(0,0,0,0.5)_51%)] bg-[size:100%_4px]" />
+
                         <img
                             src={leader.img}
                             alt={leader.name}
-                            className="absolute inset-0 w-full h-full object-cover grayscale transition-all duration-700 group-hover:grayscale-0 group-hover:scale-105"
+                            className="absolute inset-0 w-full h-full object-cover grayscale transition-all duration-700 group-hover:grayscale-0 group-hover:scale-110"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-dark-base via-transparent to-transparent opacity-90" />
 
-                        <div className="absolute bottom-0 left-0 w-full p-8 text-left">
+                        {/* Glitch/Holographic Border on Hover */}
+                        <div className="absolute inset-0 border border-teal-primary/0 group-hover:border-teal-primary/50 transition-colors duration-300 z-30" />
+
+                        <div className="absolute bottom-0 left-0 w-full p-8 text-left z-30">
                             <div className="w-full h-[1px] bg-white/20 mb-6 origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
                             <h3 className="text-3xl font-bold text-white mb-2 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">{leader.name}</h3>
                             <span className="text-teal-primary font-mono text-xs uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 block">{leader.role}</span>
                         </div>
 
                         {/* Editorial Lines */}
-                        <div className="absolute top-4 left-4 w-12 h-12 border-t border-l border-white/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                        <div className="absolute bottom-4 right-4 w-12 h-12 border-b border-r border-white/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                        <div className="absolute top-4 left-4 w-12 h-12 border-t border-l border-white/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-30" />
+                        <div className="absolute bottom-4 right-4 w-12 h-12 border-b border-r border-white/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-30" />
                     </div>
                 ))}
             </div>
@@ -451,18 +459,43 @@ const GlobalFootprint = () => {
                     </div>
                 </div>
 
-                <div className="w-full md:w-1/2 relative h-[500px] flex items-center justify-center opacity-40 mix-blend-screen">
-                    {/* Simplified CSS Sphere Representation */}
-                    <motion.div
-                        animate={{ rotate: 360 }}
-                        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                        className="w-[400px] h-[400px] border border-teal-primary/30 rounded-full relative"
-                    >
-                        <div className="absolute inset-0 border border-white/10 rounded-full rotate-45 transform scale-90" />
-                        <div className="absolute inset-0 border border-white/10 rounded-full -rotate-45 transform scale-90" />
-                        <div className="absolute top-1/2 left-0 w-full h-[1px] bg-teal-primary/20" />
-                        <div className="absolute left-1/2 top-0 w-[1px] h-full bg-teal-primary/20" />
-                    </motion.div>
+                <div className="w-full md:w-1/2 relative h-[500px] flex items-center justify-center">
+                    {/* Complex Gyroscope Globe */}
+                    <div className="relative w-[400px] h-[400px] opacity-60 mix-blend-screen">
+
+                        {/* Core Sphere */}
+                        <motion.div
+                            animate={{ rotate: 360 }}
+                            transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+                            className="absolute inset-4 rounded-full border border-teal-primary/20"
+                        >
+                            <div className="absolute inset-0 rounded-full border border-white/5 rotate-45" />
+                        </motion.div>
+
+                        {/* Outer Ring 1 */}
+                        <motion.div
+                            animate={{ rotateX: 360, rotateY: 180 }}
+                            transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+                            className="absolute inset-0 rounded-full border border-teal-primary/30"
+                        />
+
+                        {/* Outer Ring 2 (Offset) */}
+                        <motion.div
+                            animate={{ rotateX: 180, rotateY: 360 }}
+                            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                            className="absolute inset-0 rounded-full border border-indigo-500/30"
+                        />
+
+                        {/* Axis Ring */}
+                        <motion.div
+                            animate={{ rotate: -360 }}
+                            transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+                            className="absolute -inset-12 rounded-full border border-white/5 border-dashed"
+                        />
+
+                        {/* Core Glow */}
+                        <div className="absolute inset-0 bg-teal-primary/5 blur-3xl rounded-full" />
+                    </div>
                 </div>
             </div>
         </section>
@@ -516,6 +549,8 @@ const Awards = () => {
 
 // --- Trusted By: "The Network" ---
 
+// --- Trusted By: "The Network" ---
+
 const TrustedBy = () => {
     return (
         <section className="py-24 bg-teal-primary/5 border-y border-white/5 overflow-hidden">
@@ -524,10 +559,19 @@ const TrustedBy = () => {
             </div>
 
             <div className="relative flex overflow-x-hidden group">
+                {/* Gradient Masks for Smooth Fade */}
+                <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-teal-primary/5 to-transparent z-10" />
+                <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-teal-primary/5 to-transparent z-10" />
+
                 <div className="animate-marquee whitespace-nowrap flex items-center gap-16 md:gap-32 px-16">
                     {/* Repeated Logos Text for Effect (since we don't have SVGs handy, using stylized text) */}
                     {["Google", "Stripe", "Vercel", "Linear", "Raycast", "Shopify", "Airbnb", "Discord"].map((brand, i) => (
                         <span key={i} className="text-3xl md:text-5xl font-black text-white/10 uppercase tracking-tighter hover:text-white/30 transition-colors cursor-default">
+                            {brand}
+                        </span>
+                    ))}
+                    {["Google", "Stripe", "Vercel", "Linear", "Raycast", "Shopify", "Airbnb", "Discord"].map((brand, i) => (
+                        <span key={`dup-${i}`} className="text-3xl md:text-5xl font-black text-white/10 uppercase tracking-tighter hover:text-white/30 transition-colors cursor-default">
                             {brand}
                         </span>
                     ))}
@@ -537,6 +581,11 @@ const TrustedBy = () => {
                     {/* Duplicate for seamless loop */}
                     {["Google", "Stripe", "Vercel", "Linear", "Raycast", "Shopify", "Airbnb", "Discord"].map((brand, i) => (
                         <span key={i} className="text-3xl md:text-5xl font-black text-white/10 uppercase tracking-tighter hover:text-white/30 transition-colors cursor-default">
+                            {brand}
+                        </span>
+                    ))}
+                    {["Google", "Stripe", "Vercel", "Linear", "Raycast", "Shopify", "Airbnb", "Discord"].map((brand, i) => (
+                        <span key={`dup-${i}`} className="text-3xl md:text-5xl font-black text-white/10 uppercase tracking-tighter hover:text-white/30 transition-colors cursor-default">
                             {brand}
                         </span>
                     ))}
