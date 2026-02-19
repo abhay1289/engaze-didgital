@@ -1,305 +1,344 @@
-
 import React, { useRef, useState, useEffect } from 'react';
-import { motion, useScroll, useTransform, useSpring, MotionValue, AnimatePresence } from 'framer-motion';
+import { motion, useScroll, useTransform, useSpring, useInView, AnimatePresence } from 'framer-motion';
 import Footer from './Footer';
-import { 
-    ArrowUpRight, Terminal, Cpu, Activity, Zap, 
+import {
+    ArrowUpRight, Terminal, Cpu, Activity, Zap,
     Layers, Globe, Shield, Database, Layout, Command,
     GitBranch, Box, Lock, Search, ShoppingBag, Palette, Glasses, Monitor, Rocket, Code
 } from 'lucide-react';
 
-const EngineeringVisual = () => (
-    <div className="w-full h-full bg-[#080808] rounded-xl border border-white/10 p-5 font-mono text-[10px] md:text-xs text-teal-primary/80 overflow-hidden relative shadow-inner-light text-left">
-        <div className="space-y-3 opacity-90 leading-relaxed font-light">
-            <p><span className="text-purple-400">import</span> <span className="text-white">{'{'}</span> <span className="text-yellow-400">ScaleEngine</span> <span className="text-white">{'}'}</span> <span className="text-purple-400">from</span> <span className="text-green-400">'@teal/core'</span>;</p>
-            <p className="text-white/40">// Initialize high-velocity clusters</p>
-            <p><span className="text-blue-400">const</span> <span className="text-white">cluster</span> = <span className="text-blue-400">await</span> ScaleEngine.<span className="text-yellow-300">deploy</span>({'{'}</p>
-            <div className="pl-4 ml-1">
-                <p>region: <span className="text-green-300">'global-edge'</span>,</p>
-                <p>nodes: <span className="text-orange-400">1024</span>,</p>
-                <p>redundancy: <span className="text-purple-400">true</span>,</p>
-                <p>security: <span className="text-green-300">'military-grade'</span></p>
-            </div>
-            <p>{'}'});</p>
-            <div className="mt-6 flex gap-2 items-center text-teal-primary/60 bg-teal-primary/5 p-2 rounded">
-                <span>System Operational</span>
-            </div>
-        </div>
+// --- Shared / Utility Components ---
+
+const GrainOverlay = () => (
+    <div className="pointer-events-none fixed inset-0 z-50 opacity-[0.03] mix-blend-overlay">
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] bg-repeat brightness-100 contrast-100" />
     </div>
 );
 
-const WebDesignVisual = () => (
-    <div className="w-full h-full relative flex items-center justify-center perspective-1000">
-        {[0, 1, 2].map((i) => (
-            <motion.div
-                key={i}
-                animate={{ 
-                    y: [0, -8, 0], 
-                    rotateX: [5, 0, 5], 
-                    rotateY: [-5, 0, -5],
-                    zIndex: 3 - i 
-                }}
-                transition={{ duration: 5 + i, repeat: Infinity, ease: "easeInOut", delay: i * 0.8 }}
-                style={{ 
-                    marginLeft: i * -25, 
-                    marginTop: i * 25,
-                    backdropFilter: "blur(12px)"
-                }}
-                className="w-48 h-32 bg-white/5 border border-white/20 rounded-xl p-4 shadow-glass relative group transition-colors"
-            >
-                <div className="flex items-center gap-3 mb-3">
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-teal-primary to-blue-600 shadow-lg" />
-                    <div className="h-2 w-20 bg-white/10 rounded-full" />
-                </div>
-                <div className="space-y-2">
-                    <div className="h-2 w-full bg-white/5 rounded-full" />
-                    <div className="h-2 w-3/4 bg-white/5 rounded-full" />
-                </div>
-            </motion.div>
-        ))}
-    </div>
-);
-
-const PerformanceVisual = () => (
-    <div className="w-full h-full relative flex items-end justify-center gap-3 p-8 pb-0">
-        {[40, 65, 50, 85, 60, 95, 100].map((h, i) => (
-            <motion.div
-                key={i}
-                initial={{ height: "0%" }}
-                whileInView={{ height: `${h}%` }}
-                transition={{ duration: 1.2, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
-                className="w-8 bg-teal-primary/10 relative group rounded-t-sm"
-            >
-                <div className="absolute inset-0 bg-gradient-to-t from-teal-primary/20 to-transparent opacity-50 group-hover:opacity-100 transition-opacity duration-500" />
-            </motion.div>
-        ))}
-    </div>
-);
-
-const SeoVisual = () => (
-    <div className="w-full h-full p-8 flex flex-col gap-4 relative overflow-hidden text-left">
-        <div className="w-full h-10 bg-white/5 rounded-full border border-white/10 flex items-center px-4 gap-3">
-             <Search size={14} className="text-teal-primary" />
-             <div className="h-1.5 w-32 bg-white/10 rounded-full" />
-        </div>
-        {[1, 2, 3].map((i) => (
-            <motion.div 
-                key={i}
-                initial={{ x: -20, opacity: 0 }}
-                whileInView={{ x: 0, opacity: 1 }}
-                transition={{ delay: i * 0.15, ease: "easeOut" }}
-                className="w-full p-4 bg-white/[0.02] border border-white/5 rounded-xl flex flex-col gap-2"
-            >
-                <div className="h-1.5 w-1/3 bg-teal-primary/60 rounded-full" />
-                <div className="h-1.5 w-3/4 bg-white/10 rounded-full" />
-            </motion.div>
-        ))}
-    </div>
-);
-
-const AiVisual = () => (
-    <div className="w-full h-full relative flex items-center justify-center">
-        {[...Array(6)].map((_, i) => (
-            <motion.div
-                key={i}
-                className="absolute w-2 h-2 bg-teal-primary rounded-full shadow-[0_0_15px_#36B8A5]"
-                style={{
-                    top: `${50 + 35 * Math.sin(i * (Math.PI / 3))}%`,
-                    left: `${50 + 35 * Math.cos(i * (Math.PI / 3))}%`,
-                }}
-                animate={{ scale: [1, 1.5, 1], opacity: [0.3, 1, 0.3] }}
-                transition={{ duration: 2.5, delay: i * 0.2, repeat: Infinity }}
-            />
-        ))}
-        <div className="absolute w-12 h-12 bg-white/10 backdrop-blur-xl rounded-full z-10 border border-white/20 flex items-center justify-center">
-             <Cpu size={20} className="text-white" />
-        </div>
-    </div>
-);
-
-const BrandingVisual = () => (
-    <div className="w-full h-full flex items-center justify-center overflow-hidden bg-black relative">
-        <div className="relative z-10 text-center mix-blend-difference">
-            <motion.div 
-                className="text-5xl font-black text-white tracking-tighter"
-            >
-                BRAND
-            </motion.div>
-        </div>
-    </div>
-);
-
-const EcommerceVisual = () => (
-    <div className="w-full h-full p-8 flex flex-col justify-center gap-3 text-left">
-        {[1, 2, 3, 4].map((i) => (
-            <motion.div 
-                key={i}
-                initial={{ x: 30, opacity: 0 }}
-                whileInView={{ x: 0, opacity: 1 }}
-                transition={{ delay: i * 0.2, type: "spring", stiffness: 100 }}
-                className="flex justify-between items-center p-3 bg-white/[0.03] rounded-lg border border-white/5 backdrop-blur-sm"
-            >
-                 <div className="flex items-center gap-3">
-                     <ShoppingBag size={14} className="text-teal-primary" />
-                     <div className="space-y-1">
-                        <div className="h-1.5 w-20 bg-white/20 rounded-full" />
-                     </div>
-                 </div>
-                 <div className="text-[10px] font-mono text-green-400 font-bold bg-green-400/10 px-2 py-1 rounded">+$129</div>
-            </motion.div>
-        ))}
-    </div>
-);
-
-const SpatialVisual = () => (
-    <div className="w-full h-full flex items-center justify-center perspective-1000">
-        <motion.div
-            animate={{ rotateX: 360, rotateY: 360 }}
-            transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
-            className="w-32 h-32 border border-teal-primary/30 relative rounded-2xl"
-        >
-            <div className="absolute inset-0 bg-teal-primary/5 rounded-2xl backdrop-blur-[2px]" />
-        </motion.div>
-        <Glasses className="absolute text-white mix-blend-overlay opacity-60 z-50" size={56} />
-    </div>
-);
+// --- Hero Section: "System Initialization" ---
 
 const ServiceHero = () => {
-    return (
-        <section className="min-h-screen pt-32 pb-20 px-6 bg-dark-base relative overflow-hidden flex flex-col justify-center">
-             <div className="max-w-[1600px] mx-auto w-full relative z-10 text-left">
-                 <div className="flex flex-col gap-4 mb-12 items-start">
-                     <motion.span 
-                        initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.5, duration: 0.8 }}
-                        className="text-teal-primary font-mono text-xs uppercase tracking-[0.4em]"
-                     >
-                        Service Architecture
-                     </motion.span>
-                 </div>
-                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 items-start">
-                     <div className="lg:col-span-8 text-left">
-                         <h1 className="text-7xl md:text-[8rem] font-bold text-light-neutral dark:text-white tracking-tighter leading-[0.85] mb-12 text-left">
-                             Systems for <br/>
-                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-primary to-teal-secondary">Scale.</span>
-                         </h1>
-                     </div>
-                     <div className="lg:col-span-4 flex flex-col justify-end text-left">
-                         <p className="text-light-dim text-xl leading-relaxed text-left">
-                             We don't sell hours. We sell <span className="text-white">velocity</span>. Our modular service stack is designed to plug directly into enterprise workflows, eliminating technical debt and accelerating revenue.
-                         </p>
-                     </div>
-                 </div>
-             </div>
-        </section>
-    );
-};
+    const [bootStep, setBootStep] = useState(0);
+    const containerRef = useRef(null);
 
-const services = [
-    { title: "Performance", desc: "Algorithmic campaign management & ROAS lift.", visual: <PerformanceVisual />, tags: ["Paid", "Social", "Search"], icon: Rocket },
-    { title: "Web Design", desc: "Immersive experiences that convert.", visual: <WebDesignVisual />, tags: ["UI/UX", "WebGL", "Framer"], icon: Monitor },
-    { title: "Engineering", desc: "Scalable, secure, robust architectures.", visual: <EngineeringVisual />, tags: ["React", "Node", "Python"], icon: Code },
-    { title: "SEO", desc: "Technical precision & content authority.", visual: <SeoVisual />, tags: ["Rankings", "Audit", "Growth"], icon: Search },
-    { title: "AI Systems", desc: "Predictive models & automation logic.", visual: <AiVisual />, tags: ["LLMs", "Neural", "Data"], icon: Cpu },
-    { title: "Branding", desc: "Memorable identities & visual systems.", visual: <BrandingVisual />, tags: ["Identity", "Strategy", "Visual"], icon: Palette },
-    { title: "Ecommerce", desc: "Full-funnel strategies for high volume.", visual: <EcommerceVisual />, tags: ["Shopify", "DTC", "Sales"], icon: ShoppingBag },
-    { title: "Spatial", desc: "Next-gen AR & 3D engagement.", visual: <SpatialVisual />, tags: ["AR", "VR", "Meta"], icon: Glasses }
-];
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setBootStep(prev => (prev < 4 ? prev + 1 : prev));
+        }, 800);
+        return () => clearInterval(interval);
+    }, []);
 
-const Modules = () => {
-    return (
-        <section className="py-32 bg-dark-base relative z-10 text-left">
-            <div className="max-w-[1600px] mx-auto px-6">
-                <div className="mb-20 text-left">
-                    <motion.h2 className="text-4xl md:text-5xl font-bold text-light-neutral dark:text-white mb-6 tracking-tight text-left">
-                        Core Modules
-                    </motion.h2>
-                    <motion.p className="text-light-dim max-w-xl text-lg text-left">
-                        Select a protocol to initialize.
-                    </motion.p>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    {services.map((s, i) => (
-                        <motion.div 
-                            key={i} 
-                            className="group h-[520px] bg-light-surface dark:bg-[#080808] border border-dark-border dark:border-white/10 rounded-[2rem] p-3 flex flex-col relative overflow-hidden shadow-premium transition-all duration-700 text-left"
-                        >
-                            <div className="p-6 pb-0 relative z-10 text-left">
-                                <div className="flex justify-between items-start mb-8">
-                                    <div className="w-12 h-12 rounded-2xl bg-dark-base dark:bg-white/5 border border-dark-border dark:border-white/10 flex items-center justify-center font-mono text-sm text-teal-primary">
-                                        <s.icon size={20} />
-                                    </div>
-                                    <div className="font-mono text-[10px] text-light-dim border border-white/10 px-2 py-1 rounded-full bg-white/5">0{i + 1}</div>
-                                </div>
-                                <h3 className="text-3xl font-bold text-light-neutral dark:text-white mb-3 tracking-tight text-left">{s.title}</h3>
-                                <p className="text-sm text-light-dim leading-relaxed mb-6 min-h-[40px] font-light text-left">{s.desc}</p>
-                                <div className="flex gap-2 mb-8 flex-wrap">
-                                    {s.tags.map(t => (
-                                        <span key={t} className="text-[9px] font-mono uppercase px-2 py-1.5 rounded-md bg-dark-base dark:bg-white/5 text-light-neutral dark:text-white/50 tracking-wider">
-                                            {t}
-                                        </span>
-                                    ))}
-                                </div>
-                            </div>
-                            <div className="mt-auto h-[240px] w-full bg-dark-base dark:bg-[#030303] rounded-2xl overflow-hidden relative border border-dark-border dark:border-white/5 mx-auto mb-1">
-                                <div className="absolute inset-0 p-5">
-                                    {s.visual}
-                                </div>
-                            </div>
-                        </motion.div>
-                    ))}
-                </div>
-            </div>
-        </section>
-    );
-};
-
-const TechTable = () => {
-    const categories = [
-        { name: "Frontend", tools: ["React", "Next.js", "Vue", "Svelte", "WebGL", "Three.js"] },
-        { name: "Backend", tools: ["Node.js", "Python", "Go", "Rust", "GraphQL", "tRPC"] },
-        { name: "DevOps", tools: ["AWS", "GCP", "Docker", "K8s", "Terraform", "Vercel"] },
-        { name: "Data", tools: ["Postgres", "Redis", "Mongo", "Snowflake", "BigQuery", "Kafka"] },
+    const bootLogs = [
+        "> INITIALIZING_CORE_SERVICES...",
+        "> LOAD_MODULE: [SCALE_ENGINE_V9]",
+        "> ESTABLISHING_NEURAL_LINK...",
+        "> ACCESS_GRANTED: AGENCY_OS"
     ];
 
     return (
-        <section className="py-32 bg-dark-base relative overflow-hidden text-left">
-             <div className="max-w-[1600px] mx-auto px-6 relative z-10 text-left">
-                 <div className="flex flex-col md:flex-row justify-between mb-24 items-start text-left">
-                     <div className="text-left">
-                         <span className="text-teal-primary font-mono text-xs uppercase tracking-[0.2em] mb-4 block">The Arsenal</span>
-                         <h2 className="text-5xl md:text-7xl font-bold text-light-neutral dark:text-white tracking-tighter text-left">Technology <br/> Stack.</h2>
-                     </div>
-                     <p className="max-w-md text-light-dim mt-8 md:mt-0 text-lg font-light leading-relaxed text-left">
-                         We audit and select the optimal stack for your specific requirements.
-                     </p>
-                 </div>
-                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 text-left">
-                     {categories.map((cat, i) => (
-                         <div key={i} className="flex flex-col gap-6 text-left">
-                             <div className="flex items-center gap-3 mb-2 pb-4 border-b border-dark-border dark:border-white/10 text-left">
-                                 <h3 className="font-bold text-xl text-light-neutral dark:text-white tracking-tight">{cat.name}</h3>
-                             </div>
-                             <div className="flex flex-col gap-3 text-left">
-                                 {cat.tools.map((tool, j) => (
-                                     <div key={j} className="flex items-center justify-between p-2 -mx-2 rounded hover:bg-white/5 transition-colors text-left">
-                                         <span className="text-light-dim transition-colors font-mono text-sm text-left">{tool}</span>
-                                     </div>
-                                 ))}
-                             </div>
-                         </div>
-                     ))}
-                 </div>
-             </div>
+        <section ref={containerRef} className="h-screen bg-dark-base relative overflow-hidden flex flex-col justify-center items-center text-center px-6">
+            {/* Background Grid & Noise */}
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:40px_40px] opacity-20" />
+            <div className="absolute inset-0 bg-gradient-to-b from-dark-base via-transparent to-dark-base" />
+
+            {/* Neural Network Abstract Visualization */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-30">
+                <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 100, repeat: Infinity, ease: "linear" }}
+                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150vw] h-[150vw] border border-white/5 rounded-full"
+                />
+                <motion.div
+                    animate={{ rotate: -360 }}
+                    transition={{ duration: 150, repeat: Infinity, ease: "linear" }}
+                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120vw] h-[120vw] border border-white/5 rounded-full border-dashed"
+                />
+            </div>
+
+            <div className="relative z-10 max-w-5xl mx-auto w-full">
+                {/* Boot Sequence Text */}
+                <div className="font-mono text-teal-primary/60 text-xs md:text-sm mb-8 h-24 flex flex-col items-center justify-end">
+                    {bootLogs.map((log, i) => (
+                        <motion.div
+                            key={i}
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: bootStep >= i ? 1 : 0, y: bootStep >= i ? 0 : 10 }}
+                            className="tracking-widest"
+                        >
+                            {log}
+                        </motion.div>
+                    ))}
+                </div>
+
+                {/* Main Title */}
+                <motion.h1
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: bootStep >= 3 ? 1 : 0, scale: bootStep >= 3 ? 1 : 0.9 }}
+                    transition={{ duration: 1, ease: "circOut" }}
+                    className="text-6xl md:text-[8rem] font-black text-white tracking-tighter leading-[0.9] md:leading-[0.85] uppercase mb-12"
+                >
+                    Systems for <br />
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-primary to-teal-secondary relative">
+                        Hyper-Scale
+                        <span className="absolute -bottom-2 left-0 w-full h-[2px] bg-teal-primary opacity-50 blur-sm" />
+                    </span>
+                </motion.h1>
+
+                <motion.p
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: bootStep >= 4 ? 1 : 0 }}
+                    transition={{ delay: 0.5, duration: 1 }}
+                    className="text-white/50 text-xl font-light max-w-2xl mx-auto leading-relaxed"
+                >
+                    We engineer the digital infrastructure that powers the world's most ambitious brands. Modular, scalable, and built for velocity.
+                </motion.p>
+            </div>
+
+            {/* Scroll Indicator */}
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: bootStep >= 4 ? 1 : 0 }}
+                transition={{ delay: 1, duration: 1 }}
+                className="absolute bottom-12 flex flex-col items-center gap-2"
+            >
+                <span className="font-mono text-[10px] text-teal-primary uppercase tracking-widest">Scroll to Initialize</span>
+                <div className="w-[1px] h-12 bg-white/10 overflow-hidden relative">
+                    <motion.div
+                        animate={{ top: ["-100%", "100%"] }}
+                        transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                        className="absolute left-0 w-full h-1/2 bg-teal-primary"
+                    />
+                </div>
+            </motion.div>
         </section>
     );
 };
 
+// --- Modules Section: Horizontal Scroll "Dossier" ---
+
+const visuals = {
+    engineering: (
+        <div className="w-full h-full bg-black/40 backdrop-blur-md rounded-xl border border-white/10 p-6 font-mono text-xs text-teal-primary overflow-hidden relative shadow-2xl">
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(54,184,165,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(54,184,165,0.03)_1px,transparent_1px)] bg-[size:20px_20px]" />
+            <div className="relative z-10 space-y-2 opacity-80">
+                <p><span className="text-purple-400">class</span> <span className="text-yellow-300">ScaleEngine</span> <span className="text-white">extends</span> <span className="text-purple-400">Core</span> {'{'}</p>
+                <div className="pl-4 border-l border-white/10 ml-1">
+                    <p><span className="text-blue-400">async</span> <span className="text-yellow-300">deploy</span>() {'{'}</p>
+                    <p className="pl-4 text-green-400">// Initializing nodes...</p>
+                    <p className="pl-4"><span className="text-purple-400">await</span> <span className="text-white">this.cluster.init({'{'}</span></p>
+                    <p className="pl-8">nodes: <span className="text-orange-400">1024</span>,</p>
+                    <p className="pl-8">mode: <span className="text-green-300">'hyper-scale'</span></p>
+                    <p className="pl-4"><span className="text-white">{'}'})</span>;</p>
+                    <p>{'}'}</p>
+                </div>
+                <p>{'}'}</p>
+                <div className="mt-8 flex items-center gap-2 text-white/40">
+                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                    <span>Build Passing (v9.2.1)</span>
+                </div>
+            </div>
+        </div>
+    ),
+    design: (
+        <div className="w-full h-full relative flex items-center justify-center p-8">
+            <motion.div
+                animate={{ rotateY: 360 }}
+                transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+                className="w-48 h-32 bg-white/5 border border-white/20 backdrop-blur-md rounded-xl relative transform-style-3d shadow-[0_0_50px_rgba(54,184,165,0.2)]"
+            >
+                <div className="absolute inset-0 flex flex-col justify-center items-center gap-2">
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-teal-primary to-blue-500" />
+                    <div className="w-20 h-2 bg-white/10 rounded-full" />
+                </div>
+            </motion.div>
+        </div>
+    ),
+    ai: (
+        <div className="w-full h-full relative flex items-center justify-center overflow-hidden">
+            {[...Array(20)].map((_, i) => (
+                <motion.div
+                    key={i}
+                    className="absolute w-1 h-1 bg-teal-primary rounded-full"
+                    style={{
+                        top: `${Math.random() * 100}%`,
+                        left: `${Math.random() * 100}%`,
+                    }}
+                    animate={{
+                        scale: [0, 1, 0],
+                        opacity: [0, 1, 0],
+                    }}
+                    transition={{ duration: Math.random() * 2 + 1, repeat: Infinity, delay: Math.random() * 2 }}
+                />
+            ))}
+            <div className="relative z-10 w-24 h-24 rounded-full border border-teal-primary/30 flex items-center justify-center bg-teal-primary/5 backdrop-blur-sm">
+                <Cpu className="text-teal-primary w-8 h-8" />
+                <div className="absolute inset-0 border border-teal-primary/50 rounded-full animate-ping opacity-20" />
+            </div>
+        </div>
+    ),
+    seo: (
+        <div className="w-full h-full p-8 flex flex-col gap-4 relative overflow-hidden">
+            <div className="w-full h-10 bg-white/5 rounded-full border border-white/10 flex items-center px-4 gap-3">
+                <Search size={14} className="text-teal-primary" />
+                <div className="h-1.5 w-32 bg-white/10 rounded-full" />
+            </div>
+            {[1, 2, 3].map((i) => (
+                <motion.div
+                    key={i}
+                    className="w-full p-4 bg-white/[0.02] border border-white/5 rounded-xl flex flex-col gap-2"
+                    initial={{ opacity: 0.5 }}
+                    whileHover={{ scale: 1.02, backgroundColor: "rgba(255,255,255,0.05)" }}
+                >
+                    <div className="h-1.5 w-1/3 bg-teal-primary/60 rounded-full" />
+                    <div className="h-1.5 w-3/4 bg-white/10 rounded-full" />
+                </motion.div>
+            ))}
+        </div>
+    ),
+};
+
+const services = [
+    { title: "Engineering", category: "Core Infrastructure", desc: "Scalable, secure architectures built on React, Node, and Python. We build the backbone of your digital business.", visual: visuals.engineering, tags: ["Full-Stack", "Cloud", "Security"] },
+    { title: "Interface Design", category: "User Experience", desc: "Pixel-perfect, immersive experiences using WebGL and Framer Motion. We design for conversion and delight.", visual: visuals.design, tags: ["UI/UX", "WebGL", "Motion"] },
+    { title: "AI Systems", category: "Intelligence", desc: "Predictive models, automation logic, and LLM integration. Future-proof your operations with custom AI.", visual: visuals.ai, tags: ["LLMs", "Neural", "Automation"] },
+    { title: "Technical SEO", category: "Growth", desc: "Data-driven rankings and authority. We optimize every scan line for maximum visibility.", visual: visuals.seo, tags: ["Audit", "Rankings", "Vitals"] },
+];
+
+const Modules = () => {
+    const targetRef = useRef(null);
+    const { scrollYProgress } = useScroll({ target: targetRef });
+    const x = useTransform(scrollYProgress, [0, 1], ["0%", "-75%"]);
+
+    return (
+        <section ref={targetRef} className="relative h-[300vh] bg-dark-base">
+            <div className="sticky top-0 h-screen flex items-center overflow-hidden">
+                <motion.div style={{ x }} className="flex gap-16 px-12 md:px-32 items-center">
+                    {/* Intro Card */}
+                    <div className="min-w-[400px] md:min-w-[600px] flex flex-col justify-center">
+                        <span className="font-mono text-teal-primary text-xs uppercase tracking-[0.4em] mb-4">The Suite</span>
+                        <h2 className="text-5xl md:text-8xl font-black text-white tracking-tighter uppercase leading-[0.9]">
+                            Core <br /> Modules
+                        </h2>
+                        <p className="mt-8 text-white/50 text-xl max-w-sm">
+                            Scroll to explore our protocol stack. Each module is designed to integrate seamlessly into your enterprise.
+                        </p>
+                    </div>
+
+                    {/* Service Cards */}
+                    {services.map((s, i) => (
+                        <div key={i} className="min-w-[85vw] md:min-w-[1000px] h-[60vh] relative group">
+                            <div className="absolute inset-0 bg-white/[0.02] border border-white/10 backdrop-blur-sm rounded-[2rem] overflow-hidden flex flex-col md:flex-row transition-colors duration-500 group-hover:border-teal-primary/30">
+                                {/* Content Side */}
+                                <div className="w-full md:w-1/2 p-12 md:p-16 flex flex-col justify-between relative z-10 bg-dark-base/50">
+                                    <div>
+                                        <div className="flex justify-between items-start mb-12">
+                                            <span className="font-mono text-[10px] text-teal-primary border border-teal-primary/30 px-3 py-1 rounded-full uppercase tracking-widest">{s.category}</span>
+                                            <span className="font-mono text-4xl text-white/10 font-bold">0{i + 1}</span>
+                                        </div>
+                                        <h3 className="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter mb-6 leading-none">{s.title}</h3>
+                                        <p className="text-white/60 text-lg md:text-xl leading-relaxed font-light">{s.desc}</p>
+                                    </div>
+
+                                    <div className="flex gap-2 flex-wrap mt-12">
+                                        {s.tags.map(t => (
+                                            <span key={t} className="text-[10px] font-mono uppercase px-3 py-2 rounded bg-white/5 text-white/70 border border-white/5">
+                                                {t}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {/* Visual Side */}
+                                <div className="w-full md:w-1/2 bg-black/20 border-l border-white/5 relative overflow-hidden">
+                                    <div className="absolute inset-0 flex items-center justify-center p-12">
+                                        {s.visual}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                    {/* Padding for end of scroll */}
+                    <div className="min-w-[20vw]" />
+                </motion.div>
+            </div>
+        </section>
+    );
+};
+
+// --- Tech Stack: "Constellation" ---
+
+const TechStack = () => {
+    return (
+        <section className="py-32 bg-dark-base border-t border-white/5 overflow-hidden">
+            <div className="max-w-[1600px] mx-auto px-6 text-center">
+                <div className="mb-24">
+                    <span className="font-mono text-teal-primary text-[10px] uppercase tracking-[0.4em] mb-4 block">The Arsenal</span>
+                    <h2 className="text-5xl md:text-7xl font-black text-white tracking-tighter uppercase">High-Velocity Stack</h2>
+                </div>
+
+                <div className="relative h-[600px] md:h-[800px] w-full border border-white/5 bg-white/[0.01] rounded-[3rem] overflow-hidden flex items-center justify-center">
+                    {/* Background Grid */}
+                    <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:50px_50px]" />
+
+                    {/* Floating Nodes */}
+                    {[
+                        { name: "React", x: "20%", y: "20%", size: 6, icon: "⚛️" },
+                        { name: "Next.js", x: "50%", y: "50%", size: 8, icon: "▲" },
+                        { name: "Node.js", x: "80%", y: "30%", size: 5, icon: "🟢" },
+                        { name: "Python", x: "30%", y: "70%", size: 6, icon: "🐍" },
+                        { name: "TypeScript", x: "70%", y: "80%", size: 5, icon: "TS" },
+                        { name: "WebGL", x: "60%", y: "20%", size: 4, icon: "🎲" },
+                        { name: "AWS", x: "10%", y: "50%", size: 5, icon: "☁️" },
+                        { name: "Docker", x: "90%", y: "60%", size: 4, icon: "🐳" }
+                    ].map((tech, i) => (
+                        <motion.div
+                            key={i}
+                            className="absolute flex flex-col items-center gap-4 cursor-pointer group"
+                            style={{ left: tech.x, top: tech.y }}
+                            animate={{
+                                y: [0, -20, 0],
+                                x: [0, 10, 0]
+                            }}
+                            transition={{
+                                duration: 5 + Math.random() * 5,
+                                repeat: Infinity,
+                                ease: "easeInOut",
+                                delay: i
+                            }}
+                        >
+                            <div
+                                className="rounded-full bg-dark-base border border-white/10 flex items-center justify-center group-hover:border-teal-primary/50 group-hover:scale-110 transition-all duration-500 shadow-[0_0_30px_rgba(0,0,0,0.5)] z-10 backdrop-blur-sm"
+                                style={{ width: `${tech.size}rem`, height: `${tech.size}rem` }}
+                            >
+                                <span className={`text-2xl text-teal-primary opacity-80 group-hover:opacity-100`}>
+                                    {tech.icon || "⚡"}
+                                </span>
+                            </div>
+                            <span className="absolute top-full mt-2 font-mono text-xs text-white/40 uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap bg-black/80 px-2 py-1 rounded border border-white/10">
+                                {tech.name}
+                            </span>
+
+                            {/* Connecting Lines (Fake) */}
+                            <div className="absolute top-1/2 left-1/2 w-[200px] h-[1px] bg-gradient-to-r from-teal-primary/20 to-transparent -z-10 origin-left animate-pulse"
+                                style={{ transform: `rotate(${Math.random() * 360}deg)` }}
+                            />
+                        </motion.div>
+                    ))}
+
+                    <div className="absolute inset-0 bg-gradient-to-t from-dark-base via-transparent to-dark-base pointer-events-none" />
+                </div>
+            </div>
+        </section>
+    );
+}
+
 const ServicesPage: React.FC = () => {
     return (
-        <div className="bg-dark-base min-h-screen text-light-neutral dark:text-white transition-colors duration-500">
+        <div className="bg-dark-base min-h-screen text-white transition-colors duration-500 selection:bg-teal-primary selection:text-black">
+            <GrainOverlay />
             <ServiceHero />
             <Modules />
-            <TechTable />
+            <TechStack />
             <Footer />
         </div>
     );

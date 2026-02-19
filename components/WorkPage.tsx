@@ -1,9 +1,7 @@
-
-import React, { useState, useMemo } from 'react';
-import { motion, useSpring, useMotionValue, AnimatePresence, MotionValue } from 'framer-motion';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
+import { motion, useSpring, useMotionValue, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import Footer from './Footer';
-import { ArrowUpRight, ArrowDown, LayoutGrid, List } from 'lucide-react';
-import Magnetic from './ui/Magnetic';
+import { ArrowUpRight } from 'lucide-react';
 
 const projects = [
     {
@@ -68,119 +66,55 @@ const projects = [
     }
 ];
 
-type Project = typeof projects[0];
-
 const categories = ["All", "Product", "Brand", "Enterprise", "Hardware", "Data"];
 
+const GrainOverlay = () => (
+    <div className="pointer-events-none fixed inset-0 z-50 opacity-[0.03] mix-blend-overlay">
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] bg-repeat brightness-100 contrast-100" />
+    </div>
+);
+
 const WorkHero = () => {
+    const { scrollYProgress } = useScroll();
+    const rotate = useTransform(scrollYProgress, [0, 1], [0, 360]);
+
     return (
-        <section className="min-h-[40vh] md:min-h-[50vh] flex flex-col justify-end px-6 md:px-12 pb-16 md:pb-24 bg-dark-base pt-32 text-left">
-            <div className="max-w-[1600px] mx-auto w-full text-left">
-                <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-12 text-left">
-                    <div className="text-left">
-                        <motion.h1 
-                            initial={{ y: "100%", opacity: 0 }}
-                            animate={{ y: 0, opacity: 1 }}
-                            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                            className="text-6xl md:text-[10rem] leading-[0.9] md:leading-[0.8] font-bold text-light-neutral dark:text-white tracking-tighter text-left"
-                        >
-                            ARCHIVE
-                        </motion.h1>
-                    </div>
-                    <div className="flex gap-12 mb-4 text-left">
-                        <div className="flex flex-col text-left">
-                            <span className="text-light-dim text-xs font-mono uppercase tracking-widest mb-2 text-left">Total Projects</span>
-                            <span className="text-3xl md:text-4xl text-light-neutral dark:text-white font-light text-left">54</span>
-                        </div>
-                    </div>
-                </div>
+        <section className="min-h-[50vh] flex flex-col justify-end px-6 md:px-12 pb-24 bg-dark-base pt-48 relative overflow-hidden">
+            {/* Abstract Background Element */}
+            <motion.div
+                style={{ rotate }}
+                className="absolute -right-[10%] -top-[20%] w-[50vw] h-[50vw] border border-white/5 rounded-full border-dashed opacity-20 pointer-events-none"
+            />
+
+            <div className="max-w-[1800px] mx-auto w-full relative z-10">
+                <motion.div
+                    initial={{ opacity: 0, y: 50 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, ease: "circOut" }}
+                >
+                    <span className="text-teal-primary font-mono text-xs uppercase tracking-[0.4em] mb-6 block ml-2">Selected Works (2021-2024)</span>
+                    <h1 className="text-[12vw] md:text-[10rem] leading-[0.85] font-black text-white tracking-tighter uppercase mix-blend-difference">
+                        Archive
+                    </h1>
+                </motion.div>
             </div>
         </section>
     );
-}
-
-interface ProjectRowProps {
-    project: Project;
-    index: number;
-    setHoveredProject: (index: number | null) => void;
-    onMobileTouch: (index: number | null, e?: React.TouchEvent) => void;
-}
-
-const ProjectRow: React.FC<ProjectRowProps> = ({ project, index, setHoveredProject, onMobileTouch }) => {
-    return (
-        <motion.div 
-            layout
-            onMouseEnter={() => setHoveredProject(index)}
-            onMouseLeave={() => setHoveredProject(null)}
-            onTouchStart={(e) => onMobileTouch(index, e)}
-            onTouchEnd={() => onMobileTouch(null)}
-            className="group relative border-t border-dark-border dark:border-white/10 py-10 md:py-16 hover:bg-black/[0.02] dark:hover:bg-white/[0.02] transition-colors duration-500 cursor-pointer overflow-hidden text-left"
-        >
-            <div className="max-w-[1600px] mx-auto px-6 md:px-12 relative z-10 grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 items-start md:items-center text-left">
-                <div className="md:col-span-2 flex flex-row md:flex-col gap-4 md:gap-2 items-center md:items-start justify-between md:justify-start text-left">
-                    <div className="flex gap-4 items-baseline text-left">
-                        <span className="font-mono text-sm text-light-dim group-hover:text-teal-primary text-left">0{index + 1}</span>
-                        <span className="font-mono text-xs text-light-dim uppercase tracking-wider text-left">{project.year}</span>
-                    </div>
-                    <div className="md:hidden">
-                         <ArrowUpRight size={18} className="text-light-dim" />
-                    </div>
-                </div>
-                <div className="md:col-span-5 text-left">
-                    <h2 className="text-3xl md:text-6xl font-bold text-light-neutral dark:text-white tracking-tight leading-[1] text-left">
-                        {project.client}
-                    </h2>
-                    <p className="text-base md:text-lg text-light-dim mt-2 text-left">
-                        {project.title}
-                    </p>
-                </div>
-                <div className="col-span-1 md:col-span-3 flex flex-wrap gap-2 mt-2 md:mt-0 text-left">
-                    {project.tags.map((tag, i) => (
-                        <span key={i} className="px-3 py-1 border border-dark-border dark:border-white/10 rounded-full text-[10px] md:text-xs font-mono text-light-dim text-left">
-                            {tag}
-                        </span>
-                    ))}
-                </div>
-                <div className="hidden md:flex md:col-span-2 justify-end">
-                    <div className="w-12 h-12 rounded-full border border-dark-border dark:border-white/20 flex items-center justify-center group-hover:bg-teal-primary group-hover:border-teal-primary group-hover:text-white transition-all duration-300">
-                        <ArrowUpRight size={20} />
-                    </div>
-                </div>
-            </div>
-        </motion.div>
-    );
 };
 
-const WorkPage: React.FC = () => {
+const WorkPage = () => {
     const [filter, setFilter] = useState("All");
     const [hoveredProject, setHoveredProject] = useState<number | null>(null);
     const mouseX = useMotionValue(0);
     const mouseY = useMotionValue(0);
 
+    // Smooth mouse spring
+    const springX = useSpring(mouseX, { stiffness: 150, damping: 15, mass: 0.1 });
+    const springY = useSpring(mouseY, { stiffness: 150, damping: 15, mass: 0.1 });
+
     const handleMouseMove = (e: React.MouseEvent) => {
         mouseX.set(e.clientX);
         mouseY.set(e.clientY);
-    };
-
-    const handleTouchMove = (e: React.TouchEvent) => {
-        const { clientX, clientY } = e.touches[0];
-        mouseX.set(clientX);
-        mouseY.set(clientY);
-    };
-
-    const handleMobileTouch = (index: number | null, e?: React.TouchEvent) => {
-        if (index !== null && e) {
-             const { clientX, clientY } = e.touches[0];
-             mouseX.set(clientX);
-             mouseY.set(clientY);
-        }
-        if (index === null) {
-            setHoveredProject(null);
-            return;
-        }
-        const project = filteredProjects[index];
-        const originalIndex = projects.findIndex(p => p.id === project.id);
-        setHoveredProject(originalIndex);
     };
 
     const filteredProjects = useMemo(() => {
@@ -189,51 +123,104 @@ const WorkPage: React.FC = () => {
     }, [filter]);
 
     return (
-        <div 
-            onMouseMove={handleMouseMove}
-            onTouchMove={handleTouchMove}
-            className="bg-dark-base min-h-screen text-light-neutral dark:text-white transition-colors duration-500 cursor-default text-left"
-        >
+        <div onMouseMove={handleMouseMove} className="bg-dark-base min-h-screen text-white cursor-default selection:bg-teal-primary selection:text-black relative">
+            <GrainOverlay />
             <WorkHero />
-            <div className="sticky top-20 md:top-24 z-40 bg-dark-base/80 backdrop-blur-xl border-y border-dark-border dark:border-white/10 py-4 text-left">
-                <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex justify-between items-center text-left">
-                    <div className="flex items-center gap-2 overflow-x-auto no-scrollbar w-full md:w-auto text-left">
-                        {categories.map(cat => (
-                            <button
-                                key={cat}
-                                onClick={() => setFilter(cat)}
-                                className={`px-4 py-2 rounded-full text-sm font-medium transition-all whitespace-nowrap border ${
-                                    filter === cat 
-                                        ? 'bg-teal-primary border-teal-primary text-white' 
-                                        : 'border-transparent text-light-dim hover:text-light-neutral dark:hover:text-white'
+
+            {/* Sticky Filter Bar */}
+            <div className="sticky top-0 z-40 bg-dark-base/80 backdrop-blur-xl border-y border-white/5 py-4">
+                <div className="max-w-[1800px] mx-auto px-6 md:px-12 flex items-center gap-2 overflow-x-auto no-scrollbar">
+                    {categories.map(cat => (
+                        <button
+                            key={cat}
+                            onClick={() => setFilter(cat)}
+                            className={`px-6 py-2 rounded-full text-xs font-mono uppercase tracking-wider transition-all border ${filter === cat
+                                    ? 'bg-white text-black border-white'
+                                    : 'border-white/10 text-white/50 hover:border-white/30 hover:text-white'
                                 }`}
-                            >
-                                {cat}
-                            </button>
-                        ))}
-                    </div>
+                        >
+                            {cat}
+                        </button>
+                    ))}
                 </div>
             </div>
-            <div className="min-h-[50vh] pb-32 text-left">
-                <AnimatePresence mode="popLayout">
-                    {filteredProjects.map((p, i) => (
-                        <ProjectRow 
-                            key={p.id} 
-                            project={p} 
-                            index={i} 
-                            setHoveredProject={(idx) => {
-                                if (idx === null) {
-                                    setHoveredProject(null);
-                                    return;
-                                }
-                                const originalIndex = projects.findIndex(proj => proj.id === p.id);
-                                setHoveredProject(originalIndex);
-                            }}
-                            onMobileTouch={handleMobileTouch}
-                        />
-                    ))}
-                </AnimatePresence>
+
+            {/* Project List */}
+            <div className="min-h-screen pb-48">
+                {filteredProjects.map((project, i) => (
+                    <motion.div
+                        key={project.id}
+                        layoutId={project.id}
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        viewport={{ once: true }}
+                        onMouseEnter={() => setHoveredProject(i)}
+                        onMouseLeave={() => setHoveredProject(null)}
+                        className="group border-b border-white/5 py-12 md:py-20 relative z-10 hover:bg-white/[0.02] transition-colors duration-500 cursor-pointer"
+                    >
+                        <div className="max-w-[1800px] mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+                            <div className="md:col-span-2">
+                                <span className="font-mono text-xs text-white/30 group-hover:text-teal-primary transition-colors">0{i + 1} / {project.year}</span>
+                            </div>
+                            <div className="md:col-span-6">
+                                <h3 className="text-4xl md:text-7xl font-bold text-white group-hover:translate-x-4 transition-transform duration-500 will-change-transform">
+                                    {project.client}
+                                </h3>
+                                <p className="text-white/40 mt-2 text-lg md:hidden">{project.title}</p>
+                            </div>
+                            <div className="md:col-span-4 flex flex-col items-end gap-4 opacity-0 md:opacity-100 group-hover:opacity-100 transition-opacity duration-500">
+                                <span className="text-xl text-white/60">{project.title}</span>
+                                <div className="flex gap-2">
+                                    {project.tags.map(tag => (
+                                        <span key={tag} className="text-[10px] font-mono uppercase border border-white/10 px-2 py-1 rounded text-white/30">
+                                            {tag}
+                                        </span>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </motion.div>
+                ))}
             </div>
+
+            {/* Floating Image Preview */}
+            <motion.div
+                style={{
+                    x: springX,
+                    y: springY,
+                    translateX: "-50%",
+                    translateY: "-50%"
+                }}
+                className="fixed top-0 left-0 w-[400px] h-[500px] rounded-2xl overflow-hidden pointer-events-none z-50 hidden md:block" // Hidden on mobile
+            >
+                <AnimatePresence mode="wait">
+                    {hoveredProject !== null && (
+                        <motion.div
+                            key={filteredProjects[hoveredProject].id}
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.8 }}
+                            transition={{ duration: 0.2 }}
+                            className="w-full h-full relative"
+                        >
+                            <img
+                                src={filteredProjects[hoveredProject].img}
+                                alt={filteredProjects[hoveredProject].title}
+                                className="w-full h-full object-cover"
+                            />
+                            {/* Overlay info on image */}
+                            <div className="absolute inset-0 bg-black/20" />
+                            <div className="absolute bottom-6 left-6 right-6">
+                                <div className="flex justify-between items-center text-white backdrop-blur-md bg-white/10 p-4 rounded-xl border border-white/20">
+                                    <span className="font-bold">{filteredProjects[hoveredProject].client}</span>
+                                    <ArrowUpRight size={16} />
+                                </div>
+                            </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+            </motion.div>
+
             <Footer />
         </div>
     );
