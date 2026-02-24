@@ -1,14 +1,42 @@
 import React, { useRef, useMemo, useState, useEffect } from 'react';
-import { motion, useScroll, useTransform, useSpring, useMotionValue, useMotionTemplate } from 'framer-motion';
+import { motion, useScroll, useTransform, useSpring, useMotionValue } from 'framer-motion';
 import Magnetic from './ui/Magnetic';
-import { ArrowUpRight, ChevronRight } from 'lucide-react';
+import { ArrowUpRight, ChevronDown } from 'lucide-react';
 
 const Hero: React.FC = () => {
     const containerRef = useRef<HTMLDivElement>(null);
     const [isHovered, setIsHovered] = useState(false);
+
+    // Mouse position for the premium 'Aura' effect
+    const mouseX = useMotionValue(0);
+    const mouseY = useMotionValue(0);
+
+    const handleMouseMove = (e: React.MouseEvent) => {
+        const { clientX, clientY } = e;
+        const rect = containerRef.current?.getBoundingClientRect();
+        if (rect) {
+            mouseX.set(clientX - rect.left);
+            mouseY.set(clientY - rect.top);
+        }
+    };
+
+    const auraX = useSpring(mouseX, { stiffness: 100, damping: 30 });
+    const auraY = useSpring(mouseY, { stiffness: 100, damping: 30 });
+
+    const { scrollYProgress } = useScroll({
+        target: containerRef,
+        offset: ["start start", "end end"]
+    });
+
+    const smoothProgress = useSpring(scrollYProgress, {
+        mass: 0.5,
+        stiffness: 80,
+        damping: 30,
+        restDelta: 0.001
+    });
+
     const [isMobile, setIsMobile] = useState(false);
 
-    // Mobile Detection
     useEffect(() => {
         const checkMobile = () => setIsMobile(window.innerWidth < 768);
         checkMobile();
@@ -16,7 +44,7 @@ const Hero: React.FC = () => {
         return () => window.removeEventListener('resize', checkMobile);
     }, []);
 
-    // Universal "Single Scroll" Logic (Mobile & Desktop snap behavior)
+    // Universal "Single Scroll" Logic (Mobile & Desktop)
     useEffect(() => {
         let touchStartY = 0;
         let isNavigating = false;
@@ -30,6 +58,7 @@ const Hero: React.FC = () => {
             const touchEndY = e.changedTouches[0].clientY;
             const deltaY = touchStartY - touchEndY;
 
+            // If user swipes UP (scrolls down) just a little (sensitive)
             if (deltaY > 30 && window.scrollY < 50) {
                 isNavigating = true;
                 const heroHeight = containerRef.current?.offsetHeight || window.innerHeight;
@@ -43,10 +72,12 @@ const Hero: React.FC = () => {
 
         const handleWheel = (e: WheelEvent) => {
             if (isNavigating) return;
+            // Catch even slow scrolls (deltaY > 5)
             if (e.deltaY > 5 && window.scrollY < 50) {
                 isNavigating = true;
                 const heroHeight = containerRef.current?.offsetHeight || window.innerHeight;
 
+                // Use smooth scroll to skip Hero
                 window.scrollTo({
                     top: heroHeight,
                     behavior: 'smooth'
@@ -59,6 +90,10 @@ const Hero: React.FC = () => {
 
         const container = containerRef.current;
         if (container) {
+            // Passive: false for wheel allows preventDefault (optional, but cleaner for snap)
+            // But standard 'wheel' listeners are passive by default in some browsers, 
+            // so we might just let it scroll. Let's try passive: false if we want to cancel the partial scroll.
+            // Actually, for broad compatibility, we'll just detect and jump.
             window.addEventListener('wheel', handleWheel, { passive: false });
             window.addEventListener('touchstart', handleTouchStart, { passive: true });
             window.addEventListener('touchend', handleTouchEnd, { passive: true });
@@ -71,36 +106,17 @@ const Hero: React.FC = () => {
         };
     }, []);
 
-    // Mouse position for the premium 'Aura' effect
-    const mouseX = useMotionValue(0);
-    const mouseY = useMotionValue(0);
+    // Dynamic transforms for premium layering - Optimized for shorter scroll
+    const textScale = useTransform(smoothProgress, [0, 0.2], [1, 1.5]);
+    const textOpacity = useTransform(smoothProgress, [0, 0.15], [1, 0]);
+    const textBlur = useTransform(smoothProgress, [0, 0.15], ["blur(0px)", "blur(10px)"]);
+    const letterSpacing = useTransform(smoothProgress, [0, 0.2], ["-0.05em", "0.05em"]);
 
-    const handleMouseMove = ({ clientX, clientY, currentTarget }: React.MouseEvent) => {
-        const { left, top } = currentTarget.getBoundingClientRect();
-        mouseX.set(clientX - left);
-        mouseY.set(clientY - top);
-    };
+    const uiOpacity = useTransform(smoothProgress, [0, 0.1], [1, 0]);
+    const uiY = useTransform(smoothProgress, [0, 0.1], [0, 20]);
 
-    // Smooth spring for the aura follow
-    const springX = useSpring(mouseX, { stiffness: 50, damping: 20 });
-    const springY = useSpring(mouseY, { stiffness: 50, damping: 20 });
-
-    const { scrollYProgress } = useScroll({
-        target: containerRef,
-        offset: ["start start", "end start"]
-    });
-
-    const smoothProgress = useSpring(scrollYProgress, {
-        mass: 0.1,
-        stiffness: 100,
-        damping: 30,
-        restDelta: 0.001
-    });
-
-    // Subtly transform text on scroll (disabled on mobile for cleaner UX)
-    const textY = useTransform(smoothProgress, [0, 1], ["0%", isMobile ? "0%" : "50%"]);
-    const textOpacity = useTransform(smoothProgress, [0, 0.5], [1, isMobile ? 1 : 0]);
-    const bgScale = useTransform(smoothProgress, [0, 1], [1, 1.2]);
+    const orb1Y = useTransform(smoothProgress, [0, 1], ["-10%", "30%"]);
+    const orb2Y = useTransform(smoothProgress, [0, 1], ["20%", "-40%"]);
 
     const characters = useMemo(() => ({
         top: "ENGAZE".split(""),
@@ -113,153 +129,119 @@ const Hero: React.FC = () => {
             onMouseMove={handleMouseMove}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
-            className="relative w-full h-[100dvh] md:h-[110vh] bg-[#030303] flex flex-col justify-center items-center overflow-hidden group cursor-none md:cursor-default"
+            className="relative w-full h-[100dvh] md:h-[110vh] bg-dark-base overflow-clip cursor-none"
         >
-            {/* BACKGROUND LAYER 1: Deep Noise & Vignette */}
-            <div className="absolute inset-0 pointer-events-none z-50 mix-blend-overlay opacity-[0.03]">
-                <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] bg-repeat brightness-100 contrast-150" />
-            </div>
+            {/* BACKGROUND LAYER: The "Architected Environment" */}
+            <div className="sticky top-0 z-10 h-[100dvh] w-full flex flex-col items-center justify-center overflow-visible md:overflow-hidden">
 
-            {/* Ambient Vignette */}
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(3,3,3,1)_100%)] z-10 pointer-events-none" />
-
-            <motion.div style={{ scale: bgScale }} className="absolute inset-0 z-0 h-full w-full pointer-events-none">
-                {/* BACKGROUND LAYER 2: Grid and Light Sweep */}
-                <div className="absolute inset-0 z-0 opacity-30 [mask-image:radial-gradient(ellipse_60%_60%_at_50%_40%,#000_60%,transparent_100%)]">
-                    <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:4rem_4rem]" />
+                {/* Precision Grid */}
+                <div className="absolute inset-0 z-0 opacity-20 [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_90%)]">
+                    <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:50px_50px]" />
                 </div>
 
-                {/* Massive Animated Glow */}
+                {/* Layered Ambient Orbs */}
                 <motion.div
-                    animate={{
-                        scale: [1, 1.1, 1],
-                        opacity: [0.3, 0.5, 0.3]
-                    }}
-                    transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-                    className="absolute top-0 left-1/2 -translate-x-1/2 w-[60vw] h-[60vh] bg-teal-500/10 rounded-full blur-[150px] mix-blend-screen pointer-events-none"
+                    style={{ y: isMobile ? 0 : orb1Y }}
+                    className="absolute -left-1/4 top-0 w-[60vw] h-[60vw] bg-teal-primary/5 rounded-full blur-[120px] mix-blend-screen"
+                />
+                <motion.div
+                    style={{ y: isMobile ? 0 : orb2Y }}
+                    className="absolute -right-1/4 bottom-0 w-[50vw] h-[50vw] bg-teal-secondary/5 rounded-full blur-[100px] mix-blend-screen"
                 />
 
-                {/* Secondary Glow */}
-                <div className="absolute bottom-0 left-1/4 w-[40vw] h-[40vh] bg-indigo-500/5 rounded-full blur-[120px] mix-blend-screen pointer-events-none" />
-            </motion.div>
-
-            {/* Premium Mouse Aura (reveals underlying highlight) */}
-            <motion.div
-                className="pointer-events-none absolute -inset-px z-20 opacity-0 transition duration-500 group-hover:opacity-100 hidden md:block"
-                style={{
-                    background: useMotionTemplate`
-                        radial-gradient(
-                            1000px circle at ${springX}px ${springY}px,
-                            rgba(45, 212, 191, 0.08),
-                            transparent 80%
-                        )
-                    `,
-                    opacity: isHovered ? 1 : 0
-                }}
-            />
-
-            {/* CONTENT LAYER */}
-            <motion.div
-                style={{ y: textY, opacity: textOpacity }}
-                className="relative z-30 flex flex-col items-center justify-center text-center w-full px-4 h-full md:h-auto"
-            >
-                {/* Premium Badge */}
+                {/* Premium Mouse Aura */}
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-                    className="mb-8 md:mb-12 cursor-pointer mt-16 md:mt-0"
+                    style={{ left: auraX, top: auraY }}
+                    className="fixed w-[400px] h-[400px] bg-teal-primary/10 rounded-full blur-[100px] pointer-events-none -translate-x-1/2 -translate-y-1/2 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-700"
+                />
+
+                {/* branding: Typography Architecture */}
+                <motion.div
+                    style={{
+                        scale: isMobile ? 1 : textScale,
+                        opacity: isMobile ? 1 : textOpacity,
+                        filter: isMobile ? "blur(0px)" : textBlur,
+                        letterSpacing: isMobile ? "-0.05em" : letterSpacing
+                    }}
+                    className="relative z-10 flex flex-col items-center justify-center text-center origin-center will-change-transform w-full h-full md:h-auto"
                 >
-                    <div className="relative inline-flex items-center gap-2 px-4 py-2 rounded-full border border-teal-500/20 bg-teal-500/5 backdrop-blur-xl overflow-hidden hover:bg-teal-500/10 transition-colors duration-500">
-                        {/* Shimmer effect */}
-                        <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full hover:animate-shimmer pointer-events-none" />
-                        <span className="relative flex h-2 w-2">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-2 w-2 bg-teal-500"></span>
-                        </span>
-                        <span className="font-mono text-[10px] md:text-xs uppercase tracking-[0.2em] text-teal-400">Welcome to the Next Era</span>
-                        <ChevronRight className="w-4 h-4 text-teal-500 hidden md:block" />
+                    <div className="flex flex-col items-center gap-0">
+                        {/* Top Word with Sophisticated Reveal */}
+                        <div className="flex overflow-hidden pb-1 md:pb-4">
+                            {characters.top.map((char, i) => (
+                                <motion.span
+                                    key={i}
+                                    initial={{ y: "110%", opacity: 0, scale: 0.8 }}
+                                    animate={{ y: 0, opacity: 1, scale: 1 }}
+                                    transition={{
+                                        delay: 0.1 + (i * 0.04),
+                                        duration: 0.8,
+                                        ease: [0.22, 1, 0.36, 1]
+                                    }}
+                                    className="text-[17vw] md:text-[11vw] font-black leading-none tracking-tighter text-white select-none drop-shadow-2xl"
+                                >
+                                    {char}
+                                </motion.span>
+                            ))}
+                        </div>
+
+                        {/* Bottom Word with Gradient Mask */}
+                        <div className="flex overflow-hidden -mt-2 md:-mt-8">
+                            {characters.bottom.map((char, i) => (
+                                <motion.span
+                                    key={i}
+                                    initial={{ y: "110%", opacity: 0, scale: 0.8 }}
+                                    animate={{ y: 0, opacity: 1, scale: 1 }}
+                                    transition={{
+                                        delay: 0.2 + (i * 0.04),
+                                        duration: 0.8,
+                                        ease: [0.22, 1, 0.36, 1]
+                                    }}
+                                    className="text-[17vw] md:text-[11vw] font-black leading-none tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-teal-primary via-teal-secondary to-teal-tertiary select-none"
+                                >
+                                    {char}
+                                </motion.span>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Architectural Subtitle */}
+                    <div className="relative mt-8 md:mt-12 overflow-hidden px-4 md:px-8 max-w-[90vw] md:max-w-none">
+                        <motion.div
+                            initial={{ width: 0 }}
+                            animate={{ width: "100%" }}
+                            transition={{ delay: 0.5, duration: 0.8, ease: "circOut" }}
+                            className="absolute inset-0 bg-white/5 backdrop-blur-sm -z-10 rounded-full border border-white/10 hidden md:block"
+                        />
+                        <motion.p
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.6, duration: 0.5 }}
+                            className="px-2 md:px-6 py-2 font-mono text-[11px] md:text-[10px] text-teal-primary/80 tracking-[0.1em] md:tracking-[0.6em] uppercase text-center leading-relaxed md:whitespace-nowrap"
+                        >
+                            We build the operating systems for <span className="text-white font-bold">billion-dollar growth</span>
+                        </motion.p>
                     </div>
                 </motion.div>
 
-                {/* Typography Architecture */}
-                <div className="flex flex-col items-center gap-1 md:gap-0 select-none cursor-default perspective-1000">
-                    {/* Top Word */}
-                    <div className="flex overflow-hidden pb-1 md:pb-4">
-                        {characters.top.map((char, i) => (
-                            <motion.span
-                                key={i}
-                                initial={{ y: "100%", opacity: 0, rotateX: -90 }}
-                                animate={{ y: 0, opacity: 1, rotateX: 0 }}
-                                transition={{
-                                    delay: 0.2 + (i * 0.05),
-                                    duration: 1,
-                                    ease: [0.16, 1, 0.3, 1]
-                                }}
-                                className="text-[17vw] md:text-[11vw] font-black leading-[0.85] tracking-tighter text-white"
-                                style={{ transformOrigin: "bottom center" }}
-                            >
-                                {char}
-                            </motion.span>
-                        ))}
-                    </div>
-
-                    {/* Bottom Word (Gradient) */}
-                    <div className="flex overflow-hidden -mt-2 md:mt-0">
-                        {characters.bottom.map((char, i) => (
-                            <motion.span
-                                key={i}
-                                initial={{ y: "100%", opacity: 0, rotateX: -90 }}
-                                animate={{ y: 0, opacity: 1, rotateX: 0 }}
-                                transition={{
-                                    delay: 0.4 + (i * 0.05),
-                                    duration: 1,
-                                    ease: [0.16, 1, 0.3, 1]
-                                }}
-                                className="text-[17vw] md:text-[11vw] font-black leading-[0.85] tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white via-teal-100 to-teal-600"
-                                style={{ transformOrigin: "bottom center" }}
-                            >
-                                {char}
-                            </motion.span>
-                        ))}
-                    </div>
-                </div>
-
-                {/* Architectural Subtitle */}
+                {/* CTA LAYER (Integrated into Grid) */}
                 <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 1, duration: 1.5 }}
-                    className="mt-6 md:mt-12 max-w-2xl px-2 relative"
+                    style={{ opacity: uiOpacity, y: uiY }}
+                    className="absolute bottom-20 md:bottom-24 z-20 flex flex-col items-center w-full px-6"
                 >
-                    <p className="text-base md:text-2xl text-white/50 font-light leading-relaxed tracking-wide text-center">
-                        We don't just build websites. We construct <span className="text-white font-medium">high-velocity cognitive revenue engines</span> engineered for the top 1% of global brands.
-                    </p>
+                    <div className="flex flex-col md:flex-row gap-8 items-center justify-center w-full max-w-6xl">
+                        <div className="flex gap-4 w-full md:w-auto justify-center">
+                            <Magnetic strength={20}>
+                                <button className="group relative flex items-center justify-center gap-4 md:gap-6 px-8 md:px-12 py-4 md:py-5 bg-white text-dark-base rounded-full text-[11px] md:text-[11px] font-black tracking-[0.2em] md:tracking-[0.3em] uppercase transition-all duration-500 hover:scale-105 shadow-glow overflow-hidden whitespace-nowrap w-full md:w-auto">
+                                    <span className="relative z-10">Connect With Us</span>
+                                    <ArrowUpRight size={16} className="relative z-10 group-hover:rotate-45 transition-transform duration-500" />
+                                    <div className="absolute inset-0 bg-gradient-to-r from-teal-primary to-teal-tertiary translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
+                                </button>
+                            </Magnetic>
+                        </div>
+                    </div>
                 </motion.div>
-
-                {/* Call to Action */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 1.2, duration: 1, ease: [0.16, 1, 0.3, 1] }}
-                    className="absolute bottom-16 md:bottom-20 z-40 w-full flex justify-center"
-                >
-                    <Magnetic strength={30}>
-                        <button className="group relative flex items-center justify-center gap-4 px-8 md:px-10 py-4 md:py-5 bg-white text-[#030303] rounded-full text-[10px] md:text-xs font-black tracking-[0.2em] uppercase transition-all duration-500 hover:scale-[1.02] shadow-[0_0_40px_-10px_rgba(255,255,255,0.3)] overflow-hidden">
-                            <span className="relative z-10 flex items-center gap-2">
-                                Start The Project <ArrowUpRight size={16} className="group-hover:rotate-45 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300" />
-                            </span>
-                            <div className="absolute inset-0 bg-gradient-to-r from-teal-400 to-teal-500 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[0.16,1,0.3,1]" />
-                            {/* Reflection Sweep */}
-                            <div className="absolute top-0 -inset-full h-full w-1/2 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent to-white opacity-40 group-hover:animate-sweep pointer-events-none" />
-                        </button>
-                    </Magnetic>
-                </motion.div>
-            </motion.div>
-
-            {/* Global Frame Lines */}
-            <div className="absolute left-12 top-0 bottom-0 w-[1px] bg-white-[0.03] hidden lg:block" />
-            <div className="absolute right-12 top-0 bottom-0 w-[1px] bg-white-[0.03] hidden lg:block" />
+            </div>
         </section>
     );
 };
