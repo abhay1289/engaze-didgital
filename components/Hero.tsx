@@ -29,9 +29,9 @@ const Hero: React.FC = () => {
     });
 
     const smoothProgress = useSpring(scrollYProgress, {
-        mass: 0.5,
-        stiffness: 80,
-        damping: 30,
+        mass: 0.1,
+        stiffness: 40,
+        damping: 20,
         restDelta: 0.001
     });
 
