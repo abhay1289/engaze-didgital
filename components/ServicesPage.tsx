@@ -8,8 +8,15 @@ import {
     GitBranch, Box, Lock, Search, ShoppingBag, Palette, Glasses, Monitor, Rocket, Code
 } from 'lucide-react';
 
+// Custom Grain Overlay
+const GrainOverlay = () => (
+    <div className="pointer-events-none fixed inset-0 z-50 opacity-[0.03] mix-blend-overlay">
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] bg-repeat brightness-100 contrast-100" />
+    </div>
+);
+
 const EngineeringVisual = () => (
-    <div className="w-full h-full bg-[#080808] rounded-xl border border-white/10 p-5 font-mono text-[10px] md:text-xs text-teal-primary/80 overflow-hidden relative shadow-inner-light text-left">
+    <div className="w-full h-full bg-[#050505] rounded-xl border border-white/10 p-5 font-mono text-[10px] md:text-xs text-teal-primary/80 overflow-hidden relative shadow-inner-light text-left group-hover:border-teal-primary/30 transition-colors duration-500">
         <div className="space-y-3 opacity-90 leading-relaxed font-light">
             <p><span className="text-purple-400">import</span> <span className="text-white">{'{'}</span> <span className="text-yellow-400">ScaleEngine</span> <span className="text-white">{'}'}</span> <span className="text-purple-400">from</span> <span className="text-green-400">'@teal/core'</span>;</p>
             <p className="text-white/40">// Initialize high-velocity clusters</p>
@@ -166,30 +173,55 @@ const SpatialVisual = () => (
 
 const ServiceHero = () => {
     return (
-        <section className="min-h-screen pt-32 pb-20 px-6 bg-dark-base relative overflow-hidden flex flex-col justify-center">
-            <div className="max-w-[1600px] mx-auto w-full relative z-10 text-left">
+        <section className="min-h-screen pt-32 pb-20 px-6 bg-[#030303] relative overflow-hidden flex flex-col justify-center">
+            {/* Grid Matrix Background */}
+            <div className="absolute inset-0 z-0 opacity-20 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
+            <div className="absolute top-0 right-0 w-[50vw] h-[50vw] bg-teal-primary/10 rounded-full blur-[120px] mix-blend-screen pointer-events-none" />
+
+            <div className="max-w-[1800px] mx-auto w-full relative z-10 text-left">
                 <div className="flex flex-col gap-4 mb-12 items-start">
                     <motion.span
                         initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.5, duration: 0.8 }}
-                        className="text-teal-primary font-mono text-xs uppercase tracking-[0.4em]"
+                        className="text-teal-primary font-mono text-[10px] px-3 py-1 border border-teal-primary/30 rounded-full uppercase tracking-[0.4em] backdrop-blur-md bg-teal-primary/5"
                     >
                         Service Architecture
                     </motion.span>
                 </div>
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 items-start">
-                    <div className="lg:col-span-8 text-left">
-                        <h1 className="text-7xl md:text-[8rem] font-bold text-light-neutral dark:text-white tracking-tighter leading-[0.85] mb-12 text-left">
-                            Systems for <br />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-primary to-teal-secondary">Scale.</span>
-                        </h1>
+                    <div className="lg:col-span-8 text-left relative">
+                        <motion.h1
+                            initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ cascade: true, duration: 1 }}
+                            className="text-6xl md:text-[9rem] font-black text-white tracking-tighter leading-[0.85] mb-12 text-left uppercase"
+                        >
+                            SYSTEMS <br />
+                            <span className="text-transparent bg-clip-text bg-gradient-to-br from-teal-primary via-white to-teal-secondary relative">
+                                FOR SCALE.
+                                <div className="absolute -inset-2 bg-teal-primary/20 blur-2xl -z-10" />
+                            </span>
+                        </motion.h1>
                     </div>
-                    <div className="lg:col-span-4 flex flex-col justify-end text-left">
-                        <p className="text-light-dim text-xl leading-relaxed text-left">
-                            We don't sell hours. We sell <span className="text-white">velocity</span>. Our modular service stack is designed to plug directly into enterprise workflows, eliminating technical debt and accelerating revenue.
+                    <div className="lg:col-span-4 flex flex-col justify-end text-left pb-12">
+                        <p className="text-white/50 text-xl md:text-2xl leading-relaxed text-left font-light border-l border-teal-primary/30 pl-6">
+                            We don't sell hours. We sell <span className="text-white font-medium">unrestricted velocity</span>. Our modular stack plugs directly into enterprise pipelines, eliminating technical debt.
                         </p>
                     </div>
                 </div>
             </div>
+
+            {/* Scroll Indicator */}
+            <motion.div
+                initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.5 }}
+                className="absolute bottom-12 left-6 md:left-12 flex items-center gap-4 text-white/30"
+            >
+                <div className="w-[1px] h-12 bg-white/10 overflow-hidden relative">
+                    <motion.div
+                        animate={{ top: ["-100%", "100%"] }}
+                        transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                        className="absolute left-0 w-full h-1/2 bg-teal-primary"
+                    />
+                </div>
+                <span className="font-mono text-[9px] uppercase tracking-widest">Scroll to Initialize</span>
+            </motion.div>
         </section>
     );
 };
@@ -207,41 +239,52 @@ const services = [
 
 const Modules = () => {
     return (
-        <section className="py-32 bg-dark-base relative z-10 text-left">
-            <div className="max-w-[1600px] mx-auto px-6">
-                <div className="mb-20 text-left">
-                    <motion.h2 className="text-4xl md:text-5xl font-bold text-light-neutral dark:text-white mb-6 tracking-tight text-left">
+        <section className="py-32 bg-[#050505] relative z-10 text-left border-t border-white/5">
+            <div className="max-w-[1800px] mx-auto px-6">
+                <div className="mb-24 text-left flex flex-col items-center justify-center text-center">
+                    <motion.h2 className="text-5xl md:text-7xl font-black text-white mb-6 tracking-tighter uppercase">
                         Core Modules
                     </motion.h2>
-                    <motion.p className="text-light-dim max-w-xl text-lg text-left">
+                    <motion.p className="text-white/40 max-w-xl text-xl font-light">
                         Select a protocol to initialize.
                     </motion.p>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                {/* Asymmetrical Bento Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {services.map((s, i) => (
                         <motion.div
                             key={i}
-                            className="group h-[520px] bg-light-surface dark:bg-[#080808] border border-dark-border dark:border-white/10 rounded-[2rem] p-3 flex flex-col relative overflow-hidden shadow-premium transition-all duration-700 text-left"
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, margin: "-50px" }}
+                            transition={{ duration: 0.5, delay: i * 0.1 }}
+                            className={`group h-[480px] bg-white/[0.02] border border-white/10 hover:border-teal-primary/30 p-1 flex flex-col relative overflow-hidden shadow-premium transition-all duration-700 text-left ${i === 0 || i === 3 ? 'lg:col-span-2' : 'col-span-1'}`}
                         >
-                            <div className="p-6 pb-0 relative z-10 text-left">
+                            {/* Hover Gradient Reveal */}
+                            <div className="absolute inset-0 bg-gradient-to-br from-teal-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+
+                            <div className="p-8 pb-0 relative z-10 flex flex-col flex-1 text-left">
                                 <div className="flex justify-between items-start mb-8">
-                                    <div className="w-12 h-12 rounded-2xl bg-dark-base dark:bg-white/5 border border-dark-border dark:border-white/10 flex items-center justify-center font-mono text-sm text-teal-primary">
-                                        <s.icon size={20} />
+                                    <div className="w-12 h-12 rounded-full border border-white/10 bg-black flex items-center justify-center font-mono text-sm text-teal-primary group-hover:scale-110 transition-transform duration-500 shadow-[0_0_15px_rgba(54,184,165,0)] group-hover:shadow-[0_0_20px_rgba(54,184,165,0.2)]">
+                                        <s.icon size={20} className="group-hover:animate-pulse" />
                                     </div>
-                                    <div className="font-mono text-[10px] text-light-dim border border-white/10 px-2 py-1 rounded-full bg-white/5">0{i + 1}</div>
+                                    <div className="font-mono text-[9px] text-white/30 border border-white/10 px-3 py-1 bg-black uppercase tracking-widest">Mode 0{i + 1}</div>
                                 </div>
-                                <h3 className="text-3xl font-bold text-light-neutral dark:text-white mb-3 tracking-tight text-left">{s.title}</h3>
-                                <p className="text-sm text-light-dim leading-relaxed mb-6 min-h-[40px] font-light text-left">{s.desc}</p>
-                                <div className="flex gap-2 mb-8 flex-wrap">
+
+                                <h3 className="text-3xl font-black text-white mb-3 tracking-tight uppercase group-hover:text-teal-primary transition-colors text-left">{s.title}</h3>
+                                <p className="text-base text-white/50 leading-relaxed min-h-[40px] font-light text-left max-w-md">{s.desc}</p>
+
+                                <div className="flex gap-2 mt-auto mb-6 flex-wrap opacity-50 group-hover:opacity-100 transition-opacity duration-500">
                                     {s.tags.map(t => (
-                                        <span key={t} className="text-[9px] font-mono uppercase px-2 py-1.5 rounded-md bg-dark-base dark:bg-white/5 text-light-neutral dark:text-white/50 tracking-wider">
+                                        <span key={t} className="text-[9px] font-mono uppercase px-2 py-1 bg-white/5 border border-white/10 text-white/50 tracking-wider">
                                             {t}
                                         </span>
                                     ))}
                                 </div>
                             </div>
-                            <div className="mt-auto h-[240px] w-full bg-dark-base dark:bg-[#030303] rounded-2xl overflow-hidden relative border border-dark-border dark:border-white/5 mx-auto mb-1">
-                                <div className="absolute inset-0 p-5">
+
+                            <div className="h-[200px] w-full bg-black relative border-t border-white/5 overflow-hidden">
+                                <div className="absolute inset-0 p-5 scale-95 group-hover:scale-100 transition-transform duration-700">
                                     {s.visual}
                                 </div>
                             </div>
@@ -262,30 +305,58 @@ const TechTable = () => {
     ];
 
     return (
-        <section className="py-32 bg-dark-base relative overflow-hidden text-left">
-            <div className="max-w-[1600px] mx-auto px-6 relative z-10 text-left">
-                <div className="flex flex-col md:flex-row justify-between mb-24 items-start text-left">
-                    <div className="text-left">
-                        <span className="text-teal-primary font-mono text-xs uppercase tracking-[0.2em] mb-4 block">The Arsenal</span>
-                        <h2 className="text-5xl md:text-7xl font-bold text-light-neutral dark:text-white tracking-tighter text-left">Technology <br /> Stack.</h2>
-                    </div>
-                    <p className="max-w-md text-light-dim mt-8 md:mt-0 text-lg font-light leading-relaxed text-left">
-                        We audit and select the optimal stack for your specific requirements.
-                    </p>
+        <section className="py-32 bg-[#020202] relative overflow-hidden text-left border-t border-white/5">
+            {/* Ambient Background */}
+            <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 mix-blend-overlay pointer-events-none" />
+
+            <div className="relative z-10 w-full flex flex-col items-center justify-center text-center px-6">
+                <span className="text-teal-primary font-mono text-[10px] uppercase tracking-[0.4em] mb-4 block border border-teal-primary/30 px-3 py-1 rounded-full">The Arsenal</span>
+                <h2 className="text-5xl md:text-8xl font-black text-white tracking-tighter uppercase mb-6">
+                    Technology Stack.
+                </h2>
+                <p className="max-w-xl text-white/50 text-xl font-light mb-24">
+                    We don't just use frameworks. We weaponize them. Auditing and selecting the precise stack for maximum leverage.
+                </p>
+            </div>
+
+            {/* Marquee Ticker */}
+            <div className="relative flex overflow-x-hidden group pb-12 w-full">
+                <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-[#020202] to-transparent z-10 pointer-events-none" />
+                <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-[#020202] to-transparent z-10 pointer-events-none" />
+
+                <div className="animate-marquee whitespace-nowrap flex items-center gap-6 px-6">
+                    {categories.flatMap(cat => cat.tools).map((tool, i) => (
+                        <div key={i} className="px-6 py-4 border border-white/10 bg-white/[0.02] rounded-full flex items-center gap-3 hover:bg-white/10 hover:border-teal-primary transition-all duration-300 cursor-default">
+                            <div className="w-2 h-2 rounded-full bg-teal-primary/50" />
+                            <span className="text-xl md:text-3xl font-black text-white/30 hover:text-white uppercase tracking-tighter transition-colors">{tool}</span>
+                        </div>
+                    ))}
+                    {/* Duplicate for infinite effect */}
+                    {categories.flatMap(cat => cat.tools).map((tool, i) => (
+                        <div key={`dup-${i}`} className="px-6 py-4 border border-white/10 bg-white/[0.02] rounded-full flex items-center gap-3 hover:bg-white/10 hover:border-teal-primary transition-all duration-300 cursor-default">
+                            <div className="w-2 h-2 rounded-full bg-teal-primary/50" />
+                            <span className="text-xl md:text-3xl font-black text-white/30 hover:text-white uppercase tracking-tighter transition-colors">{tool}</span>
+                        </div>
+                    ))}
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 text-left">
-                    {categories.map((cat, i) => (
-                        <div key={i} className="flex flex-col gap-6 text-left">
-                            <div className="flex items-center gap-3 mb-2 pb-4 border-b border-dark-border dark:border-white/10 text-left">
-                                <h3 className="font-bold text-xl text-light-neutral dark:text-white tracking-tight">{cat.name}</h3>
-                            </div>
-                            <div className="flex flex-col gap-3 text-left">
-                                {cat.tools.map((tool, j) => (
-                                    <div key={j} className="flex items-center justify-between p-2 -mx-2 rounded hover:bg-white/5 transition-colors text-left">
-                                        <span className="text-light-dim transition-colors font-mono text-sm text-left">{tool}</span>
-                                    </div>
-                                ))}
-                            </div>
+            </div>
+
+            <div className="relative flex overflow-x-hidden group w-full" style={{ "--marquee-direction": "reverse" } as any}>
+                <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-[#020202] to-transparent z-10 pointer-events-none" />
+                <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-[#020202] to-transparent z-10 pointer-events-none" />
+
+                <div className="animate-marquee whitespace-nowrap flex items-center gap-6 px-6 [animation-direction:reverse]">
+                    {categories.flatMap(cat => cat.tools).reverse().map((tool, i) => (
+                        <div key={i} className="px-6 py-4 border border-white/10 bg-white/[0.02] rounded-full flex items-center gap-3 hover:bg-white/10 hover:border-teal-primary transition-all duration-300 cursor-default">
+                            <div className="w-2 h-2 rounded-full bg-teal-primary/50" />
+                            <span className="text-xl md:text-3xl font-black text-white/30 hover:text-white uppercase tracking-tighter transition-colors">{tool}</span>
+                        </div>
+                    ))}
+                    {/* Duplicate for infinite effect */}
+                    {categories.flatMap(cat => cat.tools).reverse().map((tool, i) => (
+                        <div key={`dup-${i}`} className="px-6 py-4 border border-white/10 bg-white/[0.02] rounded-full flex items-center gap-3 hover:bg-white/10 hover:border-teal-primary transition-all duration-300 cursor-default">
+                            <div className="w-2 h-2 rounded-full bg-teal-primary/50" />
+                            <span className="text-xl md:text-3xl font-black text-white/30 hover:text-white uppercase tracking-tighter transition-colors">{tool}</span>
                         </div>
                     ))}
                 </div>
@@ -296,7 +367,8 @@ const TechTable = () => {
 
 const ServicesPage: React.FC = () => {
     return (
-        <div className="bg-dark-base min-h-screen text-light-neutral dark:text-white transition-colors duration-500">
+        <div className="bg-dark-base min-h-screen text-white transition-colors duration-500 selection:bg-teal-primary selection:text-black">
+            <GrainOverlay />
             <ServiceHero />
             <Modules />
             <TechTable />

@@ -5,6 +5,13 @@ import Footer from './Footer';
 import { ArrowUpRight, ArrowDown, LayoutGrid, List } from 'lucide-react';
 import Magnetic from './ui/Magnetic';
 
+// Custom Grain Overlay
+const GrainOverlay = () => (
+    <div className="pointer-events-none fixed inset-0 z-50 opacity-[0.03] mix-blend-overlay">
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] bg-repeat brightness-100 contrast-100" />
+    </div>
+);
+
 const projects = [
     {
         id: "01",
@@ -74,30 +81,43 @@ const categories = ["All", "Product", "Brand", "Enterprise", "Hardware", "Data"]
 
 const WorkHero = () => {
     return (
-        <section className="min-h-[40vh] md:min-h-[50vh] flex flex-col justify-end px-6 md:px-12 pb-16 md:pb-24 bg-dark-base pt-32 text-left">
-            <div className="max-w-[1600px] mx-auto w-full text-left">
+        <section className="min-h-[50vh] flex flex-col justify-end px-6 md:px-12 pb-16 md:pb-24 bg-[#050505] pt-40 relative overflow-hidden">
+            {/* Ambient Lighting */}
+            <div className="absolute top-1/4 left-1/4 w-[40vw] h-[40vw] bg-teal-primary/10 rounded-full blur-[120px] mix-blend-screen pointer-events-none" />
+
+            <div className="max-w-[1800px] mx-auto w-full relative z-10 text-left">
+                <div className="flex flex-col gap-6 mb-8 text-left">
+                    <motion.div
+                        initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.5, duration: 0.8 }}
+                        className="inline-flex w-fit items-center gap-3 px-4 py-2 border border-teal-primary/30 rounded-full bg-teal-primary/5 backdrop-blur-md"
+                    >
+                        <div className="w-2 h-2 rounded-full bg-teal-primary animate-pulse" />
+                        <span className="text-teal-primary font-mono text-[10px] uppercase tracking-[0.4em]">Engineered Successes</span>
+                    </motion.div>
+                </div>
+
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-12 text-left">
                     <div className="text-left">
                         <motion.h1
-                            initial={{ y: "100%", opacity: 0 }}
+                            initial={{ y: 50, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
                             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                            className="text-6xl md:text-[10rem] leading-[0.9] md:leading-[0.8] font-bold text-light-neutral dark:text-white tracking-tighter text-left"
+                            className="text-6xl md:text-[12rem] leading-[0.85] font-black text-white tracking-tighter text-left uppercase"
                         >
-                            ARCHIVE
+                            ARCHIVE<span className="text-teal-primary">.</span>
                         </motion.h1>
                     </div>
-                    <div className="flex gap-12 mb-4 text-left">
+                    <div className="flex gap-12 mb-4 text-left border-l border-white/10 pl-8">
                         <div className="flex flex-col text-left">
-                            <span className="text-light-dim text-xs font-mono uppercase tracking-widest mb-2 text-left">Total Projects</span>
-                            <span className="text-3xl md:text-4xl text-light-neutral dark:text-white font-light text-left">54</span>
+                            <span className="text-white/40 text-[10px] font-mono uppercase tracking-[0.2em] mb-2 text-left">Total Deployed</span>
+                            <span className="text-4xl md:text-5xl text-white font-light text-left">54+</span>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
     );
-}
+};
 
 interface ProjectRowProps {
     project: Project;
@@ -114,36 +134,38 @@ const ProjectRow: React.FC<ProjectRowProps> = ({ project, index, setHoveredProje
             onMouseLeave={() => setHoveredProject(null)}
             onTouchStart={(e) => onMobileTouch(index, e)}
             onTouchEnd={() => onMobileTouch(null)}
-            className="group relative border-t border-dark-border dark:border-white/10 py-10 md:py-16 hover:bg-black/[0.02] dark:hover:bg-white/[0.02] transition-colors duration-500 cursor-pointer overflow-hidden text-left"
+            className="group relative border-b border-white/5 py-12 md:py-20 hover:bg-white/[0.02] transition-colors duration-500 cursor-pointer overflow-hidden text-left"
         >
-            <div className="max-w-[1600px] mx-auto px-6 md:px-12 relative z-10 grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 items-start md:items-center text-left">
+            <div className="absolute inset-0 bg-gradient-to-r from-teal-primary/0 via-teal-primary/5 to-teal-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+
+            <div className="max-w-[1800px] mx-auto px-6 md:px-12 relative z-10 grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 items-start md:items-center text-left">
                 <div className="md:col-span-2 flex flex-row md:flex-col gap-4 md:gap-2 items-center md:items-start justify-between md:justify-start text-left">
                     <div className="flex gap-4 items-baseline text-left">
-                        <span className="font-mono text-sm text-light-dim group-hover:text-teal-primary text-left">0{index + 1}</span>
-                        <span className="font-mono text-xs text-light-dim uppercase tracking-wider text-left">{project.year}</span>
+                        <span className="font-mono text-sm text-white/30 group-hover:text-teal-primary transition-colors text-left uppercase tracking-widest">0{index + 1}</span>
+                        <span className="font-mono text-[10px] text-white/30 uppercase tracking-[0.2em] text-left">{project.year}</span>
                     </div>
                     <div className="md:hidden">
-                        <ArrowUpRight size={18} className="text-light-dim" />
+                        <ArrowUpRight size={18} className="text-white/40" />
                     </div>
                 </div>
-                <div className="md:col-span-5 text-left">
-                    <h2 className="text-3xl md:text-6xl font-bold text-light-neutral dark:text-white tracking-tight leading-[1] text-left">
+                <div className="md:col-span-5 text-left relative">
+                    <h2 className="text-4xl md:text-7xl font-black text-white tracking-tighter leading-[0.9] text-left transition-transform duration-500 group-hover:translate-x-4 uppercase origin-left">
                         {project.client}
                     </h2>
-                    <p className="text-base md:text-lg text-light-dim mt-2 text-left">
+                    <p className="text-base md:text-xl text-white/50 mt-4 text-left font-light max-w-md transition-transform duration-500 group-hover:translate-x-4 delay-75">
                         {project.title}
                     </p>
                 </div>
-                <div className="col-span-1 md:col-span-3 flex flex-wrap gap-2 mt-2 md:mt-0 text-left">
+                <div className="col-span-1 md:col-span-3 flex flex-wrap gap-2 mt-4 md:mt-0 text-left">
                     {project.tags.map((tag, i) => (
-                        <span key={i} className="px-3 py-1 border border-dark-border dark:border-white/10 rounded-full text-[10px] md:text-xs font-mono text-light-dim text-left">
+                        <span key={i} className="px-4 py-2 bg-black border border-white/10 rounded-full text-[10px] md:text-[10px] font-mono text-white/50 text-left uppercase tracking-widest group-hover:border-white/30 group-hover:text-white transition-colors duration-300">
                             {tag}
                         </span>
                     ))}
                 </div>
                 <div className="hidden md:flex md:col-span-2 justify-end">
-                    <div className="w-12 h-12 rounded-full border border-dark-border dark:border-white/20 flex items-center justify-center group-hover:bg-teal-primary group-hover:border-teal-primary group-hover:text-white transition-all duration-300">
-                        <ArrowUpRight size={20} />
+                    <div className="w-16 h-16 rounded-full border border-white/20 flex items-center justify-center group-hover:bg-teal-primary group-hover:border-teal-primary group-hover:text-black group-hover:scale-110 transition-all duration-500 bg-black text-white">
+                        <ArrowUpRight size={24} className="group-hover:rotate-45 transition-transform duration-500" />
                     </div>
                 </div>
             </div>
@@ -188,23 +210,54 @@ const WorkPage: React.FC = () => {
         return projects.filter(p => p.category === filter);
     }, [filter]);
 
+    const springConfig = { damping: 20, stiffness: 100, mass: 0.5 };
+    const cursorX = useSpring(mouseX, springConfig);
+    const cursorY = useSpring(mouseY, springConfig);
+
     return (
         <div
             onMouseMove={handleMouseMove}
             onTouchMove={handleTouchMove}
-            className="bg-dark-base min-h-screen text-light-neutral dark:text-white transition-colors duration-500 cursor-default text-left"
+            className="bg-[#050505] min-h-screen text-white transition-colors duration-500 cursor-default text-left relative selection:bg-teal-primary selection:text-black"
         >
+            <GrainOverlay />
             <WorkHero />
-            <div className="sticky top-20 md:top-24 z-40 bg-dark-base/80 backdrop-blur-xl border-y border-dark-border dark:border-white/10 py-4 text-left">
-                <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex justify-between items-center text-left">
-                    <div className="flex items-center gap-2 overflow-x-auto no-scrollbar w-full md:w-auto text-left">
+
+            {/* Hover Image Reveal */}
+            <motion.div
+                className="fixed top-0 left-0 w-[350px] h-[450px] pointer-events-none z-50 overflow-hidden hidden md:block"
+                style={{
+                    x: cursorX,
+                    y: cursorY,
+                    translateX: "-50%",
+                    translateY: "-50%",
+                    opacity: hoveredProject !== null ? 1 : 0,
+                    scale: hoveredProject !== null ? 1 : 0.8,
+                }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+            >
+                {projects.map((p, i) => (
+                    <motion.img
+                        key={p.id}
+                        src={p.img}
+                        alt={p.title}
+                        className="absolute inset-0 w-full h-full object-cover rounded-xl"
+                        animate={{ opacity: hoveredProject === i ? 1 : 0 }}
+                        transition={{ duration: 0.3 }}
+                    />
+                ))}
+            </motion.div>
+
+            <div className="sticky top-20 md:top-24 z-40 bg-[#050505]/70 backdrop-blur-2xl border-y border-white/5 py-4 text-left">
+                <div className="max-w-[1800px] mx-auto px-6 md:px-12 flex justify-between items-center text-left">
+                    <div className="flex items-center gap-3 overflow-x-auto no-scrollbar w-full md:w-auto text-left py-2">
                         {categories.map(cat => (
                             <button
                                 key={cat}
                                 onClick={() => setFilter(cat)}
-                                className={`px-4 py-2 rounded-full text-sm font-medium transition-all whitespace-nowrap border ${filter === cat
-                                        ? 'bg-teal-primary border-teal-primary text-white'
-                                        : 'border-transparent text-light-dim hover:text-light-neutral dark:hover:text-white'
+                                className={`px-6 py-2 rounded-full text-[10px] font-mono uppercase tracking-[0.2em] transition-all whitespace-nowrap border ${filter === cat
+                                    ? 'bg-white border-white text-black'
+                                    : 'bg-black border-white/20 text-white/50 hover:text-white hover:border-white/50'
                                     }`}
                             >
                                 {cat}
@@ -213,7 +266,9 @@ const WorkPage: React.FC = () => {
                     </div>
                 </div>
             </div>
-            <div className="min-h-[50vh] pb-32 text-left">
+
+            {/* The List Wrapper */}
+            <div className="min-h-[50vh] pb-32 pt-8 text-left border-t border-white/5" onMouseLeave={() => setHoveredProject(null)}>
                 <AnimatePresence mode="popLayout">
                     {filteredProjects.map((p, i) => (
                         <ProjectRow
