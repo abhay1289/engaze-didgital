@@ -43,7 +43,7 @@ const MetricCard: React.FC<MetricProps> = ({ value, suffix = "", label, descript
     return (
         <div
             onMouseMove={handleMouseMove}
-            className="group relative p-6 md:p-12 lg:p-16 flex flex-col justify-between min-h-[300px] md:h-[400px] bg-dark-base transition-colors duration-700 border-b md:border-b-0 last:border-b-0 dark:border-white/5 overflow-hidden"
+            className="group relative p-8 md:p-16 flex flex-col justify-between min-h-[300px] md:h-[400px] bg-[#050505] transition-colors duration-700 overflow-hidden"
         >
             {/* Spotlight Effect */}
             <motion.div
@@ -61,16 +61,16 @@ const MetricCard: React.FC<MetricProps> = ({ value, suffix = "", label, descript
 
             <div className="relative z-10">
                 <div className="flex items-center gap-3 mb-6 md:mb-8">
-                    <span className="font-mono text-[10px] md:text-xs text-teal-primary uppercase tracking-[0.3em] border border-teal-primary/20 px-3 py-1.5 rounded backdrop-blur-sm">
+                    <span className="font-mono text-[10px] text-teal-primary uppercase tracking-[0.3em] border border-teal-primary/20 px-4 py-1.5 rounded-full backdrop-blur-sm bg-teal-primary/5">
                         {label}
                     </span>
                 </div>
             </div>
 
-            <div className="relative z-10 flex flex-col items-start">
-                <div className="flex items-baseline gap-1 mb-4 md:mb-8 text-light-neutral dark:text-white overflow-hidden">
+            <div className="relative z-10 flex flex-col items-start mt-auto">
+                <div className="flex items-baseline gap-1 mb-4 md:mb-8 text-white overflow-hidden">
                     <motion.span
-                        className="text-6xl md:text-8xl lg:text-9xl font-medium tracking-tighter leading-none"
+                        className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-none"
                         initial={{ y: "100%" }}
                         whileInView={{ y: 0 }}
                         viewport={{ once: true }}
@@ -83,13 +83,13 @@ const MetricCard: React.FC<MetricProps> = ({ value, suffix = "", label, descript
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.8, delay: index * 0.1 + 0.5 }}
-                        className="text-3xl md:text-4xl lg:text-5xl text-teal-primary font-light"
+                        className="text-3xl md:text-5xl lg:text-6xl text-teal-primary font-black uppercase"
                     >
                         {suffix}
                     </motion.span>
                 </div>
 
-                <p className="text-light-dim text-sm md:text-lg max-w-xs leading-relaxed font-light text-left group-hover:text-light-neutral dark:group-hover:text-white transition-colors duration-500">
+                <p className="text-white/40 text-sm md:text-lg max-w-sm leading-relaxed font-light text-left group-hover:text-white transition-colors duration-500">
                     {description}
                 </p>
             </div>
@@ -99,23 +99,26 @@ const MetricCard: React.FC<MetricProps> = ({ value, suffix = "", label, descript
 
 const Metrics: React.FC = () => {
     return (
-        <section className="relative py-32 md:py-48 bg-dark-base overflow-hidden transition-colors duration-500">
-            <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
-                <div className="mb-16 md:mb-28 flex flex-col md:flex-row md:items-end justify-between gap-8 md:gap-12 items-start">
+        <section className="relative py-32 md:py-48 bg-[#020202] overflow-hidden transition-colors duration-500 border-t border-white/5 selection:bg-teal-primary selection:text-black">
+            {/* Ambient Lighting */}
+            <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-teal-primary/10 rounded-full blur-[150px] mix-blend-screen pointer-events-none translate-y-1/2" />
+
+            <div className="max-w-[1600px] mx-auto px-6 md:px-12 relative z-10">
+                <div className="mb-20 md:mb-32 flex flex-col md:flex-row md:items-end justify-between gap-8 md:gap-16 items-start">
                     <div className="text-left w-full md:w-auto">
-                        <span className="block font-mono text-[11px] md:text-xs text-teal-primary uppercase tracking-[0.4em] mb-6">
+                        <span className="text-teal-primary font-mono text-[10px] uppercase tracking-[0.3em] mb-4 block border border-teal-primary/30 py-1.5 px-4 rounded-full w-fit bg-teal-primary/5">
                             System Performance
                         </span>
-                        <h2 className="text-5xl md:text-7xl lg:text-8xl font-bold text-light-neutral dark:text-light-neutral tracking-tighter leading-[1] mb-2">
-                            Impact at Scale
+                        <h2 className="text-5xl md:text-8xl font-black text-white tracking-tighter leading-[0.85] uppercase">
+                            Impact <br /> At Scale.
                         </h2>
                     </div>
-                    <p className="text-light-dim max-w-md text-lg md:text-xl leading-relaxed text-left font-light opacity-80 pt-4 md:pt-0">
+                    <p className="text-white/50 max-w-sm text-lg md:text-xl leading-relaxed text-left font-light pb-2">
                         Quantifiable results derived from our proprietary engagement engines.
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-dark-border dark:bg-white/10 border border-dark-border dark:border-white/10 rounded-[2.5rem] md:rounded-[4rem] overflow-hidden shadow-2xl mt-12 md:mt-0">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-[2px] bg-white/10 border border-white/10 rounded-[2rem] overflow-hidden shadow-[0_0_50px_rgba(54,184,165,0.05)] text-left">
                     <MetricCard
                         index={0}
                         value={50}

@@ -63,23 +63,24 @@ const CaseStudies: React.FC = () => {
             ref={containerRef}
             onMouseMove={handleMouseMove}
             onTouchMove={handleTouchMove}
-            className="relative py-24 md:py-32 bg-dark-base border-t border-dark-border dark:border-white/5 overflow-hidden cursor-auto md:cursor-none z-20 transition-colors duration-500"
+            className="relative py-32 md:py-48 bg-[#020202] border-t border-white/5 overflow-hidden cursor-auto md:cursor-none z-20 transition-colors duration-500 selection:bg-teal-primary selection:text-black"
         >
-            <div className="absolute top-0 left-1/4 w-[1000px] h-[1000px] bg-teal-primary/5 rounded-full blur-[150px] pointer-events-none -translate-y-1/2" />
+            {/* Ambient Base Light */}
+            <div className="absolute top-0 left-1/4 w-[1000px] h-[1000px] bg-teal-primary/10 rounded-full blur-[150px] pointer-events-none -translate-y-1/2 mix-blend-screen" />
 
-            <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
-                <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 md:mb-20 pb-8 border-b border-dark-border dark:border-white/10">
+            <div className="max-w-[1800px] mx-auto px-6 md:px-12 relative z-10">
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 md:mb-24 pb-8 border-b border-white/10">
                     <div className="text-left">
-                        <span className="text-teal-primary font-mono text-xs uppercase tracking-[0.2em] block mb-4">
+                        <span className="text-teal-primary font-mono text-[10px] uppercase tracking-[0.3em] block mb-4 border border-teal-primary/30 py-1.5 px-4 rounded-full w-fit bg-teal-primary/5">
                             Selected Works
                         </span>
-                        <h2 className="text-5xl md:text-7xl lg:text-8xl font-bold text-light-neutral dark:text-white tracking-tighter leading-[0.9]">
+                        <h2 className="text-5xl md:text-8xl lg:text-[9rem] font-black text-white tracking-tighter leading-[0.85] uppercase">
                             Provenance.
                         </h2>
                     </div>
-                    <div className="mt-8 md:mt-0 md:text-right w-full md:w-auto text-left">
-                        <span className="font-mono text-xs text-light-dim block mb-2 md:text-right">Total Impact</span>
-                        <div className="text-xl md:text-2xl font-light text-light-neutral dark:text-white">$12.4B Generated</div>
+                    <div className="mt-8 md:mt-0 md:text-right w-full md:w-auto text-left flex flex-col items-start md:items-end">
+                        <span className="font-mono text-[10px] text-white/40 block mb-2 uppercase tracking-[0.2em] md:text-right">Total Impact</span>
+                        <div className="text-2xl md:text-4xl font-light text-white font-mono">$12.4B<span className="text-teal-primary">+</span></div>
                     </div>
                 </div>
 
@@ -100,27 +101,27 @@ const CaseStudies: React.FC = () => {
                                 setActiveProject(index);
                             }}
                             onTouchEnd={() => setActiveProject(null)}
-                            className="group relative flex flex-col py-10 md:py-16 border-b border-dark-border dark:border-white/5 transition-all duration-500 hover:border-teal-primary/30 px-4 -mx-4 cursor-pointer"
+                            className="group relative flex flex-col py-12 md:py-20 border-b border-white/5 transition-all duration-500 hover:border-teal-primary/30 px-4 -mx-4 cursor-pointer overflow-hidden"
                         >
-                            <div className="absolute inset-0 bg-black/[0.02] dark:bg-white/[0.02] scale-y-0 group-hover:scale-y-100 transition-transform duration-500 origin-center -z-10" />
+                            <div className="absolute inset-0 bg-gradient-to-r from-teal-primary/0 via-teal-primary/5 to-teal-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
 
-                            <div className="flex flex-col md:flex-row items-start md:items-center justify-between w-full">
-                                <div className="flex items-baseline gap-6 md:gap-16 w-full mb-6 md:mb-0">
-                                    <span className="font-mono text-sm text-light-dim group-hover:text-teal-primary transition-colors duration-500 w-8">
+                            <div className="flex flex-col md:flex-row items-start md:items-center justify-between w-full relative z-10">
+                                <div className="flex items-baseline gap-6 md:gap-16 w-full mb-8 md:mb-0">
+                                    <span className="font-mono text-sm text-white/30 group-hover:text-teal-primary transition-colors duration-500 w-8">
                                         0{index + 1}
                                     </span>
-                                    <h3 className="text-4xl md:text-6xl lg:text-7xl font-bold text-light-neutral dark:text-white md:text-light-neutral/40 md:dark:text-white/40 md:group-hover:text-light-neutral md:dark:group-hover:text-white transition-colors duration-500 tracking-tighter w-full">
+                                    <h3 className="text-4xl md:text-6xl lg:text-[5rem] font-black text-white/50 group-hover:text-white transition-all duration-500 tracking-tighter w-full uppercase origin-left group-hover:translate-x-4">
                                         {project.title}
                                     </h3>
                                 </div>
 
-                                <div className="flex items-center gap-8 md:gap-12 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity duration-500 md:transform md:translate-y-4 group-hover:translate-y-0 min-w-max w-full md:w-auto pl-14 md:pl-0">
-                                    <div className="flex flex-col md:flex-row gap-1 md:gap-12">
-                                        <span className="text-xs md:text-sm font-mono tracking-wider uppercase text-teal-primary">{project.services}</span>
-                                        <span className="text-xs md:text-sm font-mono text-light-dim">{project.year}</span>
+                                <div className="flex items-center gap-8 md:gap-12 opacity-100 md:opacity-0 group-hover:opacity-100 transition-all duration-500 md:transform md:translate-y-4 group-hover:translate-y-0 min-w-max w-full md:w-auto pl-14 md:pl-0">
+                                    <div className="flex flex-col gap-2">
+                                        <span className="text-[10px] font-mono tracking-widest uppercase text-teal-primary border border-teal-primary/20 px-3 py-1 bg-teal-primary/5 rounded-full w-fit">{project.services}</span>
+                                        <span className="text-[10px] font-mono tracking-widest uppercase text-white/40 px-3">{project.year}</span>
                                     </div>
-                                    <div className="hidden md:flex w-10 h-10 rounded-full border border-dark-border dark:border-white/20 items-center justify-center text-light-neutral dark:text-white ml-auto">
-                                        <ArrowUpRight size={16} />
+                                    <div className="hidden md:flex w-14 h-14 rounded-full border border-white/20 items-center justify-center bg-black text-white ml-auto group-hover:bg-teal-primary group-hover:text-black group-hover:border-teal-primary group-hover:scale-110 transition-all duration-500">
+                                        <ArrowUpRight size={20} className="group-hover:rotate-45 transition-transform duration-500" />
                                     </div>
                                 </div>
                             </div>

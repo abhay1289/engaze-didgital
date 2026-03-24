@@ -58,24 +58,28 @@ const Services: React.FC = () => {
   const x = useTransform(scrollYProgress, [0, 1], ["0%", "-95%"]);
 
   return (
-    <section ref={targetRef} id="services" className="relative h-[600vh] bg-dark-base transition-colors duration-500">
+    <section ref={targetRef} id="services" className="relative h-[600vh] bg-[#020202] transition-colors duration-500 selection:bg-teal-primary selection:text-black">
       <div className="sticky top-0 flex h-screen items-center overflow-hidden">
 
-        <div className="absolute inset-0 bg-grid opacity-10 pointer-events-none" />
+        <div className="absolute inset-0 opacity-[0.03] bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:50px_50px] pointer-events-none" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(54,184,165,0.05),transparent_60%)] pointer-events-none" />
 
         <motion.div style={{ x }} className="flex h-full items-center pl-6 md:pl-12 lg:pl-24 w-max">
 
-          <div className="w-[90vw] md:w-[500px] shrink-0 mr-12 md:mr-24 lg:mr-32 relative z-20 flex flex-col justify-center items-start px-2 md:px-0">
-            <span className="text-teal-primary font-mono text-[11px] uppercase tracking-[0.4em] mb-6 block">The Engine</span>
-            <h2 className="text-5xl md:text-8xl font-bold leading-[0.95] md:leading-[0.9] mb-8 tracking-tighter text-light-neutral dark:text-white">
+          <div className="w-[90vw] md:w-[500px] shrink-0 mr-12 md:mr-24 lg:mr-32 relative z-20 flex flex-col justify-center items-start px-2 md:px-0 text-left">
+            <span className="text-teal-primary font-mono text-[10px] uppercase tracking-[0.3em] mb-6 block border border-teal-primary/30 py-1.5 px-4 rounded-full w-fit bg-teal-primary/5">The Engine</span>
+            <h2 className="text-5xl md:text-[6rem] lg:text-[7rem] font-black leading-[0.85] mb-8 tracking-tighter text-white uppercase text-left">
               Our <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-br from-teal-primary via-teal-secondary to-teal-tertiary italic">Stack</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-br from-teal-primary to-teal-secondary relative">
+                Stack
+                <div className="absolute -inset-4 bg-teal-primary/20 blur-3xl -z-10" />
+              </span>
             </h2>
-            <p className="text-light-dim text-lg md:text-2xl leading-relaxed font-light max-w-sm opacity-80">
+            <p className="text-white/50 text-xl md:text-2xl leading-relaxed font-light max-w-sm text-left border-l border-teal-primary/30 pl-6">
               A holistic suite of revenue-generating services designed for the modern enterprise.
             </p>
-            <div className="mt-12 flex items-center gap-4 text-[10px] font-mono text-teal-primary uppercase tracking-[0.25em] bg-teal-primary/5 border border-teal-primary/10 px-4 py-2 rounded-full">
-              <span className="w-1.5 h-1.5 bg-teal-primary rounded-full animate-ping" />
+            <div className="mt-12 flex items-center gap-4 text-[10px] font-mono text-teal-primary uppercase tracking-[0.25em] bg-teal-primary/5 border border-teal-primary/20 px-4 py-2 rounded-full">
+              <span className="w-2 h-2 bg-teal-primary rounded-full animate-pulse shadow-[0_0_10px_rgba(54,184,165,0.8)]" />
               <span>Scroll to explore</span>
             </div>
           </div>
@@ -84,34 +88,34 @@ const Services: React.FC = () => {
             {services.map((service, index) => (
               <div
                 key={index}
-                className="group relative w-[85vw] md:w-[480px] h-[60vh] md:h-[650px] bg-gradient-to-br from-white to-[#F8FAFC] dark:from-[#0A0A0A] dark:to-[#050505] backdrop-blur-3xl border border-dark-border dark:border-white/10 transition-all duration-700 rounded-[2.5rem] md:rounded-[3rem] p-8 md:p-14 flex flex-col justify-between overflow-hidden shadow-[0_20px_50px_-12px_rgba(0,0,0,0.1)] dark:shadow-premium shrink-0"
+                className="group relative w-[85vw] md:w-[500px] h-[60vh] md:h-[650px] bg-[#050505] backdrop-blur-3xl border border-white/10 hover:border-teal-primary/30 transition-all duration-700 rounded-[2.5rem] md:rounded-[3rem] p-8 md:p-14 flex flex-col justify-between overflow-hidden shadow-[0_0_50px_rgba(54,184,165,0.02)] shrink-0 text-left hover:bg-white/[0.02]"
               >
                 {/* Subtle Grain/Noise Texture for Realism */}
-                <div className="absolute inset-0 bg-noise opacity-[0.02] pointer-events-none mix-blend-multiply dark:mix-blend-overlay" />
+                <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.05] pointer-events-none mix-blend-overlay" />
 
                 {/* Hover Glow */}
-                <div className="absolute -right-24 -top-24 w-80 h-80 bg-teal-primary/5 rounded-full blur-[100px] opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-br from-teal-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
 
-                <div className="relative z-10 transition-transform duration-700 group-hover:-translate-y-2">
+                <div className="relative z-10 transition-transform duration-700 group-hover:-translate-y-2 text-left">
                   <div className="flex justify-between items-start mb-12 md:mb-20">
-                    <span className="font-mono text-xs font-bold text-teal-primary bg-teal-primary/10 px-4 py-2 rounded-full border border-teal-primary/10">
+                    <span className="font-mono text-[10px] font-bold text-teal-primary bg-teal-primary/5 px-4 py-2 rounded-full border border-teal-primary/20 tracking-[0.2em]">
                       {service.id}
                     </span>
-                    <div className="p-4 md:p-5 rounded-2xl bg-white dark:bg-white/5 text-light-neutral dark:text-white group-hover:bg-teal-primary group-hover:text-dark-base transition-all duration-500 shadow-sm border border-black/5 dark:border-white/10 group-hover:rotate-12 group-hover:border-transparent">
+                    <div className="p-4 rounded-2xl bg-black text-teal-primary border border-white/10 group-hover:scale-110 group-hover:bg-teal-primary/10 transition-all duration-500 shadow-sm group-hover:shadow-[0_0_20px_rgba(54,184,165,0.2)]">
                       {service.icon}
                     </div>
                   </div>
-                  <h3 className="text-3xl md:text-5xl font-medium text-light-neutral dark:text-white mb-4 md:mb-6 tracking-tight leading-tight">{service.title}</h3>
-                  <div className="text-teal-primary text-[10px] md:text-xs font-bold tracking-[0.3em] uppercase mb-6 md:mb-8 opacity-80">{service.subtitle}</div>
+                  <h3 className="text-3xl md:text-5xl font-black text-white mb-4 md:mb-6 tracking-tighter leading-[0.9] uppercase text-left group-hover:text-teal-primary transition-colors duration-500">{service.title}</h3>
+                  <div className="text-teal-primary text-[10px] font-mono tracking-[0.3em] uppercase mb-6 md:mb-8 text-left">{service.subtitle}</div>
                 </div>
 
-                <div className="relative z-10 translate-y-4 group-hover:translate-y-0 transition-all duration-700">
-                  <p className="text-light-dim text-base md:text-xl leading-relaxed mb-8 md:mb-10 group-hover:text-light-neutral dark:group-hover:text-white transition-colors font-light">
+                <div className="relative z-10 translate-y-4 group-hover:translate-y-0 transition-all duration-700 text-left">
+                  <p className="text-white/40 text-lg md:text-xl leading-relaxed mb-10 group-hover:text-white/70 transition-colors font-light text-left">
                     {service.desc}
                   </p>
-                  <button className="flex items-center gap-4 text-[13px] font-bold text-light-neutral dark:text-white group-hover:text-teal-primary transition-all duration-300 hover:gap-6 origin-left tracking-widest uppercase relative w-fit">
+                  <button className="flex items-center gap-4 text-[11px] font-bold text-white group-hover:text-teal-primary transition-all duration-500 hover:gap-6 origin-left tracking-[0.2em] uppercase relative w-fit">
                     EXPLORE <ArrowUpRight size={18} />
-                    <span className="absolute -bottom-2 left-0 w-full h-[1px] bg-teal-primary scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+                    <span className="absolute -bottom-2 left-0 w-full h-[1px] bg-teal-primary scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
                   </button>
                 </div>
               </div>

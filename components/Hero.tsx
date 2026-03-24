@@ -16,60 +16,6 @@ const Hero: React.FC = () => {
         return () => window.removeEventListener('resize', checkMobile);
     }, []);
 
-    // Universal "Single Scroll" Logic (Mobile & Desktop snap behavior)
-    useEffect(() => {
-        let touchStartY = 0;
-        let isNavigating = false;
-
-        const handleTouchStart = (e: TouchEvent) => {
-            touchStartY = e.touches[0].clientY;
-        };
-
-        const handleTouchEnd = (e: TouchEvent) => {
-            if (isNavigating) return;
-            const touchEndY = e.changedTouches[0].clientY;
-            const deltaY = touchStartY - touchEndY;
-
-            if (deltaY > 30 && window.scrollY < 50) {
-                isNavigating = true;
-                const heroHeight = containerRef.current?.offsetHeight || window.innerHeight;
-                window.scrollTo({
-                    top: heroHeight,
-                    behavior: 'smooth'
-                });
-                setTimeout(() => { isNavigating = false; }, 1000);
-            }
-        };
-
-        const handleWheel = (e: WheelEvent) => {
-            if (isNavigating) return;
-            if (e.deltaY > 5 && window.scrollY < 50) {
-                isNavigating = true;
-                const heroHeight = containerRef.current?.offsetHeight || window.innerHeight;
-
-                window.scrollTo({
-                    top: heroHeight,
-                    behavior: 'smooth'
-                });
-
-                e.preventDefault();
-                setTimeout(() => { isNavigating = false; }, 1200);
-            }
-        };
-
-        const container = containerRef.current;
-        if (container) {
-            window.addEventListener('wheel', handleWheel, { passive: false });
-            window.addEventListener('touchstart', handleTouchStart, { passive: true });
-            window.addEventListener('touchend', handleTouchEnd, { passive: true });
-        }
-
-        return () => {
-            window.removeEventListener('wheel', handleWheel);
-            window.removeEventListener('touchstart', handleTouchStart);
-            window.removeEventListener('touchend', handleTouchEnd);
-        };
-    }, []);
 
     // Mouse position for the premium 'Aura' effect
     const mouseX = useMotionValue(0);
@@ -162,7 +108,7 @@ const Hero: React.FC = () => {
             {/* CONTENT LAYER */}
             <motion.div
                 style={{ y: textY, opacity: textOpacity, scale: textScale }}
-                className="relative z-30 flex flex-col items-center justify-center text-center w-full px-4 h-full md:h-auto"
+                className="relative z-30 flex flex-col items-center justify-center text-center w-full px-4 h-full"
             >
                 {/* Premium Badge */}
                 <motion.div
@@ -252,15 +198,15 @@ const Hero: React.FC = () => {
                             </span>
                             <div className="absolute inset-0 bg-gradient-to-r from-teal-400 to-teal-500 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[0.16,1,0.3,1]" />
                             {/* Reflection Sweep */}
-                            <div className="absolute top-0 -inset-full h-full w-1/2 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent to-white opacity-40 group-hover:animate-sweep pointer-events-none" />
+                            <div className="absolute top-0 -inset-full h-full w-1/2 z-10 block transform -skew-x-12 bg-gradient-to-r from-transparent to-white opacity-40 group-hover:animate-sweep pointer-events-none" />
                         </button>
                     </Magnetic>
                 </motion.div>
             </motion.div>
 
             {/* Global Frame Lines */}
-            <div className="absolute left-12 top-0 bottom-0 w-[1px] bg-white-[0.03] hidden lg:block" />
-            <div className="absolute right-12 top-0 bottom-0 w-[1px] bg-white-[0.03] hidden lg:block" />
+            <div className="absolute left-12 top-0 bottom-0 w-[1px] bg-white/5 hidden lg:block" />
+            <div className="absolute right-12 top-0 bottom-0 w-[1px] bg-white/5 hidden lg:block" />
         </section>
     );
 };

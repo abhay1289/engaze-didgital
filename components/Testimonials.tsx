@@ -15,73 +15,62 @@ const testimonials: Testimonial[] = [
     { quote: "The strategic insight provided by the Engaze team was pivotal in our recent rebranding effort.", author: "Elena K.", role: "CMO, Healthcare Group" },
 ];
 
-const MarqueeCard: React.FC<{ item: Testimonial }> = ({ item }) => (
-    <div className="w-[320px] md:w-[450px] min-h-[300px] md:h-[320px] flex-shrink-0 bg-white/80 dark:bg-[#0F0F0F]/80 backdrop-blur-md border border-dark-border dark:border-white/5 p-8 md:p-10 rounded-[2rem] mx-3 md:mx-6 flex flex-col justify-between hover:border-teal-primary/30 transition-colors duration-500 group relative overflow-hidden shadow-premium text-left">
-        {/* Subtle Shine Effect */}
-        <div className="absolute inset-0 bg-gradient-to-tr from-teal-primary/[0.05] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-        <div className="relative z-10 text-left">
-            <div className="text-teal-primary text-3xl md:text-4xl font-serif mb-4 opacity-50 text-left">"</div>
-            <p className="text-lg md:text-xl text-light-neutral/90 dark:text-light-neutral/90 font-light leading-relaxed tracking-wide text-left">{item.quote}</p>
-        </div>
-
-        <div className="relative z-10 flex items-center gap-4 md:gap-5 pt-6 md:pt-8 border-t border-dark-border dark:border-white/5 text-left">
-            <div className="text-left">
-                <div className="font-bold text-light-neutral dark:text-white text-base md:text-lg text-left leading-tight">{item.author}</div>
-                <div className="text-[11px] md:text-sm text-teal-primary font-mono text-left">{item.role}</div>
-            </div>
-        </div>
-    </div>
-);
-
 const Testimonials: React.FC = () => {
-    const [duration, setDuration] = useState(25);
-
-    useEffect(() => {
-        const handleResize = () => {
-            // Hyper-speed for mobile (reduced from 4s to 2s for extreme velocity)
-            // Desktop remains snappy at 25s.
-            setDuration(window.innerWidth < 768 ? 2 : 25);
-        };
-
-        handleResize();
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
-
     return (
-        <section className="py-24 md:py-40 bg-dark-base overflow-hidden relative transition-colors duration-500">
-            {/* Decorative Background */}
-            <div className="absolute inset-0 bg-noise opacity-[0.03]" />
-
-            <div className="mb-16 md:mb-24 px-8 text-center relative z-10">
-                <span className="inline-block px-3 py-1 bg-teal-primary/10 rounded-full text-teal-primary text-xs font-bold uppercase tracking-[0.2em] border border-teal-primary/20 mb-6">
-                    Validation
-                </span>
-                <h2 className="text-4xl md:text-5xl font-bold text-light-neutral dark:text-light-neutral tracking-tight">Validated by Visionaries</h2>
+        <section className="py-32 md:py-48 bg-[#020202] overflow-hidden relative border-t border-white/5 selection:bg-teal-primary selection:text-black">
+            {/* Custom Grain Overlay */}
+            <div className="pointer-events-none absolute inset-0 z-0 opacity-10 mix-blend-overlay">
+                <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] bg-repeat brightness-100 contrast-100" />
             </div>
 
-            <div className="relative w-full overflow-hidden">
-                {/* Soft Edge Masks for smooth fading */}
-                <div className="absolute left-0 top-0 bottom-0 w-24 md:w-48 bg-gradient-to-r from-dark-base to-transparent z-20 pointer-events-none" />
-                <div className="absolute right-0 top-0 bottom-0 w-24 md:w-48 bg-gradient-to-l from-dark-base to-transparent z-20 pointer-events-none" />
+            <div className="max-w-[1600px] mx-auto px-6 md:px-12 relative z-10 text-left">
+                <div className="mb-20 md:mb-32 flex flex-col items-center text-center">
+                    <span className="inline-block px-4 py-1.5 bg-white/5 rounded-full text-teal-primary text-[10px] font-mono uppercase tracking-[0.3em] border border-white/10 mb-8 backdrop-blur-md">
+                        Validation Protocol
+                    </span>
+                    <h2 className="text-5xl md:text-7xl lg:text-8xl font-black text-white tracking-tighter uppercase">
+                        Validated By <br />
+                        <span className="text-transparent bg-clip-text bg-gradient-to-br from-teal-primary to-teal-secondary">Visionaries.</span>
+                    </h2>
+                </div>
 
-                <motion.div
-                    key={duration}
-                    className="flex"
-                    animate={{ x: ["0%", "-50%"] }}
-                    transition={{
-                        duration: duration,
-                        repeat: Infinity,
-                        ease: "linear",
-                        repeatType: "loop"
-                    }}
-                >
-                    {/* Multiplying items even more to ensure absolute smoothness at high velocity */}
-                    {[...testimonials, ...testimonials, ...testimonials, ...testimonials, ...testimonials, ...testimonials].map((t, i) => (
-                        <MarqueeCard key={i} item={t} />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 auto-rows-[auto]">
+                    {testimonials.map((item, i) => (
+                        <motion.div
+                            key={i}
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, margin: "-100px" }}
+                            transition={{ duration: 0.6, delay: i * 0.15, ease: "easeOut" }}
+                            className={`group relative bg-white/[0.02] border border-white/10 p-10 md:p-16 rounded-[2rem] flex flex-col justify-between hover:border-teal-primary/30 transition-all duration-500 overflow-hidden text-left ${i === 0 || i === 3 ? 'md:col-span-1 lg:row-span-2 bg-[#050505] shadow-[0_0_50px_rgba(54,184,165,0.02)] hover:bg-[#080808]' : 'md:col-span-1 bg-black'
+                                }`}
+                        >
+                            {/* Inner Glow */}
+                            <div className="absolute top-0 right-0 w-64 h-64 bg-teal-primary/5 rounded-full blur-[80px] origin-top-right group-hover:scale-110 transition-transform duration-700 pointer-events-none" />
+
+                            <div className="relative z-10 text-left mb-12">
+                                <div className="text-teal-primary text-6xl font-serif leading-none mb-6 opacity-30 group-hover:opacity-100 transition-opacity duration-500 text-left">"</div>
+                                <p className={`text-white/60 font-light leading-relaxed tracking-wide text-left ${i === 0 || i === 3 ? 'text-2xl md:text-3xl' : 'text-xl md:text-2xl'}`}>
+                                    {item.quote}
+                                </p>
+                            </div>
+
+                            <div className="relative z-10 flex items-center gap-5 pt-8 border-t border-white/10 text-left mt-auto">
+                                <div className="w-14 h-14 rounded-full bg-white/5 border border-white/10 flex items-center justify-center font-mono text-white/50 group-hover:text-teal-primary transition-colors text-lg uppercase">
+                                    {item.author.charAt(0)}
+                                </div>
+                                <div className="text-left flex flex-col gap-1">
+                                    <div className="font-bold text-white text-lg leading-tight uppercase tracking-wide">{item.author}</div>
+                                    <div className="text-[10px] text-teal-primary font-mono uppercase tracking-widest">{item.role}</div>
+                                </div>
+                            </div>
+
+                            {/* Corner Accents */}
+                            <div className="absolute top-0 left-0 w-8 h-8 border-t border-l border-white/20 rounded-tl-[2rem] opacity-0 group-hover:opacity-100 transition-opacity duration-500 m-4 pointer-events-none" />
+                            <div className="absolute bottom-0 right-0 w-8 h-8 border-b border-r border-white/20 rounded-br-[2rem] opacity-0 group-hover:opacity-100 transition-opacity duration-500 m-4 pointer-events-none" />
+                        </motion.div>
                     ))}
-                </motion.div>
+                </div>
             </div>
         </section>
     );

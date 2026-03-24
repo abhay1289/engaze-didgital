@@ -31,24 +31,27 @@ const FAQItem: React.FC<{ faq: typeof faqs[0]; isOpen: boolean; onClick: () => v
         <motion.div
             layout
             onClick={onClick}
-            className={`group cursor-pointer border-t border-dark-border dark:border-white/10 py-6 md:py-12 transition-colors duration-500 ${isOpen ? 'bg-teal-primary/5' : 'hover:bg-black/[0.02] dark:hover:bg-white/[0.02]'}`}
+            className={`group cursor-pointer border-t border-white/5 py-8 md:py-16 transition-colors duration-500 relative overflow-hidden ${isOpen ? 'bg-white/[0.02]' : 'hover:bg-white/[0.02]'}`}
         >
-            <div className="max-w-7xl mx-auto px-6 md:px-12 flex flex-col md:flex-row gap-6 md:gap-12">
-                <div className="w-12 shrink-0 pt-1">
-                    <span className={`font-mono text-sm transition-colors duration-300 ${isOpen ? 'text-teal-primary' : 'text-light-dim'}`}>
+            {/* Hover Glow */}
+            <div className={`absolute inset-0 bg-gradient-to-r from-teal-primary/0 via-teal-primary/5 to-teal-primary/0 opacity-0 transition-opacity duration-700 pointer-events-none ${isOpen ? 'opacity-100' : 'group-hover:opacity-100'}`} />
+
+            <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex flex-col md:flex-row gap-6 md:gap-16 relative z-10 text-left">
+                <div className="w-12 shrink-0 pt-1 text-left">
+                    <span className={`font-mono text-sm transition-colors duration-300 ${isOpen ? 'text-teal-primary' : 'text-white/30 group-hover:text-teal-primary'}`}>
                         {faq.id}
                     </span>
                 </div>
 
-                <div className="flex-1">
-                    <div className="flex justify-between items-start gap-4">
+                <div className="flex-1 text-left">
+                    <div className="flex justify-between items-start gap-4 text-left w-full">
                         <motion.h3
                             animate={{
                                 x: isOpen ? 12 : 0,
-                                color: isOpen ? '#36B8A5' : 'var(--text-main)'
+                                color: isOpen ? '#36B8A5' : '#ffffff'
                             }}
                             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                            className="text-xl md:text-2xl font-medium pr-8 leading-snug text-light-neutral dark:text-white"
+                            className={`text-2xl md:text-5xl font-black pr-8 leading-tight tracking-tighter uppercase transition-colors duration-500 text-left`}
                         >
                             {faq.question}
                         </motion.h3>
@@ -56,9 +59,9 @@ const FAQItem: React.FC<{ faq: typeof faqs[0]; isOpen: boolean; onClick: () => v
                         <motion.div
                             animate={{ rotate: isOpen ? 45 : 0 }}
                             transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                            className={`shrink-0 w-8 h-8 flex items-center justify-center rounded-full border transition-colors duration-300 ${isOpen ? 'border-teal-primary text-teal-primary' : 'border-dark-border dark:border-white/20 text-light-neutral/60 dark:text-white/60 group-hover:border-teal-primary group-hover:text-teal-primary'}`}
+                            className={`shrink-0 w-12 h-12 flex items-center justify-center rounded-full border transition-all duration-500 ${isOpen ? 'border-teal-primary bg-teal-primary text-black scale-110' : 'border-white/20 text-white group-hover:bg-teal-primary group-hover:text-black group-hover:border-teal-primary group-hover:scale-110'}`}
                         >
-                            <Plus size={18} />
+                            <Plus size={24} />
                         </motion.div>
                     </div>
 
@@ -66,16 +69,16 @@ const FAQItem: React.FC<{ faq: typeof faqs[0]; isOpen: boolean; onClick: () => v
                         {isOpen && (
                             <motion.div
                                 initial={{ height: 0, opacity: 0, marginTop: 0 }}
-                                animate={{ height: "auto", opacity: 1, marginTop: 24 }}
+                                animate={{ height: "auto", opacity: 1, marginTop: 32 }}
                                 exit={{ height: 0, opacity: 0, marginTop: 0 }}
                                 transition={{ duration: 0.4, ease: [0.04, 0.62, 0.23, 0.98] }}
-                                className="overflow-hidden"
+                                className="overflow-hidden text-left"
                             >
                                 <motion.p
                                     initial={{ x: -10, opacity: 0 }}
                                     animate={{ x: 0, opacity: 1 }}
                                     transition={{ duration: 0.3, delay: 0.1 }}
-                                    className="text-light-dim text-lg leading-relaxed max-w-3xl"
+                                    className="text-white/50 text-xl font-light leading-relaxed max-w-3xl text-left pl-0 md:pl-3 border-l md:border-teal-primary/30"
                                 >
                                     {faq.answer}
                                 </motion.p>
@@ -92,14 +95,22 @@ const FAQ: React.FC = () => {
     const [openIndex, setOpenIndex] = useState<number | null>(0);
 
     return (
-        <section className="bg-dark-base border-t border-dark-border dark:border-white/10 relative overflow-hidden transition-colors duration-500">
-            <div className="py-24 md:py-32">
-                <div className="max-w-7xl mx-auto px-6 md:px-12 mb-12 md:mb-20">
-                    <span className="text-teal-primary font-mono text-xs uppercase tracking-[0.2em] mb-4 block">Knowledge Base</span>
-                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-light-neutral dark:text-white tracking-tight text-left leading-tight">Frequently Asked<br />Questions</h2>
+        <section className="bg-[#020202] border-t border-white/5 relative overflow-hidden transition-colors duration-500 selection:bg-teal-primary selection:text-black">
+            {/* Ambient Background */}
+            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-teal-primary/5 rounded-full blur-[150px] pointer-events-none mix-blend-screen -z-10" />
+
+            <div className="py-32 md:py-48 text-left">
+                <div className="max-w-[1600px] mx-auto px-6 md:px-12 mb-20 md:mb-32 text-left">
+                    <span className="text-teal-primary font-mono text-[10px] uppercase tracking-[0.3em] mb-4 block border border-teal-primary/30 py-1.5 px-4 rounded-full w-fit bg-teal-primary/5">
+                        Knowledge Base
+                    </span>
+                    <h2 className="text-5xl md:text-8xl lg:text-[9rem] font-black text-white tracking-tighter leading-[0.85] uppercase text-left">
+                        Frequently Asked <br />
+                        <span className="text-transparent bg-clip-text bg-gradient-to-br from-teal-primary to-teal-secondary">Questions.</span>
+                    </h2>
                 </div>
 
-                <div className="flex flex-col border-b border-dark-border dark:border-white/10">
+                <div className="flex flex-col border-b border-white/5 text-left">
                     {faqs.map((faq, i) => (
                         <FAQItem
                             key={i}
