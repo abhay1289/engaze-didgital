@@ -184,14 +184,14 @@ const ServiceHero = () => {
                         initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.5, duration: 0.8 }}
                         className="text-teal-primary font-mono text-[10px] px-3 py-1 border border-teal-primary/30 rounded-full uppercase tracking-[0.4em] backdrop-blur-md bg-teal-primary/5"
                     >
-                        Service Architecture
+                        Our Services
                     </motion.span>
                 </div>
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 items-start">
                     <div className="lg:col-span-8 text-left relative">
                         <motion.h1
                             initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }}
-                            className="text-6xl md:text-[9rem] font-black text-white tracking-tighter leading-[0.85] mb-12 text-left uppercase"
+                            className="text-5xl md:text-7xl lg:text-8xl font-black text-white tracking-tighter leading-[0.85] mb-12 text-left uppercase"
                         >
                             SYSTEMS <br />
                             <span className="text-transparent bg-clip-text bg-gradient-to-br from-teal-primary via-white to-teal-secondary relative">
@@ -201,8 +201,8 @@ const ServiceHero = () => {
                         </motion.h1>
                     </div>
                     <div className="lg:col-span-4 flex flex-col justify-end text-left pb-12">
-                        <p className="text-white/50 text-xl md:text-2xl leading-relaxed text-left font-light border-l border-teal-primary/30 pl-6">
-                            We don't sell hours. We sell <span className="text-white font-medium">unrestricted velocity</span>. Our modular stack plugs directly into enterprise pipelines, eliminating technical debt.
+                        <p className="text-white/50 text-base md:text-lg leading-relaxed text-left font-light border-l border-teal-primary/30 pl-6">
+                            We deliver <span className="text-white font-medium">end-to-end digital solutions</span> that integrate seamlessly with your business and drive measurable outcomes.
                         </p>
                     </div>
                 </div>
@@ -242,7 +242,7 @@ const Modules = () => {
         <section className="py-32 bg-[#050505] relative z-10 text-left border-t border-white/5">
             <div className="max-w-[1800px] mx-auto px-6">
                 <div className="mb-24 text-left flex flex-col items-center justify-center text-center">
-                    <motion.h2 className="text-5xl md:text-7xl font-black text-white mb-6 tracking-tighter uppercase">
+                    <motion.h2 className="text-4xl md:text-5xl font-black text-white mb-6 tracking-tighter uppercase">
                         Core Modules
                     </motion.h2>
                     <motion.p className="text-white/40 max-w-xl text-xl font-light">
@@ -266,7 +266,7 @@ const Modules = () => {
                             <div className="p-8 pb-0 relative z-10 flex flex-col flex-1 text-left">
                                 <div className="flex justify-between items-start mb-8">
                                     <div className="w-12 h-12 rounded-full border border-white/10 bg-black flex items-center justify-center font-mono text-sm text-teal-primary group-hover:scale-110 transition-transform duration-500 shadow-[0_0_15px_rgba(54,184,165,0)] group-hover:shadow-[0_0_20px_rgba(54,184,165,0.2)]">
-                                        <s.icon size={20} className="group-hover:animate-pulse" />
+                                        <s.icon size={20} />
                                     </div>
                                     <div className="font-mono text-[9px] text-white/30 border border-white/10 px-3 py-1 bg-black uppercase tracking-widest">Mode 0{i + 1}</div>
                                 </div>
@@ -311,7 +311,7 @@ const TechTable = () => {
 
             <div className="relative z-10 w-full flex flex-col items-center justify-center text-center px-6">
                 <span className="text-teal-primary font-mono text-[10px] uppercase tracking-[0.4em] mb-4 block border border-teal-primary/30 px-3 py-1 rounded-full">The Arsenal</span>
-                <h2 className="text-5xl md:text-8xl font-black text-white tracking-tighter uppercase mb-6">
+                <h2 className="text-4xl md:text-6xl font-black text-white tracking-tighter uppercase mb-6">
                     Technology Stack.
                 </h2>
                 <p className="max-w-xl text-white/50 text-xl font-light mb-24">

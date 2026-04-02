@@ -26,11 +26,11 @@ const Testimonials: React.FC = () => {
             <div className="max-w-[1600px] mx-auto px-6 md:px-12 relative z-10 text-left">
                 <div className="mb-20 md:mb-32 flex flex-col items-center text-center">
                     <span className="inline-block px-4 py-1.5 bg-white/5 rounded-full text-teal-primary text-[10px] font-mono uppercase tracking-[0.3em] border border-white/10 mb-8 backdrop-blur-md">
-                        Validation Protocol
+                        Testimonials
                     </span>
-                    <h2 className="text-5xl md:text-7xl lg:text-8xl font-black text-white tracking-tighter uppercase">
-                        Validated By <br />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-br from-teal-primary to-teal-secondary">Visionaries.</span>
+                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tighter uppercase">
+                        What Our <br />
+                        <span className="text-transparent bg-clip-text bg-gradient-to-br from-teal-primary to-teal-secondary">Clients Say.</span>
                     </h2>
                 </div>
 
@@ -50,7 +50,7 @@ const Testimonials: React.FC = () => {
 
                             <div className="relative z-10 text-left mb-12">
                                 <div className="text-teal-primary text-6xl font-serif leading-none mb-6 opacity-30 group-hover:opacity-100 transition-opacity duration-500 text-left">"</div>
-                                <p className={`text-white/60 font-light leading-relaxed tracking-wide text-left ${i === 0 || i === 3 ? 'text-2xl md:text-3xl' : 'text-xl md:text-2xl'}`}>
+                                <p className={`text-white/60 font-light leading-relaxed tracking-wide text-left ${i === 0 || i === 3 ? 'text-lg md:text-xl' : 'text-base md:text-lg'}`}>
                                     {item.quote}
                                 </p>
                             </div>

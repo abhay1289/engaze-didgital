@@ -21,9 +21,9 @@ const Footer: React.FC = () => {
                 transition={{ duration: 0.8 }}
                 className="w-full text-center"
              >
-                 <h2 className="text-5xl md:text-8xl lg:text-9xl font-bold text-light-neutral dark:text-white mb-6 md:mb-10 tracking-tighter leading-[0.9]">
-                    Ready to 10x <br/> 
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-primary to-teal-secondary italic">Your Growth?</span>
+                 <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold text-light-neutral dark:text-white mb-6 md:mb-10 tracking-tighter leading-[0.9]">
+                    Ready to Grow <br/> 
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-primary to-teal-secondary italic">Your Business?</span>
                  </h2>
              </motion.div>
              
@@ -31,9 +31,9 @@ const Footer: React.FC = () => {
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 transition={{ delay: 0.3 }}
-                className="text-lg md:text-2xl text-light-dim dark:text-white/60 mb-10 md:mb-12 font-light max-w-2xl mx-auto text-center leading-relaxed"
+                className="text-base md:text-lg text-light-dim dark:text-white/60 mb-10 md:mb-12 font-light max-w-2xl mx-auto text-center leading-relaxed"
              >
-                Book a free strategy session. We audit your stack, you keep the roadmap. No pitch, just value.
+                Book a free strategy session. We'll review your goals and outline a clear path forward.
              </motion.p>
 
             {/* Middle Tier: The CTA Button */}
@@ -42,7 +42,7 @@ const Footer: React.FC = () => {
                     <motion.button 
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
-                        className="group relative flex items-center gap-6 bg-light-neutral dark:bg-white text-white dark:text-dark-base px-8 py-5 md:px-12 md:py-7 rounded-full text-xl md:text-2xl font-bold shadow-premium transition-all hover:bg-teal-primary dark:hover:bg-teal-primary hover:text-white"
+                        className="group relative flex items-center gap-4 bg-light-neutral dark:bg-white text-white dark:text-dark-base px-7 py-4 md:px-10 md:py-5 rounded-full text-base md:text-lg font-bold shadow-premium transition-all hover:bg-teal-primary dark:hover:bg-teal-primary hover:text-white"
                     >
                         <span className="relative z-10">Let's Talk Growth</span>
                         <div className="relative z-10 w-8 h-8 md:w-10 md:h-10 rounded-full bg-teal-primary/10 flex items-center justify-center group-hover:bg-white/20 transition-colors">

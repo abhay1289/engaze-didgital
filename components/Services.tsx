@@ -68,18 +68,17 @@ const Services: React.FC = () => {
 
           <div className="w-[90vw] md:w-[500px] shrink-0 mr-12 md:mr-24 lg:mr-32 relative z-20 flex flex-col justify-center items-start px-2 md:px-0 text-left">
             <span className="text-teal-primary font-mono text-[10px] uppercase tracking-[0.3em] mb-6 block border border-teal-primary/30 py-1.5 px-4 rounded-full w-fit bg-teal-primary/5">The Engine</span>
-            <h2 className="text-5xl md:text-[6rem] lg:text-[7rem] font-black leading-[0.85] mb-8 tracking-tighter text-white uppercase text-left">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-black leading-[0.85] mb-8 tracking-tighter text-white uppercase text-left">
               Our <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-br from-teal-primary to-teal-secondary relative">
                 Stack
-                <div className="absolute -inset-4 bg-teal-primary/20 blur-3xl -z-10" />
               </span>
             </h2>
-            <p className="text-white/50 text-xl md:text-2xl leading-relaxed font-light max-w-sm text-left border-l border-teal-primary/30 pl-6">
-              A holistic suite of revenue-generating services designed for the modern enterprise.
+            <p className="text-white/50 text-base md:text-lg leading-relaxed font-light max-w-sm text-left border-l border-teal-primary/30 pl-6">
+              A full suite of services designed to accelerate your digital growth.
             </p>
-            <div className="mt-12 flex items-center gap-4 text-[10px] font-mono text-teal-primary uppercase tracking-[0.25em] bg-teal-primary/5 border border-teal-primary/20 px-4 py-2 rounded-full">
-              <span className="w-2 h-2 bg-teal-primary rounded-full animate-pulse shadow-[0_0_10px_rgba(54,184,165,0.8)]" />
+            <div className="mt-12 flex items-center gap-3 text-[10px] font-mono text-teal-primary uppercase tracking-[0.25em] bg-teal-primary/5 border border-teal-primary/20 px-4 py-2 rounded-full">
+              <span className="w-1.5 h-1.5 bg-teal-primary rounded-full" />
               <span>Scroll to explore</span>
             </div>
           </div>
@@ -105,12 +104,12 @@ const Services: React.FC = () => {
                       {service.icon}
                     </div>
                   </div>
-                  <h3 className="text-3xl md:text-5xl font-black text-white mb-4 md:mb-6 tracking-tighter leading-[0.9] uppercase text-left group-hover:text-teal-primary transition-colors duration-500">{service.title}</h3>
+                  <h3 className="text-2xl md:text-3xl font-black text-white mb-4 md:mb-6 tracking-tighter leading-[0.9] uppercase text-left group-hover:text-teal-primary transition-colors duration-500">{service.title}</h3>
                   <div className="text-teal-primary text-[10px] font-mono tracking-[0.3em] uppercase mb-6 md:mb-8 text-left">{service.subtitle}</div>
                 </div>
 
                 <div className="relative z-10 translate-y-4 group-hover:translate-y-0 transition-all duration-700 text-left">
-                  <p className="text-white/40 text-lg md:text-xl leading-relaxed mb-10 group-hover:text-white/70 transition-colors font-light text-left">
+                  <p className="text-white/40 text-sm md:text-base leading-relaxed mb-10 group-hover:text-white/70 transition-colors font-light text-left">
                     {service.desc}
                   </p>
                   <button className="flex items-center gap-4 text-[11px] font-bold text-white group-hover:text-teal-primary transition-all duration-500 hover:gap-6 origin-left tracking-[0.2em] uppercase relative w-fit">

@@ -21,12 +21,12 @@ const Process: React.FC = () => {
                         <span className="text-teal-primary font-mono text-[10px] uppercase tracking-[0.3em] mb-4 block border border-teal-primary/30 py-1.5 px-4 rounded-full w-fit bg-teal-primary/5">
                             Process
                         </span>
-                        <h2 className="text-5xl md:text-8xl lg:text-[9rem] font-black text-white tracking-tighter text-left leading-[0.85] uppercase">
-                            The <br /> Methodology.
+                        <h2 className="text-4xl md:text-6xl lg:text-7xl font-black text-white tracking-tighter text-left leading-[0.85] uppercase">
+                            Our <br /> Process.
                         </h2>
                     </div>
                     <div className="mt-8 md:mt-0 flex items-center text-teal-primary font-mono text-[10px] px-4 py-2 rounded-full border border-teal-primary/30 h-fit w-fit text-left uppercase tracking-[0.2em]">
-                        Proprietary Framework
+                        How We Work
                     </div>
                 </div>
 
@@ -49,8 +49,8 @@ const Process: React.FC = () => {
                                 </div>
 
                                 <div className="text-left mt-auto">
-                                    <h3 className="text-3xl md:text-4xl font-black text-white mb-4 text-left tracking-tight uppercase group-hover:translate-x-2 transition-transform duration-500">{step.title}</h3>
-                                    <p className="text-white/40 text-lg leading-relaxed font-light text-left group-hover:text-white/80 transition-colors duration-500">{step.desc}</p>
+                                    <h3 className="text-2xl md:text-3xl font-black text-white mb-4 text-left tracking-tight uppercase group-hover:translate-x-2 transition-transform duration-500">{step.title}</h3>
+                                    <p className="text-white/40 text-sm md:text-base leading-relaxed font-light text-left group-hover:text-white/80 transition-colors duration-500">{step.desc}</p>
                                 </div>
                             </div>
 

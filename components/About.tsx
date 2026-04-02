@@ -19,11 +19,11 @@ const SectionHeader = ({ label, title, subtitle }: { label: string, title: React
             <div className="text-left w-full max-w-4xl">
                 <div className="flex items-center gap-4 mb-8">
                     <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.3em] text-teal-400 bg-teal-400/10 px-4 py-2 rounded-full border border-teal-400/20 backdrop-blur-md">
-                        <div className="w-1.5 h-1.5 rounded-full bg-teal-400 animate-pulse shadow-[0_0_10px_rgba(45,212,191,0.8)]" />
+                        <div className="w-1.5 h-1.5 rounded-full bg-teal-400" />
                         {label}
                     </div>
                 </div>
-                <h2 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[0.9] text-white">
+                <h2 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter leading-[0.9] text-white">
                     {title}
                 </h2>
                 {subtitle && (
@@ -89,14 +89,11 @@ const AboutHero = () => {
 
             <motion.div style={{ y: y1, opacity }} className="relative z-10 w-full px-6 flex flex-col items-center text-center mt-[-10vh]">
                 <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-teal-500/30 bg-teal-500/10 backdrop-blur-md mb-12">
-                    <span className="relative flex h-2 w-2">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-2 w-2 bg-teal-500"></span>
-                    </span>
-                    <span className="font-mono text-xs uppercase tracking-widest text-teal-400">Pioneering the Digital Frontier</span>
+                    <span className="inline-flex rounded-full h-1.5 w-1.5 bg-teal-500"></span>
+                    <span className="font-mono text-xs uppercase tracking-widest text-teal-400">About Engaze Digital</span>
                 </div>
 
-                <h1 className="text-[12vw] sm:text-[10vw] font-black tracking-tighter leading-[0.85] text-white mix-blend-plus-lighter relative">
+                <h1 className="text-[10vw] sm:text-[8vw] font-black tracking-tighter leading-[0.85] text-white mix-blend-plus-lighter relative">
                     <span className="block overflow-hidden relative pb-4">
                         <motion.span
                             initial={{ y: 200, opacity: 0 }}
@@ -123,9 +120,9 @@ const AboutHero = () => {
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.8, duration: 1, ease: "easeOut" }}
-                    className="mt-12 max-w-3xl text-xl md:text-3xl text-white/50 font-light leading-relaxed tracking-wide"
+                    className="mt-12 max-w-3xl text-base md:text-xl text-white/50 font-light leading-relaxed tracking-wide"
                 >
-                    We build infrastructure for billion-dollar ambitions. A convergence of design, engineering, and raw velocity.
+                    We build digital infrastructure for ambitious brands. Strategy, design, and engineering — working as one.
                 </motion.p>
 
                 <motion.div
@@ -148,7 +145,7 @@ const Manifesto = () => {
         offset: ["start 0.8", "end 0.4"]
     });
 
-    const content = "Status quo is the enemy. In an era of infinite leverage, the only moat is velocity. We strip away the unnecessary, challenge first principles, and construct digital revenue engines that scale ruthlessly. We don't just write code; we architect the future.";
+    const content = "We believe great digital work starts with clarity. We strip away complexity, focus on what matters, and build systems that perform. Every project is an opportunity to raise the bar — for our clients, and for ourselves.";
     const words = content.split(" ");
 
     return (
@@ -158,7 +155,7 @@ const Manifesto = () => {
             </div>
 
             <div ref={container} className="max-w-[1400px] mx-auto relative z-10">
-                <p className="text-4xl md:text-6xl lg:text-[5.5rem] font-bold leading-[1.1] tracking-tight text-white/10 flex flex-wrap gap-x-4 gap-y-2 lg:gap-x-6 lg:gap-y-4">
+                <p className="text-3xl md:text-4xl lg:text-5xl font-bold leading-[1.1] tracking-tight text-white/10 flex flex-wrap gap-x-3 gap-y-2 lg:gap-x-5 lg:gap-y-3">
                     {words.map((word, i) => {
                         const start = i / words.length;
                         const end = start + (1 / words.length);
@@ -174,8 +171,8 @@ const Manifesto = () => {
                 </p>
 
                 <div className="mt-32 flex items-center gap-6 border-l border-teal-500 pl-6">
-                    <p className="text-teal-400 font-mono text-sm uppercase tracking-[0.2em] max-w-md leading-relaxed">
-                        This is our doctrine. No compromises. No bloated timelines. Just pure, unadulterated execution.
+                    <p className="text-teal-400 font-mono text-xs uppercase tracking-[0.2em] max-w-md leading-relaxed">
+                        Our philosophy. Clear thinking. Sharp execution. Meaningful results.
                     </p>
                 </div>
             </div>
@@ -227,8 +224,8 @@ const BentoCard = ({ title, desc, icon: Icon, span = "col-span-1", delay = 0 }) 
             </div>
 
             <div className="relative z-10">
-                <h3 className="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight">{title}</h3>
-                <p className="text-white/50 text-lg leading-relaxed">{desc}</p>
+                <h3 className="text-2xl md:text-3xl font-bold text-white mb-4 tracking-tight">{title}</h3>
+                <p className="text-white/50 text-sm md:text-base leading-relaxed">{desc}</p>
             </div>
 
             {/* Background Icon Decoration */}
@@ -243,41 +240,41 @@ const ProtocolSection = () => {
     return (
         <section className="bg-[#030303] py-40 relative border-t border-white/5">
             <SectionHeader
-                label="The Ecosystem"
-                title="Bento Framework"
-                subtitle="A modular, first-principles approach to digital architecture. Each component is designed for maximum leverage and absolute autonomy."
+                label="Our Values"
+                title="How We Think"
+                subtitle="A principled approach to digital work. Each capability is designed for clarity and long-term impact."
             />
 
             <div className="max-w-[1800px] mx-auto px-6 md:px-12">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <BentoCard
-                        title="Quantum Velocity"
-                        desc="We bypass the traditional agile bloat. Our shipping cycles are measured in days, not quarters. Speed is our ultimate weapon."
+                        title="Speed to Market"
+                        desc="We ship fast without cutting corners. Our delivery cycles are measured in days, not quarters."
                         icon={Zap}
                         span="lg:col-span-2"
                         delay={0.1}
                     />
                     <BentoCard
-                        title="First Principles"
-                        desc="Deconstructing assumptions to build from fundamental truths. Zero legacy code."
+                        title="Clear Thinking"
+                        desc="We question assumptions and build from a deep understanding of the problem."
                         icon={Hexagon}
                         delay={0.2}
                     />
                     <BentoCard
-                        title="Modular Systems"
-                        desc="Infinite scalability through decoupled, isolated components."
+                        title="Scalable Systems"
+                        desc="Clean, modular architecture that grows with your business."
                         icon={Layers}
                         delay={0.3}
                     />
                     <BentoCard
-                        title="Data Dominance"
-                        desc="Gut feelings are obsolete. Every micro-interaction is tracked, analyzed, and optimized."
+                        title="Data-Driven"
+                        desc="Every decision is informed by analytics. We measure, learn, and optimize continuously."
                         icon={Activity}
                         delay={0.4}
                     />
                     <BentoCard
-                        title="Fortress Security"
-                        desc="Military-grade encryption and zero-trust protocols baked into the core DNA of every build."
+                        title="Security First"
+                        desc="Best-practice security standards are built into every project from day one."
                         icon={Shield}
                         span="lg:col-span-2 md:col-span-2"
                         delay={0.5}
@@ -299,11 +296,11 @@ const Timeline = () => {
     const x = useTransform(scrollYProgress, [0, 1], ["0%", "-65%"]);
 
     const events = [
-        { year: "2018", title: "Genesis Block", desc: "Engaze founded. A skeleton crew focusing on pure code architecture for early-stage startups." },
-        { year: "2020", title: "Series A Partners", desc: "Expanded to enterprise services. Became the technical backbone for 3 unicorns." },
-        { year: "2022", title: "Global Mesh", desc: "Opened distributed hubs in Singapore and Berlin. Launched 'Engaze Labs' for internal R&D." },
-        { year: "2024", title: "The Singularity", desc: "Integration of AI-native workflows. Delivering billion-dollar infrastructure as a service." },
-        { year: "2026", title: "Spatial Web", desc: "Next-gen immersive interfaces and Web3 integrations becoming our new standard." }
+        { year: "2018", title: "Founded", desc: "Engaze Digital was born. A small team focused on high-quality web development for startups." },
+        { year: "2020", title: "Growth Phase", desc: "Expanded into enterprise services and digital marketing. Trusted by 40+ clients." },
+        { year: "2022", title: "Global Reach", desc: "Opened distributed teams across regions. Launched dedicated R&D initiatives." },
+        { year: "2024", title: "AI Integration", desc: "Adopted AI-powered workflows to deliver smarter, faster results for clients." },
+        { year: "2026", title: "Next Chapter", desc: "Expanding into immersive experiences and advanced platform integrations." }
     ];
 
     return (
@@ -332,14 +329,14 @@ const Timeline = () => {
                             </div>
 
                             <div className={`transform ${i % 2 === 0 ? '-translate-y-48' : 'translate-y-48'} transition-all duration-700`}>
-                                <div className="text-[6rem] md:text-[8rem] font-black text-white/5 tracking-tighter leading-none mb-4 group-hover:text-white/10 transition-colors">
+                                <div className="text-5xl md:text-6xl font-black text-white/5 tracking-tighter leading-none mb-4 group-hover:text-white/10 transition-colors">
                                     {event.year}
                                 </div>
-                                <h3 className="text-3xl md:text-5xl font-bold text-white mb-6 tracking-tight flex items-center gap-4">
+                                <h3 className="text-2xl md:text-3xl font-bold text-white mb-6 tracking-tight flex items-center gap-4">
                                     {event.title}
                                     <ArrowUpRight className="text-teal-500 opacity-0 group-hover:opacity-100 group-hover:translate-x-2 transition-all duration-500" />
                                 </h3>
-                                <p className="text-white/50 text-lg md:text-xl leading-relaxed max-w-sm group-hover:text-white/70 transition-colors">
+                                <p className="text-white/50 text-sm md:text-base leading-relaxed max-w-sm group-hover:text-white/70 transition-colors">
                                     {event.desc}
                                 </p>
                             </div>
@@ -373,12 +370,12 @@ const StatBox = ({ value, label, suffix = "" }) => {
         <div ref={ref} className="flex flex-col relative group py-12 px-8 border-l border-white/10 hover:bg-white/[0.02] transition-colors duration-500">
             <div className="absolute top-0 left-0 w-[2px] h-0 bg-teal-500 group-hover:h-full transition-all duration-500" />
             <div className="flex items-baseline gap-1">
-                <motion.span className="text-6xl md:text-8xl font-black text-white tracking-tighter">
+                <motion.span className="text-4xl md:text-6xl font-black text-white tracking-tighter">
                     {displayValue}
                 </motion.span>
-                <span className="text-6xl md:text-8xl font-black text-teal-500">{suffix}</span>
+                <span className="text-4xl md:text-6xl font-black text-teal-500">{suffix}</span>
             </div>
-            <span className="font-mono text-sm uppercase tracking-[0.2em] text-white/40 mt-6 block">{label}</span>
+            <span className="font-mono text-xs uppercase tracking-[0.2em] text-white/40 mt-6 block">{label}</span>
         </div>
     );
 };
@@ -418,7 +415,7 @@ const Leadership = () => {
 
     return (
         <section className="py-40 bg-[#030303] relative border-t border-white/5 cursor-default" onMouseMove={handleMouseMove}>
-            <SectionHeader label="The Syndicate" title="Operating Core" subtitle="The minds behind the machine. A concentrated group of industry outliers." />
+            <SectionHeader label="Leadership" title="Our Team" subtitle="The people behind the work. Experienced professionals who care about craft." />
 
             <div className="max-w-[1800px] mx-auto px-6 md:px-12 relative">
                 <div className="flex flex-col">
@@ -431,14 +428,14 @@ const Leadership = () => {
                         >
                             <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 relative z-10">
                                 <div>
-                                    <h3 className="text-4xl md:text-7xl font-black uppercase tracking-tighter text-white/50 group-hover:text-white transition-colors duration-500">
+                                    <h3 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-white/50 group-hover:text-white transition-colors duration-500">
                                         {leader.name}
                                     </h3>
-                                    <p className="text-teal-400 font-mono text-sm uppercase tracking-widest mt-4">
+                                    <p className="text-teal-400 font-mono text-xs uppercase tracking-widest mt-4">
                                         {leader.role}
                                     </p>
                                 </div>
-                                <div className="max-w-md text-white/40 group-hover:text-white/80 transition-colors duration-500 md:text-right text-lg">
+                                <div className="max-w-md text-white/40 group-hover:text-white/80 transition-colors duration-500 md:text-right text-sm md:text-base">
                                     {leader.desc}
                                 </div>
                             </div>
@@ -487,11 +484,11 @@ const GlobalFootprint = () => {
                     <div className="inline-block px-4 py-2 border border-white/10 rounded-full font-mono text-xs uppercase tracking-widest text-white/50 mb-8 backdrop-blur-md">
                         Global Infrastructure
                     </div>
-                    <h2 className="text-6xl md:text-8xl font-black text-white tracking-tighter mb-8 leading-[0.9]">
-                        EDGE <br /><span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-emerald-600">NETWORK.</span>
+                    <h2 className="text-4xl md:text-6xl font-black text-white tracking-tighter mb-8 leading-[0.9]">
+                        GLOBAL <br /><span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-emerald-600">REACH.</span>
                     </h2>
-                    <p className="text-white/50 text-xl leading-relaxed max-w-lg mb-12">
-                        Deployments across 14 edge regions. Millisecond latency routing. We build systems that never sleep, serving billions of requests without breaking a sweat.
+                    <p className="text-white/50 text-base md:text-lg leading-relaxed max-w-lg mb-12">
+                        We work with clients worldwide, deploying reliable systems built for performance at any scale.
                     </p>
 
                     <div className="grid grid-cols-2 gap-x-8 gap-y-6">
@@ -510,7 +507,7 @@ const GlobalFootprint = () => {
                     {/* Mindblowing CSS Gyroscope */}
                     <div className="relative w-[500px] h-[500px] opacity-80 mix-blend-screen perspective-1000">
                         {/* Center Node */}
-                        <div className="absolute inset-[40%] rounded-full bg-teal-500 shadow-[0_0_100px_40px_rgba(45,212,191,0.4)] animate-pulse" />
+                        <div className="absolute inset-[40%] rounded-full bg-teal-500 shadow-[0_0_80px_30px_rgba(45,212,191,0.3)]" />
 
                         {/* Orbit Circles */}
                         {[
@@ -545,7 +542,7 @@ const TrustedBy = () => {
     return (
         <section className="py-32 bg-[#020202] border-y border-white/5 overflow-hidden">
             <div className="max-w-7xl mx-auto px-6 text-center mb-16">
-                <span className="font-mono text-teal-500 text-xs uppercase tracking-[0.4em]">Securing The Top 1%</span>
+                <span className="font-mono text-teal-500 text-xs uppercase tracking-[0.4em]">Trusted By</span>
             </div>
 
             <div className="relative flex overflow-x-hidden group">
@@ -586,12 +583,12 @@ const StartBuild = () => {
                     </div>
                 </Magnetic>
 
-                <h2 className="text-6xl md:text-[8rem] font-black text-white tracking-tighter leading-[0.85] mb-8">
-                    INITIATE <br /><span className="text-transparent bg-clip-text bg-gradient-to-b from-white to-white/20">SEQUENCE.</span>
+                <h2 className="text-5xl md:text-7xl font-black text-white tracking-tighter leading-[0.85] mb-8">
+                    LET'S <br /><span className="text-transparent bg-clip-text bg-gradient-to-b from-white to-white/20">BUILD.</span>
                 </h2>
 
-                <p className="text-white/50 text-2xl font-light mb-16 max-w-2xl">
-                    Stop building for the present. The future is already here. Let's engineer your competitive advantage.
+                <p className="text-white/50 text-base md:text-lg font-light mb-16 max-w-2xl">
+                    Ready to take the next step? Let's discuss how we can help you grow.
                 </p>
 
                 <Magnetic strength={50}>

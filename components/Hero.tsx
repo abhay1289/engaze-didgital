@@ -118,14 +118,9 @@ const Hero: React.FC = () => {
                     className="mb-8 md:mb-12 cursor-pointer mt-16 md:mt-0"
                 >
                     <div className="relative inline-flex items-center gap-2 px-4 py-2 rounded-full border border-teal-500/20 bg-teal-500/5 backdrop-blur-xl overflow-hidden hover:bg-teal-500/10 transition-colors duration-500">
-                        {/* Shimmer effect */}
-                        <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full hover:animate-shimmer pointer-events-none" />
-                        <span className="relative flex h-2 w-2">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-2 w-2 bg-teal-500"></span>
-                        </span>
-                        <span className="font-mono text-[10px] md:text-xs uppercase tracking-[0.2em] text-teal-400">Welcome to the Next Era</span>
-                        <ChevronRight className="w-4 h-4 text-teal-500 hidden md:block" />
+                        <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-teal-500"></span>
+                        <span className="font-mono text-[10px] md:text-xs uppercase tracking-[0.2em] text-teal-400">Digital Growth Agency</span>
+                        <ChevronRight className="w-3.5 h-3.5 text-teal-500 hidden md:block" />
                     </div>
                 </motion.div>
 
@@ -143,7 +138,7 @@ const Hero: React.FC = () => {
                                     duration: 1,
                                     ease: [0.16, 1, 0.3, 1]
                                 }}
-                                className="text-[17vw] md:text-[11vw] font-black leading-[0.85] tracking-tighter text-white"
+                                className="text-[14vw] md:text-[9vw] font-black leading-[0.85] tracking-tighter text-white"
                                 style={{ transformOrigin: "bottom center" }}
                             >
                                 {char}
@@ -163,7 +158,7 @@ const Hero: React.FC = () => {
                                     duration: 1,
                                     ease: [0.16, 1, 0.3, 1]
                                 }}
-                                className="text-[17vw] md:text-[11vw] font-black leading-[0.85] tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white via-teal-100 to-teal-600"
+                                className="text-[14vw] md:text-[9vw] font-black leading-[0.85] tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white via-teal-100 to-teal-600"
                                 style={{ transformOrigin: "bottom center" }}
                             >
                                 {char}
@@ -179,8 +174,8 @@ const Hero: React.FC = () => {
                     transition={{ delay: 1, duration: 1.5 }}
                     className="mt-6 md:mt-12 max-w-2xl px-2 relative"
                 >
-                    <p className="text-base md:text-2xl text-white/50 font-light leading-relaxed tracking-wide text-center">
-                        We don't just build websites. We construct <span className="text-white font-medium">high-velocity cognitive revenue engines</span> engineered for the top 1% of global brands.
+                    <p className="text-sm md:text-lg text-white/50 font-light leading-relaxed tracking-wide text-center">
+                        We design, build, and scale <span className="text-white font-medium">digital experiences that drive measurable growth</span> for ambitious brands.
                     </p>
                 </motion.div>
 
@@ -192,13 +187,11 @@ const Hero: React.FC = () => {
                     className="absolute bottom-16 md:bottom-20 z-40 w-full flex justify-center"
                 >
                     <Magnetic strength={30}>
-                        <button className="group relative flex items-center justify-center gap-4 px-8 md:px-10 py-4 md:py-5 bg-white text-[#030303] rounded-full text-[10px] md:text-xs font-black tracking-[0.2em] uppercase transition-all duration-500 hover:scale-[1.02] shadow-[0_0_40px_-10px_rgba(255,255,255,0.3)] overflow-hidden">
+                        <button className="group relative flex items-center justify-center gap-3 px-7 md:px-9 py-3.5 md:py-4 bg-white text-[#030303] rounded-full text-[10px] md:text-xs font-bold tracking-[0.15em] uppercase transition-all duration-500 hover:scale-[1.02] shadow-[0_0_40px_-10px_rgba(255,255,255,0.2)] overflow-hidden">
                             <span className="relative z-10 flex items-center gap-2">
-                                Start The Project <ArrowUpRight size={16} className="group-hover:rotate-45 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300" />
+                                Start a Project <ArrowUpRight size={14} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300" />
                             </span>
                             <div className="absolute inset-0 bg-gradient-to-r from-teal-400 to-teal-500 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[0.16,1,0.3,1]" />
-                            {/* Reflection Sweep */}
-                            <div className="absolute top-0 -inset-full h-full w-1/2 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent to-white opacity-40 group-hover:animate-sweep pointer-events-none" />
                         </button>
                     </Magnetic>
                 </motion.div>

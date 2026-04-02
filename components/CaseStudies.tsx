@@ -74,8 +74,8 @@ const CaseStudies: React.FC = () => {
                         <span className="text-teal-primary font-mono text-[10px] uppercase tracking-[0.3em] block mb-4 border border-teal-primary/30 py-1.5 px-4 rounded-full w-fit bg-teal-primary/5">
                             Selected Works
                         </span>
-                        <h2 className="text-5xl md:text-8xl lg:text-[9rem] font-black text-white tracking-tighter leading-[0.85] uppercase">
-                            Provenance.
+                        <h2 className="text-4xl md:text-6xl lg:text-7xl font-black text-white tracking-tighter leading-[0.85] uppercase">
+                            Our Work.
                         </h2>
                     </div>
                     <div className="mt-8 md:mt-0 md:text-right w-full md:w-auto text-left flex flex-col items-start md:items-end">
@@ -110,7 +110,7 @@ const CaseStudies: React.FC = () => {
                                     <span className="font-mono text-sm text-white/30 group-hover:text-teal-primary transition-colors duration-500 w-8">
                                         0{index + 1}
                                     </span>
-                                    <h3 className="text-4xl md:text-6xl lg:text-[5rem] font-black text-white/50 group-hover:text-white transition-all duration-500 tracking-tighter w-full uppercase origin-left group-hover:translate-x-4">
+                                    <h3 className="text-3xl md:text-4xl lg:text-5xl font-black text-white/50 group-hover:text-white transition-all duration-500 tracking-tighter w-full uppercase origin-left group-hover:translate-x-4">
                                         {project.title}
                                     </h3>
                                 </div>

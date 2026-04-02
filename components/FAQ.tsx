@@ -51,7 +51,7 @@ const FAQItem: React.FC<{ faq: typeof faqs[0]; isOpen: boolean; onClick: () => v
                                 color: isOpen ? '#36B8A5' : '#ffffff'
                             }}
                             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                            className={`text-2xl md:text-5xl font-black pr-8 leading-tight tracking-tighter uppercase transition-colors duration-500 text-left`}
+                            className={`text-xl md:text-3xl font-black pr-8 leading-tight tracking-tighter uppercase transition-colors duration-500 text-left`}
                         >
                             {faq.question}
                         </motion.h3>
@@ -78,7 +78,7 @@ const FAQItem: React.FC<{ faq: typeof faqs[0]; isOpen: boolean; onClick: () => v
                                     initial={{ x: -10, opacity: 0 }}
                                     animate={{ x: 0, opacity: 1 }}
                                     transition={{ duration: 0.3, delay: 0.1 }}
-                                    className="text-white/50 text-xl font-light leading-relaxed max-w-3xl text-left pl-0 md:pl-3 border-l md:border-teal-primary/30"
+                                    className="text-white/50 text-base font-light leading-relaxed max-w-3xl text-left pl-0 md:pl-3 border-l md:border-teal-primary/30"
                                 >
                                     {faq.answer}
                                 </motion.p>
@@ -104,7 +104,7 @@ const FAQ: React.FC = () => {
                     <span className="text-teal-primary font-mono text-[10px] uppercase tracking-[0.3em] mb-4 block border border-teal-primary/30 py-1.5 px-4 rounded-full w-fit bg-teal-primary/5">
                         Knowledge Base
                     </span>
-                    <h2 className="text-5xl md:text-8xl lg:text-[9rem] font-black text-white tracking-tighter leading-[0.85] uppercase text-left">
+                    <h2 className="text-4xl md:text-6xl lg:text-7xl font-black text-white tracking-tighter leading-[0.85] uppercase text-left">
                         Frequently Asked <br />
                         <span className="text-transparent bg-clip-text bg-gradient-to-br from-teal-primary to-teal-secondary">Questions.</span>
                     </h2>

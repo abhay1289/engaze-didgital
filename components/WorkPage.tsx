@@ -91,8 +91,8 @@ const WorkHero = () => {
                         initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.5, duration: 0.8 }}
                         className="inline-flex w-fit items-center gap-3 px-4 py-2 border border-teal-primary/30 rounded-full bg-teal-primary/5 backdrop-blur-md"
                     >
-                        <div className="w-2 h-2 rounded-full bg-teal-primary animate-pulse" />
-                        <span className="text-teal-primary font-mono text-[10px] uppercase tracking-[0.4em]">Engineered Successes</span>
+                        <div className="w-1.5 h-1.5 rounded-full bg-teal-primary" />
+                        <span className="text-teal-primary font-mono text-[10px] uppercase tracking-[0.4em]">Selected Work</span>
                     </motion.div>
                 </div>
 
@@ -102,7 +102,7 @@ const WorkHero = () => {
                             initial={{ y: 50, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
                             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                            className="text-6xl md:text-[12rem] leading-[0.85] font-black text-white tracking-tighter text-left uppercase"
+                            className="text-5xl md:text-7xl lg:text-8xl leading-[0.85] font-black text-white tracking-tighter text-left uppercase"
                         >
                             ARCHIVE<span className="text-teal-primary">.</span>
                         </motion.h1>
@@ -110,7 +110,7 @@ const WorkHero = () => {
                     <div className="flex gap-12 mb-4 text-left border-l border-white/10 pl-8">
                         <div className="flex flex-col text-left">
                             <span className="text-white/40 text-[10px] font-mono uppercase tracking-[0.2em] mb-2 text-left">Total Deployed</span>
-                            <span className="text-4xl md:text-5xl text-white font-light text-left">54+</span>
+                            <span className="text-3xl md:text-4xl text-white font-light text-left">54+</span>
                         </div>
                     </div>
                 </div>
@@ -149,7 +149,7 @@ const ProjectRow: React.FC<ProjectRowProps> = ({ project, index, setHoveredProje
                     </div>
                 </div>
                 <div className="md:col-span-5 text-left relative">
-                    <h2 className="text-4xl md:text-7xl font-black text-white tracking-tighter leading-[0.9] text-left transition-transform duration-500 group-hover:translate-x-4 uppercase origin-left">
+                    <h2 className="text-3xl md:text-5xl font-black text-white tracking-tighter leading-[0.9] text-left transition-transform duration-500 group-hover:translate-x-4 uppercase origin-left">
                         {project.client}
                     </h2>
                     <p className="text-base md:text-xl text-white/50 mt-4 text-left font-light max-w-md transition-transform duration-500 group-hover:translate-x-4 delay-75">

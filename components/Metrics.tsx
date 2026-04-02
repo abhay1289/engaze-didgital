@@ -70,7 +70,7 @@ const MetricCard: React.FC<MetricProps> = ({ value, suffix = "", label, descript
             <div className="relative z-10 flex flex-col items-start mt-auto">
                 <div className="flex items-baseline gap-1 mb-4 md:mb-8 text-white overflow-hidden">
                     <motion.span
-                        className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-none"
+                        className="text-5xl md:text-6xl lg:text-7xl font-black tracking-tighter leading-none"
                         initial={{ y: "100%" }}
                         whileInView={{ y: 0 }}
                         viewport={{ once: true }}
@@ -83,7 +83,7 @@ const MetricCard: React.FC<MetricProps> = ({ value, suffix = "", label, descript
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.8, delay: index * 0.1 + 0.5 }}
-                        className="text-3xl md:text-5xl lg:text-6xl text-teal-primary font-black uppercase"
+                        className="text-2xl md:text-3xl lg:text-4xl text-teal-primary font-black uppercase"
                     >
                         {suffix}
                     </motion.span>
@@ -109,12 +109,12 @@ const Metrics: React.FC = () => {
                         <span className="text-teal-primary font-mono text-[10px] uppercase tracking-[0.3em] mb-4 block border border-teal-primary/30 py-1.5 px-4 rounded-full w-fit bg-teal-primary/5">
                             System Performance
                         </span>
-                        <h2 className="text-5xl md:text-8xl font-black text-white tracking-tighter leading-[0.85] uppercase">
+                        <h2 className="text-4xl md:text-6xl font-black text-white tracking-tighter leading-[0.85] uppercase">
                             Impact <br /> At Scale.
                         </h2>
                     </div>
-                    <p className="text-white/50 max-w-sm text-lg md:text-xl leading-relaxed text-left font-light pb-2">
-                        Quantifiable results derived from our proprietary engagement engines.
+                    <p className="text-white/50 max-w-sm text-base md:text-lg leading-relaxed text-left font-light pb-2">
+                        Measurable results across every client engagement.
                     </p>
                 </div>
 
