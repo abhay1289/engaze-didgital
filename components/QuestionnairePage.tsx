@@ -358,6 +358,8 @@ const QuestionnairePage: React.FC = () => {
   const formRef = useRef<HTMLFormElement>(null);
   const [progress, setProgress] = useState(0);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [checkedBoxes, setCheckedBoxes] = useState<Record<string, boolean>>({});
   const [radioValues, setRadioValues] = useState<Record<string, string>>({});
   const [isMobile, setIsMobile] = useState(false);
@@ -426,9 +428,44 @@ const QuestionnairePage: React.FC = () => {
     setRadioValues(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitted(true);
+    setIsLoading(true);
+    setError(null);
+
+    if (!formRef.current) return;
+    const formData = new FormData(formRef.current);
+    const fields: Record<string, string> = {};
+    formData.forEach((value, key) => {
+      if (fields[key]) {
+        fields[key] += ', ' + String(value);
+      } else {
+        fields[key] = String(value);
+      }
+    });
+
+    Object.entries(radioValues).forEach(([k, v]) => { fields[k] = v; });
+    Object.entries(checkedBoxes).forEach(([k, v]) => {
+      if (v) {
+        const [name, value] = k.split('_').length > 1 ? [k.substring(0, k.lastIndexOf('_')), k.substring(k.lastIndexOf('_') + 1)] : [k, 'yes'];
+        fields[name] = fields[name] ? fields[name] + ', ' + value : value;
+      }
+    });
+
+    try {
+      const res = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'questionnaire', fields }),
+      });
+
+      if (!res.ok) throw new Error('Failed to send');
+      setIsSubmitted(true);
+    } catch {
+      setError('Failed to submit questionnaire. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const inputFocusStyle = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -1145,8 +1182,9 @@ const QuestionnairePage: React.FC = () => {
           <p style={styles.disclaimer}>All credentials and access information shared here are treated as strictly confidential. We use industry-standard security practices to protect your data.</p>
           <button
             type="submit"
-            style={isSubmitted ? { ...styles.btnSubmit, ...styles.btnSubmitSuccess } : styles.btnSubmit}
-            onMouseEnter={(e) => { if (!isSubmitted) { e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 8px 32px rgba(54, 184, 165, 0.3)'; } }}
+            disabled={isSubmitted || isLoading}
+            style={isSubmitted ? { ...styles.btnSubmit, ...styles.btnSubmitSuccess } : { ...styles.btnSubmit, ...(isLoading ? { opacity: 0.7 } : {}) }}
+            onMouseEnter={(e) => { if (!isSubmitted && !isLoading) { e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 8px 32px rgba(54, 184, 165, 0.3)'; } }}
             onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 16px rgba(54, 184, 165, 0.2)'; }}
           >
             {isSubmitted ? (
@@ -1154,6 +1192,8 @@ const QuestionnairePage: React.FC = () => {
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5" /></svg>
                 Submitted
               </>
+            ) : isLoading ? (
+              <>Sending...</>
             ) : (
               <>
                 Submit Questionnaire
@@ -1161,6 +1201,7 @@ const QuestionnairePage: React.FC = () => {
               </>
             )}
           </button>
+          {error && <p style={{ color: '#EF4444', fontSize: '0.85rem', marginTop: 16 }}>{error}</p>}
         </div>
       </form>
 

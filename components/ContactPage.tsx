@@ -15,11 +15,37 @@ const GrainOverlay = () => (
 const ContactPage: React.FC = () => {
     const [focusedField, setFocusedField] = useState<string | null>(null);
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setIsSubmitted(true);
-        setTimeout(() => setIsSubmitted(false), 3000);
+        setIsLoading(true);
+        setError(null);
+
+        const form = e.target as HTMLFormElement;
+        const formData = new FormData(form);
+
+        try {
+            const res = await fetch('/api/send-email', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    type: 'contact',
+                    name: formData.get('name'),
+                    email: formData.get('email'),
+                    company: formData.get('company'),
+                    message: formData.get('message'),
+                }),
+            });
+
+            if (!res.ok) throw new Error('Failed to send');
+            setIsSubmitted(true);
+        } catch {
+            setError('Failed to send message. Please try again.');
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
@@ -96,6 +122,7 @@ const ContactPage: React.FC = () => {
                                     <label className={`block font-mono text-[10px] uppercase tracking-[0.2em] mb-4 transition-colors ${focusedField === 'name' ? 'text-teal-primary' : 'text-slate-400'} text-left`}>Your Name</label>
                                     <input
                                         type="text"
+                                        name="name"
                                         required
                                         onFocus={() => setFocusedField('name')}
                                         onBlur={() => setFocusedField(null)}
@@ -107,6 +134,7 @@ const ContactPage: React.FC = () => {
                                     <label className={`block font-mono text-[10px] uppercase tracking-[0.2em] mb-4 transition-colors ${focusedField === 'email' ? 'text-teal-primary' : 'text-slate-400'} text-left`}>Email Address</label>
                                     <input
                                         type="email"
+                                        name="email"
                                         required
                                         onFocus={() => setFocusedField('email')}
                                         onBlur={() => setFocusedField(null)}
@@ -120,6 +148,7 @@ const ContactPage: React.FC = () => {
                                 <label className={`block font-mono text-[10px] uppercase tracking-[0.2em] mb-4 transition-colors ${focusedField === 'company' ? 'text-teal-primary' : 'text-slate-400'} text-left`}>Company</label>
                                 <input
                                     type="text"
+                                    name="company"
                                     onFocus={() => setFocusedField('company')}
                                     onBlur={() => setFocusedField(null)}
                                     className="w-full bg-transparent border-b border-slate-200 py-3 text-base focus:outline-none focus:border-teal-primary transition-all text-[#0F172A] placeholder:text-slate-300 text-left"
@@ -130,6 +159,7 @@ const ContactPage: React.FC = () => {
                             <div className="relative text-left flex flex-col mt-4">
                                 <label className={`block font-mono text-[10px] uppercase tracking-[0.2em] mb-4 transition-colors ${focusedField === 'message' ? 'text-teal-primary' : 'text-slate-400'} text-left`}>Project Details</label>
                                 <textarea
+                                    name="message"
                                     rows={5}
                                     required
                                     onFocus={() => setFocusedField('message')}
@@ -144,15 +174,16 @@ const ContactPage: React.FC = () => {
                                 <Magnetic strength={20}>
                                     <button
                                         type="submit"
-                                        disabled={isSubmitted}
+                                        disabled={isSubmitted || isLoading}
                                         className="group relative overflow-hidden bg-[#0F172A] text-white px-10 py-5 rounded-full font-bold text-sm tracking-widest uppercase hover:scale-105 transition-all duration-500 flex items-center justify-center gap-3 disabled:opacity-50"
                                     >
-                                        <span className="relative z-10">{isSubmitted ? 'Sent' : 'Send Message'}</span>
-                                        {isSubmitted ? <CheckCircle size={18} className="relative z-10" /> : <Send size={18} className="relative z-10 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />}
+                                        <span className="relative z-10">{isSubmitted ? 'Sent' : isLoading ? 'Sending...' : 'Send Message'}</span>
+                                        {isSubmitted ? <CheckCircle size={18} className="relative z-10" /> : !isLoading && <Send size={18} className="relative z-10 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />}
                                         <div className="absolute inset-0 bg-teal-primary translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" />
                                     </button>
                                 </Magnetic>
                             </div>
+                            {error && <p className="text-red-500 text-sm mt-4 text-center">{error}</p>}
                         </form>
                     </motion.div>
                 </div>
