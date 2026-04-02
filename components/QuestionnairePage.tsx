@@ -7,7 +7,6 @@ const styles: Record<string, React.CSSProperties> = {
     color: '#EBEBEB',
     minHeight: '100vh',
     position: 'relative',
-    overflowX: 'hidden',
     fontFamily: "'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif",
     lineHeight: 1.6,
   },
