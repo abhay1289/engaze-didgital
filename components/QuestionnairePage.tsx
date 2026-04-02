@@ -47,7 +47,7 @@ const styles: Record<string, React.CSSProperties> = {
     zIndex: 1,
   },
   header: {
-    padding: '56px 0 48px',
+    padding: '120px 0 48px',
     textAlign: 'center',
   },
   logoMark: {
