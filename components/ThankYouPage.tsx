@@ -13,7 +13,7 @@ const draw = {
   visible: {
     pathLength: 1,
     opacity: 1,
-    transition: { pathLength: { duration: 0.8, ease: [0.65, 0, 0.35, 1] }, opacity: { duration: 0.2 } },
+    transition: { pathLength: { duration: 0.8, ease: [0.65, 0, 0.35, 1] as [number, number, number, number] }, opacity: { duration: 0.2 } },
   },
 };
 
@@ -100,7 +100,7 @@ const itemVariants = {
     opacity: 1,
     y: 0,
     filter: 'blur(0px)',
-    transition: { duration: 0.7, ease: [0.25, 1, 0.5, 1] },
+    transition: { duration: 0.7, ease: [0.25, 1, 0.5, 1] as [number, number, number, number] },
   },
 };
 
