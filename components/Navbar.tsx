@@ -83,7 +83,7 @@ const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentRoute = 'home' }) =>
 
           {/* Desktop Nav Links */}
           <ul className="hidden md:flex items-center gap-12 absolute left-1/2 -translate-x-1/2">
-            {['About', 'Services', 'Work'].map((item) => (
+            {['About', 'Services', 'Work', 'Questionnaire'].map((item) => (
               <li key={item}>
                 <Magnetic strength={5}>
                   <a
@@ -142,7 +142,7 @@ const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentRoute = 'home' }) =>
               className="md:hidden w-full bg-[#050505]/95 backdrop-blur-3xl border border-white/10 rounded-[2rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.8)] p-8 flex flex-col items-center gap-8 z-50 overflow-hidden relative"
             >
               <div className="absolute top-0 right-0 w-64 h-64 bg-teal-primary/10 rounded-full blur-[80px] pointer-events-none -translate-y-1/2 translate-x-1/2" />
-              {['About', 'Services', 'Work', 'Contact'].map((item, i) => (
+              {['About', 'Services', 'Work', 'Questionnaire', 'Contact'].map((item, i) => (
                 <motion.a
                   key={item}
                   initial={{ opacity: 0, y: 20 }}
