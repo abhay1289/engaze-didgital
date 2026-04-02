@@ -15,6 +15,7 @@ import About from './components/About';
 import ServicesPage from './components/ServicesPage';
 import WorkPage from './components/WorkPage';
 import ContactPage from './components/ContactPage';
+import QuestionnairePage from './components/QuestionnairePage';
 
 const App: React.FC = () => {
   const [currentRoute, setCurrentRoute] = useState('home');
@@ -58,6 +59,8 @@ const App: React.FC = () => {
         return <WorkPage />;
       case 'contact':
         return <ContactPage />;
+      case 'questionnaire':
+        return <QuestionnairePage />;
       case 'home':
       default:
         return (
