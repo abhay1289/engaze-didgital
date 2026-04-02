@@ -43,7 +43,7 @@ const MetricCard: React.FC<MetricProps> = ({ value, suffix = "", label, descript
     return (
         <div
             onMouseMove={handleMouseMove}
-            className="group relative p-8 md:p-16 flex flex-col justify-between min-h-[300px] md:h-[400px] bg-white transition-colors duration-700 overflow-hidden"
+            className="group relative p-8 md:p-16 flex flex-col justify-between min-h-[300px] md:h-[400px] bg-[#050505] transition-colors duration-700 overflow-hidden"
         >
             {/* Spotlight Effect */}
             <motion.div
@@ -52,7 +52,7 @@ const MetricCard: React.FC<MetricProps> = ({ value, suffix = "", label, descript
                     background: useMotionTemplate`
                         radial-gradient(
                             600px circle at ${mouseX}px ${mouseY}px,
-                            rgba(54, 184, 165, 0.08),
+                            rgba(54, 184, 165, 0.1),
                             transparent 80%
                         )
                     `,
@@ -61,14 +61,14 @@ const MetricCard: React.FC<MetricProps> = ({ value, suffix = "", label, descript
 
             <div className="relative z-10">
                 <div className="flex items-center gap-3 mb-6 md:mb-8">
-                    <span className="font-mono text-[10px] text-teal-primary uppercase tracking-[0.3em] border border-teal-primary/20 px-4 py-1.5 rounded-full backdrop-blur-sm bg-teal-primary/10">
+                    <span className="font-mono text-[10px] text-teal-primary uppercase tracking-[0.3em] border border-teal-primary/20 px-4 py-1.5 rounded-full backdrop-blur-sm bg-teal-primary/5">
                         {label}
                     </span>
                 </div>
             </div>
 
             <div className="relative z-10 flex flex-col items-start mt-auto">
-                <div className="flex items-baseline gap-1 mb-4 md:mb-8 text-[#0F172A] overflow-hidden">
+                <div className="flex items-baseline gap-1 mb-4 md:mb-8 text-white overflow-hidden">
                     <motion.span
                         className="text-5xl md:text-6xl lg:text-7xl font-black tracking-tighter leading-none"
                         initial={{ y: "100%" }}
@@ -89,7 +89,7 @@ const MetricCard: React.FC<MetricProps> = ({ value, suffix = "", label, descript
                     </motion.span>
                 </div>
 
-                <p className="text-slate-400 text-sm md:text-lg max-w-sm leading-relaxed font-light text-left group-hover:text-[#0F172A] transition-colors duration-500">
+                <p className="text-white/40 text-sm md:text-lg max-w-sm leading-relaxed font-light text-left group-hover:text-white transition-colors duration-500">
                     {description}
                 </p>
             </div>
@@ -99,26 +99,26 @@ const MetricCard: React.FC<MetricProps> = ({ value, suffix = "", label, descript
 
 const Metrics: React.FC = () => {
     return (
-        <section className="relative py-32 md:py-48 bg-[#F8F9FB] overflow-hidden transition-colors duration-500 border-t border-slate-100 selection:bg-teal-primary selection:text-white">
+        <section className="relative py-32 md:py-48 bg-[#020202] overflow-hidden transition-colors duration-500 border-t border-white/5 selection:bg-teal-primary selection:text-black">
             {/* Ambient Lighting */}
             <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-teal-primary/10 rounded-full blur-[150px] mix-blend-screen pointer-events-none translate-y-1/2" />
 
             <div className="max-w-[1600px] mx-auto px-6 md:px-12 relative z-10">
                 <div className="mb-20 md:mb-32 flex flex-col md:flex-row md:items-end justify-between gap-8 md:gap-16 items-start">
                     <div className="text-left w-full md:w-auto">
-                        <span className="text-teal-primary font-mono text-[10px] uppercase tracking-[0.3em] mb-4 block border border-teal-primary/30 py-1.5 px-4 rounded-full w-fit bg-teal-primary/10">
+                        <span className="text-teal-primary font-mono text-[10px] uppercase tracking-[0.3em] mb-4 block border border-teal-primary/30 py-1.5 px-4 rounded-full w-fit bg-teal-primary/5">
                             System Performance
                         </span>
-                        <h2 className="text-4xl md:text-6xl font-black text-[#0F172A] tracking-tighter leading-[0.85] uppercase">
+                        <h2 className="text-4xl md:text-6xl font-black text-white tracking-tighter leading-[0.85] uppercase">
                             Impact <br /> At Scale.
                         </h2>
                     </div>
-                    <p className="text-slate-500 max-w-sm text-base md:text-lg leading-relaxed text-left font-light pb-2">
+                    <p className="text-white/50 max-w-sm text-base md:text-lg leading-relaxed text-left font-light pb-2">
                         Measurable results across every client engagement.
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-[2px] bg-slate-100 border border-slate-200 rounded-[2rem] overflow-hidden shadow-[0_0_50px_rgba(54,184,165,0.05)] text-left">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-[2px] bg-white/10 border border-white/10 rounded-[2rem] overflow-hidden shadow-[0_0_50px_rgba(54,184,165,0.05)] text-left">
                     <MetricCard
                         index={0}
                         value={50}

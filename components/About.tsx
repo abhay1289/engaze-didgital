@@ -14,20 +14,20 @@ const GrainOverlay = () => (
 
 const SectionHeader = ({ label, title, subtitle }: { label: string, title: React.ReactNode, subtitle?: string }) => (
     <div className="mb-24 px-6 md:px-12 max-w-[1800px] mx-auto z-10 relative">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-12 pb-12 border-b border-slate-200 relative">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-12 pb-12 border-b border-white/10 relative">
             <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-teal-500/0 via-teal-500/50 to-teal-500/0 opacity-50" />
             <div className="text-left w-full max-w-4xl">
                 <div className="flex items-center gap-4 mb-8">
-                    <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.3em] text-teal-600 bg-teal-500/10 px-4 py-2 rounded-full border border-teal-500/30 backdrop-blur-md">
-                        <div className="w-1.5 h-1.5 rounded-full bg-teal-500" />
+                    <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.3em] text-teal-400 bg-teal-400/10 px-4 py-2 rounded-full border border-teal-400/20 backdrop-blur-md">
+                        <div className="w-1.5 h-1.5 rounded-full bg-teal-400" />
                         {label}
                     </div>
                 </div>
-                <h2 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter leading-[0.9] text-[#0F172A]">
+                <h2 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter leading-[0.9] text-white">
                     {title}
                 </h2>
                 {subtitle && (
-                    <p className="mt-8 text-xl text-slate-500 font-light max-w-2xl leading-relaxed">
+                    <p className="mt-8 text-xl text-white/50 font-light max-w-2xl leading-relaxed">
                         {subtitle}
                     </p>
                 )}
@@ -59,11 +59,11 @@ const AboutHero = () => {
         <section
             ref={containerRef}
             onMouseMove={handleMouseMove}
-            className="relative h-[130vh] flex justify-center items-center overflow-hidden bg-[#F8F9FB] perspective-1000"
+            className="relative h-[130vh] flex justify-center items-center overflow-hidden bg-[#030303] perspective-1000"
         >
             {/* Deep Background Grid */}
             <motion.div style={{ y: y2, scale }} className="absolute inset-0 z-0">
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(15,23,42,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(15,23,42,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_0%,#000_70%,transparent_100%)] opacity-40" />
+                <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_0%,#000_70%,transparent_100%)] opacity-40" />
             </motion.div>
 
             {/* Glowing Mouse Orb */}
@@ -84,16 +84,16 @@ const AboutHero = () => {
             <motion.div
                 animate={{ rotate: 360 }}
                 transition={{ duration: 100, repeat: Infinity, ease: "linear" }}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-teal-500/10 rounded-full blur-[120px] pointer-events-none"
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-teal-500/10 rounded-full blur-[120px] mix-blend-screen pointer-events-none"
             />
 
             <motion.div style={{ y: y1, opacity }} className="relative z-10 w-full px-6 flex flex-col items-center text-center mt-[-10vh]">
                 <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-teal-500/30 bg-teal-500/10 backdrop-blur-md mb-12">
                     <span className="inline-flex rounded-full h-1.5 w-1.5 bg-teal-500"></span>
-                    <span className="font-mono text-xs uppercase tracking-widest text-teal-600">About Engaze Digital</span>
+                    <span className="font-mono text-xs uppercase tracking-widest text-teal-400">About Engaze Digital</span>
                 </div>
 
-                <h1 className="text-[10vw] sm:text-[8vw] font-black tracking-tighter leading-[0.85] text-[#0F172A] relative">
+                <h1 className="text-[10vw] sm:text-[8vw] font-black tracking-tighter leading-[0.85] text-white mix-blend-plus-lighter relative">
                     <span className="block overflow-hidden relative pb-4">
                         <motion.span
                             initial={{ y: 200, opacity: 0 }}
@@ -109,7 +109,7 @@ const AboutHero = () => {
                             initial={{ y: 200, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
                             transition={{ duration: 1.2, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-                            className="block text-transparent bg-clip-text bg-gradient-to-r from-teal-500 via-teal-300 to-teal-500"
+                            className="block text-transparent bg-clip-text bg-gradient-to-r from-teal-400 via-white to-teal-400"
                         >
                             THE IMPOSSIBLE
                         </motion.span>
@@ -120,7 +120,7 @@ const AboutHero = () => {
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.8, duration: 1, ease: "easeOut" }}
-                    className="mt-12 max-w-3xl text-base md:text-xl text-slate-500 font-light leading-relaxed tracking-wide"
+                    className="mt-12 max-w-3xl text-base md:text-xl text-white/50 font-light leading-relaxed tracking-wide"
                 >
                     We build digital infrastructure for ambitious brands. Strategy, design, and engineering — working as one.
                 </motion.p>
@@ -149,18 +149,18 @@ const Manifesto = () => {
     const words = content.split(" ");
 
     return (
-        <section className="py-40 px-6 md:px-12 bg-[#F8F9FB] relative z-10 text-left overflow-hidden">
+        <section className="py-40 px-6 md:px-12 bg-[#030303] relative z-10 text-left overflow-hidden">
             <div className="absolute inset-0 pointer-events-none">
-                <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1/3 h-1/2 bg-teal-500/8 blur-[150px] rounded-full" />
+                <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1/3 h-1/2 bg-teal-500/5 blur-[150px] rounded-full" />
             </div>
 
             <div ref={container} className="max-w-[1400px] mx-auto relative z-10">
-                <p className="text-3xl md:text-4xl lg:text-5xl font-bold leading-[1.1] tracking-tight text-slate-200 flex flex-wrap gap-x-3 gap-y-2 lg:gap-x-5 lg:gap-y-3">
+                <p className="text-3xl md:text-4xl lg:text-5xl font-bold leading-[1.1] tracking-tight text-white/10 flex flex-wrap gap-x-3 gap-y-2 lg:gap-x-5 lg:gap-y-3">
                     {words.map((word, i) => {
                         const start = i / words.length;
                         const end = start + (1 / words.length);
                         // eslint-disable-next-line react-hooks/rules-of-hooks
-                        const colorProgress = useTransform(scrollYProgress, [start, end], ["rgba(15,23,42,0.15)", "rgba(15,23,42,1)"]);
+                        const colorProgress = useTransform(scrollYProgress, [start, end], ["rgba(255,255,255,0.1)", "rgba(255,255,255,1)"]);
 
                         return (
                             <motion.span key={i} style={{ color: colorProgress }} className="relative">
@@ -171,7 +171,7 @@ const Manifesto = () => {
                 </p>
 
                 <div className="mt-32 flex items-center gap-6 border-l border-teal-500 pl-6">
-                    <p className="text-teal-600 font-mono text-xs uppercase tracking-[0.2em] max-w-md leading-relaxed">
+                    <p className="text-teal-400 font-mono text-xs uppercase tracking-[0.2em] max-w-md leading-relaxed">
                         Our philosophy. Clear thinking. Sharp execution. Meaningful results.
                     </p>
                 </div>
@@ -199,7 +199,7 @@ const BentoCard = ({ title, desc, icon: Icon, span = "col-span-1", delay = 0 }) 
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8, delay }}
             onMouseMove={handleMouseMove}
-            className={`group relative flex flex-col justify-between p-8 md:p-12 rounded-3xl bg-white border border-slate-100 overflow-hidden ${span}`}
+            className={`group relative flex flex-col justify-between p-8 md:p-12 rounded-3xl bg-white/[0.02] border border-white/5 overflow-hidden ${span}`}
         >
             <motion.div
                 className="pointer-events-none absolute -inset-px rounded-3xl opacity-0 transition duration-500 group-hover:opacity-100"
@@ -214,18 +214,18 @@ const BentoCard = ({ title, desc, icon: Icon, span = "col-span-1", delay = 0 }) 
                 }}
             />
             {/* Glossy top border effect */}
-            <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
             <div className="relative z-10 flex justify-between items-start mb-16">
-                <div className="w-16 h-16 rounded-2xl bg-slate-100 border border-slate-200 flex items-center justify-center backdrop-blur-md group-hover:scale-110 group-hover:bg-teal-500/20 group-hover:border-teal-500/50 transition-all duration-500">
-                    <Icon className="text-[#0F172A] group-hover:text-teal-600 transition-colors duration-500" size={32} strokeWidth={1.5} />
+                <div className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center backdrop-blur-md group-hover:scale-110 group-hover:bg-teal-500/20 group-hover:border-teal-500/50 transition-all duration-500">
+                    <Icon className="text-white group-hover:text-teal-400 transition-colors duration-500" size={32} strokeWidth={1.5} />
                 </div>
-                <ArrowUpRight className="text-slate-300 group-hover:text-teal-600 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-500" size={24} />
+                <ArrowUpRight className="text-white/20 group-hover:text-teal-400 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-500" size={24} />
             </div>
 
             <div className="relative z-10">
-                <h3 className="text-2xl md:text-3xl font-bold text-[#0F172A] mb-4 tracking-tight">{title}</h3>
-                <p className="text-slate-500 text-sm md:text-base leading-relaxed">{desc}</p>
+                <h3 className="text-2xl md:text-3xl font-bold text-white mb-4 tracking-tight">{title}</h3>
+                <p className="text-white/50 text-sm md:text-base leading-relaxed">{desc}</p>
             </div>
 
             {/* Background Icon Decoration */}
@@ -238,7 +238,7 @@ const BentoCard = ({ title, desc, icon: Icon, span = "col-span-1", delay = 0 }) 
 
 const ProtocolSection = () => {
     return (
-        <section className="bg-[#F8F9FB] py-40 relative border-t border-slate-100">
+        <section className="bg-[#030303] py-40 relative border-t border-white/5">
             <SectionHeader
                 label="Our Values"
                 title="How We Think"
@@ -304,16 +304,16 @@ const Timeline = () => {
     ];
 
     return (
-        <section ref={targetRef} className="relative h-[300vh] bg-[#F8F9FB]">
+        <section ref={targetRef} className="relative h-[300vh] bg-[#030303]">
             <div className="sticky top-0 flex h-screen items-center overflow-hidden">
                 <div className="absolute top-32 left-6 md:left-12 z-20">
-                    <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-teal-600 bg-teal-500/10 px-4 py-2 rounded-full border border-teal-500/30 backdrop-blur-md inline-block">
+                    <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-teal-400 bg-teal-400/10 px-4 py-2 rounded-full border border-teal-400/20 backdrop-blur-md inline-block">
                         Evolution Graph
                     </div>
                 </div>
 
                 {/* Horizontal Progress Line */}
-                <div className="absolute top-1/2 left-0 w-full h-[1px] bg-slate-200 z-0">
+                <div className="absolute top-1/2 left-0 w-full h-[1px] bg-white/10 z-0">
                     <motion.div
                         className="h-full bg-gradient-to-r from-teal-500/0 via-teal-500 to-teal-500 shadow-[0_0_20px_rgba(45,212,191,0.5)]"
                         style={{ width: useTransform(scrollYProgress, [0, 1], ["0%", "100%"]) }}
@@ -324,19 +324,19 @@ const Timeline = () => {
                     {events.map((event, i) => (
                         <div key={i} className="flex flex-col justify-center min-w-[400px] md:min-w-[600px] group">
                             {/* Dot on line */}
-                            <div className="absolute top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-[#F8F9FB] border-4 border-slate-200 group-hover:border-teal-600 transition-colors duration-500 flex items-center justify-center z-10">
-                                <div className="w-2 h-2 rounded-full bg-slate-500 group-hover:bg-teal-600 transition-colors duration-500" />
+                            <div className="absolute top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-[#030303] border-4 border-white/10 group-hover:border-teal-400 transition-colors duration-500 flex items-center justify-center z-10">
+                                <div className="w-2 h-2 rounded-full bg-white/50 group-hover:bg-teal-400 transition-colors duration-500" />
                             </div>
 
                             <div className={`transform ${i % 2 === 0 ? '-translate-y-48' : 'translate-y-48'} transition-all duration-700`}>
-                                <div className="text-5xl md:text-6xl font-black text-slate-100 tracking-tighter leading-none mb-4 group-hover:text-slate-200 transition-colors">
+                                <div className="text-5xl md:text-6xl font-black text-white/5 tracking-tighter leading-none mb-4 group-hover:text-white/10 transition-colors">
                                     {event.year}
                                 </div>
-                                <h3 className="text-2xl md:text-3xl font-bold text-[#0F172A] mb-6 tracking-tight flex items-center gap-4">
+                                <h3 className="text-2xl md:text-3xl font-bold text-white mb-6 tracking-tight flex items-center gap-4">
                                     {event.title}
-                                    <ArrowUpRight className="text-teal-600 opacity-0 group-hover:opacity-100 group-hover:translate-x-2 transition-all duration-500" />
+                                    <ArrowUpRight className="text-teal-500 opacity-0 group-hover:opacity-100 group-hover:translate-x-2 transition-all duration-500" />
                                 </h3>
-                                <p className="text-slate-500 text-sm md:text-base leading-relaxed max-w-sm group-hover:text-slate-600 transition-colors">
+                                <p className="text-white/50 text-sm md:text-base leading-relaxed max-w-sm group-hover:text-white/70 transition-colors">
                                     {event.desc}
                                 </p>
                             </div>
@@ -345,7 +345,7 @@ const Timeline = () => {
                 </motion.div>
 
                 {/* Global Vignette for depth */}
-                <div className="absolute inset-0 pointer-events-none shadow-[inset_0_0_150px_rgba(248,249,251,1)]" />
+                <div className="absolute inset-0 pointer-events-none shadow-[inset_0_0_150px_rgba(3,3,3,1)]" />
             </div>
         </section>
     );
@@ -367,25 +367,25 @@ const StatBox = ({ value, label, suffix = "" }) => {
     const displayValue = useTransform(springValue, (current) => Math.floor(current));
 
     return (
-        <div ref={ref} className="flex flex-col relative group py-12 px-8 border-l border-slate-200 hover:bg-slate-50 transition-colors duration-500">
+        <div ref={ref} className="flex flex-col relative group py-12 px-8 border-l border-white/10 hover:bg-white/[0.02] transition-colors duration-500">
             <div className="absolute top-0 left-0 w-[2px] h-0 bg-teal-500 group-hover:h-full transition-all duration-500" />
             <div className="flex items-baseline gap-1">
-                <motion.span className="text-4xl md:text-6xl font-black text-[#0F172A] tracking-tighter">
+                <motion.span className="text-4xl md:text-6xl font-black text-white tracking-tighter">
                     {displayValue}
                 </motion.span>
-                <span className="text-4xl md:text-6xl font-black text-teal-600">{suffix}</span>
+                <span className="text-4xl md:text-6xl font-black text-teal-500">{suffix}</span>
             </div>
-            <span className="font-mono text-xs uppercase tracking-[0.2em] text-slate-400 mt-6 block">{label}</span>
+            <span className="font-mono text-xs uppercase tracking-[0.2em] text-white/40 mt-6 block">{label}</span>
         </div>
     );
 };
 
 const Metrics = () => (
-    <section className="py-24 bg-[#F8F9FB] border-y border-slate-200 relative overflow-hidden">
+    <section className="py-24 bg-[#030303] border-y border-white/10 relative overflow-hidden">
         <div className="absolute right-0 top-0 w-1/2 h-full bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03]" />
 
         <div className="max-w-[1800px] mx-auto px-6 md:px-12">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 border-r border-slate-200">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 border-r border-white/10">
                 <StatBox value="10" label="Years Experience" suffix="+" />
                 <StatBox value="250" label="Enterprise Projects" suffix="+" />
                 <StatBox value="14" label="Global Awards" suffix="" />
@@ -414,7 +414,7 @@ const Leadership = () => {
     };
 
     return (
-        <section className="py-40 bg-[#F8F9FB] relative border-t border-slate-100 cursor-default" onMouseMove={handleMouseMove}>
+        <section className="py-40 bg-[#030303] relative border-t border-white/5 cursor-default" onMouseMove={handleMouseMove}>
             <SectionHeader label="Leadership" title="Our Team" subtitle="The people behind the work. Experienced professionals who care about craft." />
 
             <div className="max-w-[1800px] mx-auto px-6 md:px-12 relative">
@@ -424,18 +424,18 @@ const Leadership = () => {
                             key={i}
                             onMouseEnter={() => setHoveredIndex(i)}
                             onMouseLeave={() => setHoveredIndex(null)}
-                            className="group relative border-b border-slate-100 py-16 transition-all duration-500 hover:px-8 hover:bg-slate-50"
+                            className="group relative border-b border-white/5 py-16 transition-all duration-500 hover:px-8 hover:bg-white/[0.02]"
                         >
                             <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 relative z-10">
                                 <div>
-                                    <h3 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-slate-500 group-hover:text-[#0F172A] transition-colors duration-500">
+                                    <h3 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-white/50 group-hover:text-white transition-colors duration-500">
                                         {leader.name}
                                     </h3>
-                                    <p className="text-teal-600 font-mono text-xs uppercase tracking-widest mt-4">
+                                    <p className="text-teal-400 font-mono text-xs uppercase tracking-widest mt-4">
                                         {leader.role}
                                     </p>
                                 </div>
-                                <div className="max-w-md text-slate-400 group-hover:text-slate-700 transition-colors duration-500 md:text-right text-sm md:text-base">
+                                <div className="max-w-md text-white/40 group-hover:text-white/80 transition-colors duration-500 md:text-right text-sm md:text-base">
                                     {leader.desc}
                                 </div>
                             </div>
@@ -445,7 +445,7 @@ const Leadership = () => {
 
                 {/* Floating Image Reveal */}
                 <motion.div
-                    className="pointer-events-none fixed top-0 left-0 w-[400px] h-[500px] z-50 overflow-hidden rounded-2xl hidden md:block border border-slate-200 shadow-2xl"
+                    className="pointer-events-none fixed top-0 left-0 w-[400px] h-[500px] z-50 overflow-hidden rounded-2xl hidden md:block border border-white/10 shadow-2xl"
                     style={{
                         x: useTransform(mouseX, (val) => val + 20),
                         y: useTransform(mouseY, (val) => val - 250),
@@ -467,7 +467,7 @@ const Leadership = () => {
                     ))}
                     {/* Glass overlay */}
                     <div className="absolute inset-0 bg-teal-500/20 mix-blend-overlay" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-white/80 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
                 </motion.div>
             </div>
         </section>
@@ -478,26 +478,26 @@ const Leadership = () => {
 
 const GlobalFootprint = () => {
     return (
-        <section className="py-40 bg-[#F8F9FB] border-t border-slate-100 overflow-hidden relative">
+        <section className="py-40 bg-[#030303] border-t border-white/5 overflow-hidden relative">
             <div className="max-w-[1800px] mx-auto px-6 md:px-12 flex flex-col lg:flex-row items-center gap-20">
                 <div className="w-full lg:w-1/2 text-left z-10 relative">
-                    <div className="inline-block px-4 py-2 border border-slate-200 rounded-full font-mono text-xs uppercase tracking-widest text-slate-500 mb-8 backdrop-blur-md">
+                    <div className="inline-block px-4 py-2 border border-white/10 rounded-full font-mono text-xs uppercase tracking-widest text-white/50 mb-8 backdrop-blur-md">
                         Global Infrastructure
                     </div>
-                    <h2 className="text-4xl md:text-6xl font-black text-[#0F172A] tracking-tighter mb-8 leading-[0.9]">
-                        GLOBAL <br /><span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-emerald-600">REACH.</span>
+                    <h2 className="text-4xl md:text-6xl font-black text-white tracking-tighter mb-8 leading-[0.9]">
+                        GLOBAL <br /><span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-emerald-600">REACH.</span>
                     </h2>
-                    <p className="text-slate-500 text-base md:text-lg leading-relaxed max-w-lg mb-12">
+                    <p className="text-white/50 text-base md:text-lg leading-relaxed max-w-lg mb-12">
                         We work with clients worldwide, deploying reliable systems built for performance at any scale.
                     </p>
 
                     <div className="grid grid-cols-2 gap-x-8 gap-y-6">
                         {["San Francisco", "London", "Tokyo", "Berlin", "Singapore", "New York"].map((city, i) => (
                             <div key={i} className="flex items-center gap-4 group">
-                                <div className="relative flex items-center justify-center w-8 h-8 rounded-full bg-slate-100 border border-slate-200 group-hover:border-teal-500 transition-colors">
+                                <div className="relative flex items-center justify-center w-8 h-8 rounded-full bg-white/5 border border-white/10 group-hover:border-teal-500 transition-colors">
                                     <div className="w-1.5 h-1.5 bg-teal-500 rounded-full group-hover:scale-150 group-hover:shadow-[0_0_10px_#2dd4bf] transition-all" />
                                 </div>
-                                <span className="text-[#0F172A] font-medium text-lg tracking-wide group-hover:text-teal-600 transition-colors">{city}</span>
+                                <span className="text-white font-medium text-lg tracking-wide group-hover:text-teal-400 transition-colors">{city}</span>
                             </div>
                         ))}
                     </div>
@@ -505,15 +505,15 @@ const GlobalFootprint = () => {
 
                 <div className="w-full lg:w-1/2 relative h-[600px] flex items-center justify-center pointer-events-none">
                     {/* Mindblowing CSS Gyroscope */}
-                    <div className="relative w-[500px] h-[500px] opacity-80 perspective-1000">
+                    <div className="relative w-[500px] h-[500px] opacity-80 mix-blend-screen perspective-1000">
                         {/* Center Node */}
                         <div className="absolute inset-[40%] rounded-full bg-teal-500 shadow-[0_0_80px_30px_rgba(45,212,191,0.3)]" />
 
                         {/* Orbit Circles */}
                         {[
-                            { delay: 0, rx: 360, ry: 180, rz: 0, size: "inset-0", border: "border-slate-300 border-dashed" },
+                            { delay: 0, rx: 360, ry: 180, rz: 0, size: "inset-0", border: "border-white/10 border-dashed" },
                             { delay: 5, rx: 180, ry: 360, rz: 90, size: "inset-[10%]", border: "border-teal-500/30" },
-                            { delay: 10, rx: -360, ry: 180, rz: 180, size: "inset-[20%]", border: "border-slate-300" },
+                            { delay: 10, rx: -360, ry: 180, rz: 180, size: "inset-[20%]", border: "border-white/20" },
                             { delay: 15, rx: 180, ry: -360, rz: 270, size: "inset-[30%]", border: "border-teal-400/50" }
                         ].map((ring, i) => (
                             <motion.div
@@ -524,7 +524,7 @@ const GlobalFootprint = () => {
                                 style={{ transformStyle: 'preserve-3d' }}
                             >
                                 {/* Satellites */}
-                                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 bg-white rounded-full shadow-[0_0_10px_rgba(45,212,191,0.5)]" />
+                                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 bg-white rounded-full shadow-[0_0_10px_white]" />
                             </motion.div>
                         ))}
                     </div>
@@ -540,14 +540,14 @@ const TrustedBy = () => {
     const brands = ["Veridian Dynamics", "Axiom", "Nexus", "Stark Ind.", "Wayland", "Cyberdyne", "LexCorp", "Massive Dynamic"];
 
     return (
-        <section className="py-32 bg-[#F8F9FB] border-y border-slate-100 overflow-hidden">
+        <section className="py-32 bg-[#020202] border-y border-white/5 overflow-hidden">
             <div className="max-w-7xl mx-auto px-6 text-center mb-16">
-                <span className="font-mono text-teal-600 text-xs uppercase tracking-[0.4em]">Trusted By</span>
+                <span className="font-mono text-teal-500 text-xs uppercase tracking-[0.4em]">Trusted By</span>
             </div>
 
             <div className="relative flex overflow-x-hidden group">
-                <div className="absolute left-0 top-0 bottom-0 w-64 bg-gradient-to-r from-[#F8F9FB] to-transparent z-10 pointer-events-none" />
-                <div className="absolute right-0 top-0 bottom-0 w-64 bg-gradient-to-l from-[#F8F9FB] to-transparent z-10 pointer-events-none" />
+                <div className="absolute left-0 top-0 bottom-0 w-64 bg-gradient-to-r from-[#020202] to-transparent z-10 pointer-events-none" />
+                <div className="absolute right-0 top-0 bottom-0 w-64 bg-gradient-to-l from-[#020202] to-transparent z-10 pointer-events-none" />
 
                 <motion.div
                     animate={{ x: [0, -1000] }}
@@ -555,7 +555,7 @@ const TrustedBy = () => {
                     className="flex items-center gap-24 px-12"
                 >
                     {[...brands, ...brands, ...brands].map((brand, i) => (
-                        <span key={i} className="text-4xl md:text-5xl font-black text-slate-200 uppercase tracking-tighter hover:text-slate-400 transition-colors whitespace-nowrap cursor-default">
+                        <span key={i} className="text-4xl md:text-5xl font-black text-white/5 uppercase tracking-tighter hover:text-white/20 transition-colors whitespace-nowrap cursor-default">
                             {brand}
                         </span>
                     ))}
@@ -569,32 +569,32 @@ const TrustedBy = () => {
 
 const StartBuild = () => {
     return (
-        <section className="relative py-48 bg-[#F8F9FB] overflow-hidden flex items-center justify-center">
+        <section className="relative py-48 bg-[#030303] overflow-hidden flex items-center justify-center">
             {/* Background Effects */}
             <div className="absolute inset-0 z-0">
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(15,23,42,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(15,23,42,0.03)_1px,transparent_1px)] bg-[size:60px_60px]" />
+                <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:60px_60px]" />
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[500px] bg-teal-500/10 blur-[150px] rounded-full" />
             </div>
 
             <div className="relative z-10 flex flex-col items-center text-center px-6 max-w-5xl">
                 <Magnetic strength={0.2}>
                     <div className="w-24 h-24 mb-12 rounded-full border border-teal-500/30 flex items-center justify-center bg-teal-500/10 backdrop-blur-xl group cursor-pointer hover:bg-teal-500/20 transition-all duration-500 shadow-[0_0_30px_rgba(45,212,191,0.2)]">
-                        <Cpu className="text-teal-600 group-hover:scale-110 group-hover:rotate-12 transition-transform duration-500" size={40} />
+                        <Cpu className="text-teal-400 group-hover:scale-110 group-hover:rotate-12 transition-transform duration-500" size={40} />
                     </div>
                 </Magnetic>
 
-                <h2 className="text-5xl md:text-7xl font-black text-[#0F172A] tracking-tighter leading-[0.85] mb-8">
-                    LET'S <br /><span className="text-transparent bg-clip-text bg-gradient-to-b from-[#0F172A] to-slate-300">BUILD.</span>
+                <h2 className="text-5xl md:text-7xl font-black text-white tracking-tighter leading-[0.85] mb-8">
+                    LET'S <br /><span className="text-transparent bg-clip-text bg-gradient-to-b from-white to-white/20">BUILD.</span>
                 </h2>
 
-                <p className="text-slate-500 text-base md:text-lg font-light mb-16 max-w-2xl">
+                <p className="text-white/50 text-base md:text-lg font-light mb-16 max-w-2xl">
                     Ready to take the next step? Let's discuss how we can help you grow.
                 </p>
 
                 <Magnetic strength={50}>
-                    <button className="relative group px-12 py-6 bg-[#0F172A] text-white rounded-full overflow-hidden">
+                    <button className="relative group px-12 py-6 bg-white rounded-full overflow-hidden">
                         <div className="absolute inset-0 w-full h-full bg-teal-400 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" />
-                        <span className="relative z-10 flex items-center gap-4 text-white font-black uppercase tracking-[0.2em] text-sm">
+                        <span className="relative z-10 flex items-center gap-4 text-black font-black uppercase tracking-[0.2em] text-sm">
                             Deploy Project <ArrowUpRight className="group-hover:rotate-45 transition-transform duration-300" size={18} />
                         </span>
                     </button>
@@ -606,7 +606,7 @@ const StartBuild = () => {
 
 const About: React.FC = () => {
     return (
-        <div className="bg-[#F8F9FB] min-h-screen relative overflow-x-hidden font-sans selection:bg-teal-primary selection:text-white transition-colors duration-500 text-left">
+        <div className="bg-[#030303] min-h-screen relative overflow-x-hidden font-sans selection:bg-teal-400 selection:text-black transition-colors duration-500 text-left">
             <GrainOverlay />
             <AboutHero />
             <Metrics />

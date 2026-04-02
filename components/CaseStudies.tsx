@@ -63,24 +63,24 @@ const CaseStudies: React.FC = () => {
             ref={containerRef}
             onMouseMove={handleMouseMove}
             onTouchMove={handleTouchMove}
-            className="relative py-32 md:py-48 bg-[#F8F9FB] border-t border-slate-100 overflow-hidden cursor-auto md:cursor-none z-20 transition-colors duration-500 selection:bg-teal-primary selection:text-white"
+            className="relative py-32 md:py-48 bg-[#020202] border-t border-white/5 overflow-hidden cursor-auto md:cursor-none z-20 transition-colors duration-500 selection:bg-teal-primary selection:text-black"
         >
             {/* Ambient Base Light */}
             <div className="absolute top-0 left-1/4 w-[1000px] h-[1000px] bg-teal-primary/10 rounded-full blur-[150px] pointer-events-none -translate-y-1/2 mix-blend-screen" />
 
             <div className="max-w-[1800px] mx-auto px-6 md:px-12 relative z-10">
-                <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 md:mb-24 pb-8 border-b border-slate-200">
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 md:mb-24 pb-8 border-b border-white/10">
                     <div className="text-left">
-                        <span className="text-teal-primary font-mono text-[10px] uppercase tracking-[0.3em] block mb-4 border border-teal-primary/30 py-1.5 px-4 rounded-full w-fit bg-teal-primary/10">
+                        <span className="text-teal-primary font-mono text-[10px] uppercase tracking-[0.3em] block mb-4 border border-teal-primary/30 py-1.5 px-4 rounded-full w-fit bg-teal-primary/5">
                             Selected Works
                         </span>
-                        <h2 className="text-4xl md:text-6xl lg:text-7xl font-black text-[#0F172A] tracking-tighter leading-[0.85] uppercase">
+                        <h2 className="text-4xl md:text-6xl lg:text-7xl font-black text-white tracking-tighter leading-[0.85] uppercase">
                             Our Work.
                         </h2>
                     </div>
                     <div className="mt-8 md:mt-0 md:text-right w-full md:w-auto text-left flex flex-col items-start md:items-end">
-                        <span className="font-mono text-[10px] text-slate-400 block mb-2 uppercase tracking-[0.2em] md:text-right">Total Impact</span>
-                        <div className="text-2xl md:text-4xl font-light text-[#0F172A] font-mono">$12.4B<span className="text-teal-primary">+</span></div>
+                        <span className="font-mono text-[10px] text-white/40 block mb-2 uppercase tracking-[0.2em] md:text-right">Total Impact</span>
+                        <div className="text-2xl md:text-4xl font-light text-white font-mono">$12.4B<span className="text-teal-primary">+</span></div>
                     </div>
                 </div>
 
@@ -101,26 +101,26 @@ const CaseStudies: React.FC = () => {
                                 setActiveProject(index);
                             }}
                             onTouchEnd={() => setActiveProject(null)}
-                            className="group relative flex flex-col py-12 md:py-20 border-b border-slate-100 transition-all duration-500 hover:border-teal-primary/30 px-4 -mx-4 cursor-pointer overflow-hidden"
+                            className="group relative flex flex-col py-12 md:py-20 border-b border-white/5 transition-all duration-500 hover:border-teal-primary/30 px-4 -mx-4 cursor-pointer overflow-hidden"
                         >
                             <div className="absolute inset-0 bg-gradient-to-r from-teal-primary/0 via-teal-primary/5 to-teal-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
 
                             <div className="flex flex-col md:flex-row items-start md:items-center justify-between w-full relative z-10">
                                 <div className="flex items-baseline gap-6 md:gap-16 w-full mb-8 md:mb-0">
-                                    <span className="font-mono text-sm text-slate-300 group-hover:text-teal-primary transition-colors duration-500 w-8">
+                                    <span className="font-mono text-sm text-white/30 group-hover:text-teal-primary transition-colors duration-500 w-8">
                                         0{index + 1}
                                     </span>
-                                    <h3 className="text-3xl md:text-4xl lg:text-5xl font-black text-slate-500 group-hover:text-[#0F172A] transition-all duration-500 tracking-tighter w-full uppercase origin-left group-hover:translate-x-4">
+                                    <h3 className="text-3xl md:text-4xl lg:text-5xl font-black text-white/50 group-hover:text-white transition-all duration-500 tracking-tighter w-full uppercase origin-left group-hover:translate-x-4">
                                         {project.title}
                                     </h3>
                                 </div>
 
                                 <div className="flex items-center gap-8 md:gap-12 opacity-100 md:opacity-0 group-hover:opacity-100 transition-all duration-500 md:transform md:translate-y-4 group-hover:translate-y-0 min-w-max w-full md:w-auto pl-14 md:pl-0">
                                     <div className="flex flex-col gap-2">
-                                        <span className="text-[10px] font-mono tracking-widest uppercase text-teal-primary border border-teal-primary/20 px-3 py-1 bg-teal-primary/10 rounded-full w-fit">{project.services}</span>
-                                        <span className="text-[10px] font-mono tracking-widest uppercase text-slate-400 px-3">{project.year}</span>
+                                        <span className="text-[10px] font-mono tracking-widest uppercase text-teal-primary border border-teal-primary/20 px-3 py-1 bg-teal-primary/5 rounded-full w-fit">{project.services}</span>
+                                        <span className="text-[10px] font-mono tracking-widest uppercase text-white/40 px-3">{project.year}</span>
                                     </div>
-                                    <div className="hidden md:flex w-14 h-14 rounded-full border border-slate-200 items-center justify-center bg-white text-[#0F172A] ml-auto group-hover:bg-teal-primary group-hover:text-white group-hover:border-teal-primary group-hover:scale-110 transition-all duration-500">
+                                    <div className="hidden md:flex w-14 h-14 rounded-full border border-white/20 items-center justify-center bg-black text-white ml-auto group-hover:bg-teal-primary group-hover:text-black group-hover:border-teal-primary group-hover:scale-110 transition-all duration-500">
                                         <ArrowUpRight size={20} className="group-hover:rotate-45 transition-transform duration-500" />
                                     </div>
                                 </div>
@@ -150,7 +150,7 @@ const CaseStudies: React.FC = () => {
                             animate={{ opacity: 1, scale: 1, rotate: 0 }}
                             exit={{ opacity: 0, scale: 0.5, rotate: 5 }}
                             transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
-                            className="relative w-full h-full p-2 bg-white/90 dark:bg-white/90 backdrop-blur-md rounded-2xl border border-slate-200 dark:border-slate-200 shadow-2xl"
+                            className="relative w-full h-full p-2 bg-white/40 dark:bg-black/40 backdrop-blur-md rounded-2xl border border-dark-border dark:border-white/10 shadow-2xl"
                         >
                             <div className="w-full h-full overflow-hidden rounded-xl bg-dark-surface relative">
                                 <img
@@ -158,7 +158,7 @@ const CaseStudies: React.FC = () => {
                                     alt="Project Preview"
                                     className="w-full h-full object-cover scale-110"
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-white/80 via-transparent to-transparent" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                                 <div className="absolute bottom-6 left-6 flex items-center gap-3">
                                     <div className="px-3 py-1 bg-white rounded-full text-black text-[10px] font-bold uppercase tracking-widest">
                                         {projects[activeProject].category}

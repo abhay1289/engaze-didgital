@@ -11,17 +11,17 @@ const steps = [
 
 const Process: React.FC = () => {
     return (
-        <section id="process" className="py-32 md:py-48 bg-[#F8F9FB] relative overflow-hidden transition-colors duration-500 border-t border-slate-100 selection:bg-teal-primary selection:text-white">
+        <section id="process" className="py-32 md:py-48 bg-[#020202] relative overflow-hidden transition-colors duration-500 border-t border-white/5 selection:bg-teal-primary selection:text-black">
             {/* Ambient Background Glow */}
-            <div className="absolute top-0 right-1/4 w-[800px] h-[800px] bg-teal-primary/10 rounded-full blur-[150px] pointer-events-none mix-blend-screen -z-10" />
+            <div className="absolute top-0 right-1/4 w-[800px] h-[800px] bg-teal-primary/5 rounded-full blur-[150px] pointer-events-none mix-blend-screen -z-10" />
 
             <div className="max-w-[1800px] mx-auto px-6 md:px-12 relative z-10 text-left">
-                <div className="flex flex-col md:flex-row justify-between mb-20 md:mb-32 items-start md:items-end border-b border-slate-200 pb-8">
+                <div className="flex flex-col md:flex-row justify-between mb-20 md:mb-32 items-start md:items-end border-b border-white/10 pb-8">
                     <div className="text-left">
-                        <span className="text-teal-primary font-mono text-[10px] uppercase tracking-[0.3em] mb-4 block border border-teal-primary/30 py-1.5 px-4 rounded-full w-fit bg-teal-primary/10">
+                        <span className="text-teal-primary font-mono text-[10px] uppercase tracking-[0.3em] mb-4 block border border-teal-primary/30 py-1.5 px-4 rounded-full w-fit bg-teal-primary/5">
                             Process
                         </span>
-                        <h2 className="text-4xl md:text-6xl lg:text-7xl font-black text-[#0F172A] tracking-tighter text-left leading-[0.85] uppercase">
+                        <h2 className="text-4xl md:text-6xl lg:text-7xl font-black text-white tracking-tighter text-left leading-[0.85] uppercase">
                             Our <br /> Process.
                         </h2>
                     </div>
@@ -38,19 +38,19 @@ const Process: React.FC = () => {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true, margin: "-100px" }}
                             transition={{ duration: 0.6, delay: i * 0.15, ease: "easeOut" }}
-                            className="group relative bg-white border border-slate-200 p-8 md:p-12 rounded-[2rem] hover:border-teal-primary/30 transition-all duration-500 flex flex-col justify-between min-h-[400px] text-left overflow-hidden hover:bg-slate-50"
+                            className="group relative bg-[#050505] border border-white/10 p-8 md:p-12 rounded-[2rem] hover:border-teal-primary/30 transition-all duration-500 flex flex-col justify-between min-h-[400px] text-left overflow-hidden hover:bg-white/[0.02]"
                         >
                             {/* Inner Depth Gradient */}
                             <div className="absolute top-0 right-0 w-64 h-64 bg-teal-primary/10 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
 
                             <div className="relative z-10 flex flex-col items-start justify-between h-full text-left gap-8">
-                                <div className="font-mono text-3xl md:text-5xl font-black text-slate-200 group-hover:text-teal-primary/50 text-left transition-colors duration-500 w-full flex justify-end">
+                                <div className="font-mono text-3xl md:text-5xl font-black text-white/10 group-hover:text-teal-primary/50 text-left transition-colors duration-500 w-full flex justify-end">
                                     {step.num}
                                 </div>
 
                                 <div className="text-left mt-auto">
-                                    <h3 className="text-2xl md:text-3xl font-black text-[#0F172A] mb-4 text-left tracking-tight uppercase group-hover:translate-x-2 transition-transform duration-500">{step.title}</h3>
-                                    <p className="text-slate-400 text-sm md:text-base leading-relaxed font-light text-left group-hover:text-slate-700 transition-colors duration-500">{step.desc}</p>
+                                    <h3 className="text-2xl md:text-3xl font-black text-white mb-4 text-left tracking-tight uppercase group-hover:translate-x-2 transition-transform duration-500">{step.title}</h3>
+                                    <p className="text-white/40 text-sm md:text-base leading-relaxed font-light text-left group-hover:text-white/80 transition-colors duration-500">{step.desc}</p>
                                 </div>
                             </div>
 
