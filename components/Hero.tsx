@@ -108,7 +108,7 @@ const Hero: React.FC = () => {
             {/* CONTENT LAYER */}
             <motion.div
                 style={{ y: textY, opacity: textOpacity, scale: textScale }}
-                className="relative z-30 flex flex-col items-center justify-center text-center w-full px-4 h-full md:h-auto"
+                className="relative z-30 flex flex-col items-center justify-center text-center w-full px-4"
             >
                 {/* Premium Badge */}
                 <motion.div
@@ -158,7 +158,7 @@ const Hero: React.FC = () => {
                                     duration: 1,
                                     ease: [0.16, 1, 0.3, 1]
                                 }}
-                                className="text-[14vw] md:text-[9vw] font-black leading-[0.85] tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white via-teal-100 to-teal-600"
+                                className="text-[14vw] md:text-[9vw] font-black leading-[0.85] tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-teal-300 via-teal-500 to-teal-700"
                                 style={{ transformOrigin: "bottom center" }}
                             >
                                 {char}
@@ -184,7 +184,7 @@ const Hero: React.FC = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 1.2, duration: 1, ease: [0.16, 1, 0.3, 1] }}
-                    className="absolute bottom-16 md:bottom-20 z-40 w-full flex justify-center"
+                    className="mt-10 md:mt-14 z-40 flex justify-center"
                 >
                     <Magnetic strength={30}>
                         <button className="group relative flex items-center justify-center gap-3 px-7 md:px-9 py-3.5 md:py-4 bg-[#0F172A] text-white rounded-full text-[10px] md:text-xs font-bold tracking-[0.15em] uppercase transition-all duration-500 hover:scale-[1.02] shadow-[0_0_40px_-10px_rgba(15,23,42,0.1)] overflow-hidden">
