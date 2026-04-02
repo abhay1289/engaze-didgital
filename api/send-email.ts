@@ -24,7 +24,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
       await resend.emails.send({
         from: 'Engaze Digital <onboarding@resend.dev>',
-        to: 'abhishek@engazedigital.com',
+        to: 'engazedigital@gmail.com',
         subject: `New Contact Form: ${name}`,
         html: `
           <h2>New Contact Form Submission</h2>
@@ -58,7 +58,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
       await resend.emails.send({
         from: 'Engaze Digital <onboarding@resend.dev>',
-        to: 'abhishek@engazedigital.com',
+        to: 'engazedigital@gmail.com',
         subject: `Client Onboarding: ${fields.business_name}`,
         html: `
           <h2>Client Onboarding Questionnaire</h2>
