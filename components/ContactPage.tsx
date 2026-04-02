@@ -11,7 +11,11 @@ const GrainOverlay = () => (
     </div>
 );
 
-const ContactPage: React.FC = () => {
+interface ContactPageProps {
+    onNavigate?: (route: string) => void;
+}
+
+const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
     const [focusedField, setFocusedField] = useState<string | null>(null);
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -40,6 +44,8 @@ const ContactPage: React.FC = () => {
 
             if (!res.ok) throw new Error('Failed to send');
             setIsSubmitted(true);
+            window.history.replaceState({ source: 'contact' }, '');
+            setTimeout(() => onNavigate?.('thank-you'), 600);
         } catch {
             setError('Failed to send message. Please try again.');
         } finally {

@@ -16,11 +16,12 @@ import ServicesPage from './components/ServicesPage';
 import WorkPage from './components/WorkPage';
 import ContactPage from './components/ContactPage';
 import QuestionnairePage from './components/QuestionnairePage';
+import ThankYouPage from './components/ThankYouPage';
 
 const App: React.FC = () => {
   const getRouteFromPath = () => {
     const path = window.location.pathname.replace(/^\//, '').toLowerCase();
-    const validRoutes = ['about', 'services', 'work', 'contact', 'questionnaire'];
+    const validRoutes = ['about', 'services', 'work', 'contact', 'questionnaire', 'thank-you'];
     return validRoutes.includes(path) ? path : 'home';
   };
 
@@ -77,9 +78,11 @@ const App: React.FC = () => {
       case 'work':
         return <WorkPage />;
       case 'contact':
-        return <ContactPage />;
+        return <ContactPage onNavigate={setCurrentRoute} />;
       case 'questionnaire':
-        return <QuestionnairePage />;
+        return <QuestionnairePage onNavigate={setCurrentRoute} />;
+      case 'thank-you':
+        return <ThankYouPage onNavigate={setCurrentRoute} source={(window.history.state?.source) || 'contact'} />;
       case 'home':
       default:
         return (

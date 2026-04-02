@@ -354,7 +354,11 @@ const CalloutIcon = () => (
   </svg>
 );
 
-const QuestionnairePage: React.FC = () => {
+interface QuestionnairePageProps {
+  onNavigate?: (route: string) => void;
+}
+
+const QuestionnairePage: React.FC<QuestionnairePageProps> = ({ onNavigate }) => {
   const formRef = useRef<HTMLFormElement>(null);
   const [progress, setProgress] = useState(0);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -461,6 +465,8 @@ const QuestionnairePage: React.FC = () => {
 
       if (!res.ok) throw new Error('Failed to send');
       setIsSubmitted(true);
+      window.history.replaceState({ source: 'questionnaire' }, '');
+      setTimeout(() => onNavigate?.('thank-you'), 600);
     } catch {
       setError('Failed to submit questionnaire. Please try again.');
     } finally {
