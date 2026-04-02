@@ -110,20 +110,6 @@ const Hero: React.FC = () => {
                 style={{ y: textY, opacity: textOpacity, scale: textScale }}
                 className="relative z-30 flex flex-col items-center justify-center text-center w-full px-4"
             >
-                {/* Premium Badge */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-                    className="mb-8 md:mb-12 cursor-pointer mt-16 md:mt-0"
-                >
-                    <div className="relative inline-flex items-center gap-2 px-4 py-2 rounded-full border border-teal-500/30 bg-teal-500/10 backdrop-blur-xl overflow-hidden hover:bg-teal-500/15 transition-colors duration-500">
-                        <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-teal-500"></span>
-                        <span className="font-mono text-[10px] md:text-xs uppercase tracking-[0.2em] text-teal-600">Digital Growth Agency</span>
-                        <ChevronRight className="w-3.5 h-3.5 text-teal-500 hidden md:block" />
-                    </div>
-                </motion.div>
-
                 {/* Typography Architecture */}
                 <div className="flex flex-col items-center gap-1 md:gap-0 select-none cursor-default perspective-1000">
                     {/* Top Word */}
