@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Client Onboarding — Engaze Digital</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal-primary: #36B8A5;
+    --teal-secondary: #2B7D8E;
+    --teal-deep: #1A5F6E;
+    --teal-glow: rgba(54, 184, 165, 0.4);
+    --teal-subtle: rgba(54, 184, 165, 0.08);
+    --teal-border: rgba(54, 184, 165, 0.18);
+    --bg: #030303;
+    --surface: #0A0A0A;
+    --surface-elevated: #111111;
+    --surface-hover: #161616;
+    --border: rgba(255,255,255,0.06);
+    --border-focus: rgba(54, 184, 165, 0.5);
+    --text-primary: #EBEBEB;
+    --text-secondary: #94A3B8;
+    --text-tertiary: #64748B;
+    --text-dim: #475569;
+    --danger: #EF4444;
+    --danger-subtle: rgba(239, 68, 68, 0.1);
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 20px;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.4);
+    --shadow-lg: 0 8px 32px rgba(0,0,0,0.5);
+    --shadow-glow: 0 0 24px rgba(54, 184, 165, 0.15);
+    --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* Noise texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* Subtle grid */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(54, 184, 165, 0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(54, 184, 165, 0.015) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse at 50% 30%, black 20%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Top ambient glow */
+  .ambient-glow {
+    position: fixed;
+    top: -200px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 800px;
+    height: 500px;
+    background: radial-gradient(ellipse, rgba(54, 184, 165, 0.06) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* HEADER */
+  .header {
+    padding: 56px 0 48px;
+    text-align: center;
+  }
+
+  .logo-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-md);
+    background: linear-gradient(135deg, var(--teal-primary), var(--teal-deep));
+    margin-bottom: 28px;
+    box-shadow: var(--shadow-glow);
+    position: relative;
+  }
+
+  .logo-mark::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: var(--radius-md);
+    background: linear-gradient(135deg, var(--teal-primary), transparent);
+    opacity: 0.3;
+    z-index: -1;
+    filter: blur(8px);
+  }
+
+  .logo-mark svg {
+    width: 24px;
+    height: 24px;
+    fill: white;
+  }
+
+  .header-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--teal-primary);
+    margin-bottom: 16px;
+  }
+
+  .header h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1.15;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+  }
+
+  .header h1 span {
+    background: linear-gradient(135deg, var(--teal-primary), var(--teal-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .header-description {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    max-width: 520px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  /* PROGRESS BAR */
+  .progress-container {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(3, 3, 3, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 0;
+    margin-bottom: 40px;
+  }
+
+  .progress-inner {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .progress-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .progress-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    letter-spacing: 0.05em;
+  }
+
+  .progress-percent {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--teal-primary);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .progress-track {
+    width: 100%;
+    height: 3px;
+    background: var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--teal-deep), var(--teal-primary));
+    border-radius: 4px;
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 12px rgba(54, 184, 165, 0.3);
+  }
+
+  /* SECTIONS */
+  .section {
+    margin-bottom: 48px;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .section:nth-child(2) { animation-delay: 0.05s; }
+  .section:nth-child(3) { animation-delay: 0.1s; }
+  .section:nth-child(4) { animation-delay: 0.15s; }
+  .section:nth-child(5) { animation-delay: 0.2s; }
+  .section:nth-child(6) { animation-delay: 0.25s; }
+  .section:nth-child(7) { animation-delay: 0.3s; }
+  .section:nth-child(8) { animation-delay: 0.35s; }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-sm);
+    background: var(--teal-subtle);
+    border: 1px solid var(--teal-border);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--teal-primary);
+    flex-shrink: 0;
+  }
+
+  .section-title-group {
+    flex: 1;
+  }
+
+  .section-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+  }
+
+  .section-subtitle {
+    font-size: 0.78rem;
+    color: var(--text-tertiary);
+    margin-top: 2px;
+  }
+
+  /* FORM ELEMENTS */
+  .field {
+    margin-bottom: 20px;
+  }
+
+  .field-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+    letter-spacing: 0.01em;
+  }
+
+  .field-label .required {
+    color: var(--teal-primary);
+    font-size: 0.7rem;
+  }
+
+  .field-hint {
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    margin-bottom: 8px;
+    line-height: 1.5;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="url"],
+  input[type="tel"],
+  input[type="password"],
+  textarea,
+  select {
+    width: 100%;
+    padding: 12px 16px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 400;
+    color: var(--text-primary);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    outline: none;
+    transition: var(--transition);
+    -webkit-appearance: none;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--text-dim);
+  }
+
+  input:hover,
+  textarea:hover,
+  select:hover {
+    border-color: rgba(255,255,255,0.1);
+    background: var(--surface-hover);
+  }
+
+  input:focus,
+  textarea:focus,
+  select:focus {
+    border-color: var(--border-focus);
+    background: var(--surface);
+    box-shadow: 0 0 0 3px rgba(54, 184, 165, 0.08);
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 88px;
+    line-height: 1.6;
+  }
+
+  select {
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394A3B8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 40px;
+  }
+
+  select option {
+    background: var(--surface);
+    color: var(--text-primary);
+  }
+
+  /* Two-column grid */
+  .field-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  @media (max-width: 560px) {
+    .field-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Checkbox / Radio styled */
+  .option-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .option-group label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    transition: var(--transition);
+    user-select: none;
+  }
+
+  .option-group label:hover {
+    border-color: rgba(255,255,255,0.1);
+    background: var(--surface-hover);
+    color: var(--text-primary);
+  }
+
+  .option-group input[type="checkbox"],
+  .option-group input[type="radio"] {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--teal-primary);
+    cursor: pointer;
+  }
+
+  .option-group input:checked + span,
+  .option-group label:has(input:checked) {
+    color: var(--teal-primary);
+    border-color: var(--teal-border);
+    background: var(--teal-subtle);
+  }
+
+  /* Info callout */
+  .callout {
+    display: flex;
+    gap: 12px;
+    padding: 14px 16px;
+    background: var(--teal-subtle);
+    border: 1px solid var(--teal-border);
+    border-radius: var(--radius-md);
+    margin-bottom: 20px;
+  }
+
+  .callout-icon {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    color: var(--teal-primary);
+    margin-top: 1px;
+  }
+
+  .callout p {
+    font-size: 0.78rem;
+    color: var(--teal-secondary);
+    line-height: 1.6;
+  }
+
+  /* Divider */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 40px 0;
+  }
+
+  /* SUBMIT AREA */
+  .submit-area {
+    padding: 48px 0 80px;
+    text-align: center;
+  }
+
+  .submit-area .disclaimer {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    max-width: 440px;
+    margin: 0 auto 24px;
+    line-height: 1.6;
+  }
+
+  .btn-submit {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 40px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #030303;
+    background: linear-gradient(135deg, var(--teal-primary), #2ED8C0);
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: var(--shadow-md), var(--shadow-glow);
+    letter-spacing: 0.01em;
+  }
+
+  .btn-submit:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-lg), 0 0 32px rgba(54, 184, 165, 0.25);
+  }
+
+  .btn-submit:active {
+    transform: translateY(0);
+  }
+
+  .btn-submit svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* FOOTER */
+  .footer {
+    text-align: center;
+    padding: 32px 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .footer p {
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    letter-spacing: 0.02em;
+  }
+
+  .footer a {
+    color: var(--teal-primary);
+    text-decoration: none;
+  }
+
+  .footer a:hover {
+    text-decoration: underline;
+  }
+
+  /* Utility */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    border: 0;
+  }
+
+  /* Print styles */
+  @media print {
+    body { background: white; color: #1a1a1a; }
+    body::before, body::after, .ambient-glow, .progress-container { display: none; }
+    .section { break-inside: avoid; }
+    input, textarea, select { border: 1px solid #ccc; background: #fafafa; color: #1a1a1a; }
+  }
+</style>
+</head>
+<body>
+
+<div class="ambient-glow"></div>
+
+<!-- Header -->
+<div class="container">
+  <header class="header">
+    <div class="logo-mark">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M13 3L4 14h7l-2 7 9-11h-7l2-7z"/>
+      </svg>
+    </div>
+    <div class="header-label">Engaze Digital</div>
+    <h1>Client Onboarding <span>Questionnaire</span></h1>
+    <p class="header-description">We need a few details to set up your accounts, access your platforms, and start delivering results. This should take about 10 minutes.</p>
+  </header>
+</div>
+
+<!-- Progress -->
+<div class="progress-container">
+  <div class="progress-inner">
+    <div class="progress-meta">
+      <span class="progress-label">Completion</span>
+      <span class="progress-percent" id="progressPercent">0%</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+    </div>
+  </div>
+</div>
+
+<form id="onboardingForm" class="container" autocomplete="off">
+
+  <!-- Section 1: Business Information -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">01</div>
+      <div class="section-title-group">
+        <div class="section-title">Business Information</div>
+        <div class="section-subtitle">Tell us about your company</div>
+      </div>
+    </div>
+
+    <div class="field-grid">
+      <div class="field">
+        <label class="field-label">Business Name <span class="required">*</span></label>
+        <input type="text" name="business_name" placeholder="e.g. Acme Corporation" required>
+      </div>
+      <div class="field">
+        <label class="field-label">Industry / Niche</label>
+        <input type="text" name="industry" placeholder="e.g. SaaS, E-commerce, Healthcare">
+      </div>
+    </div>
+
+    <div class="field-grid">
+      <div class="field">
+        <label class="field-label">Primary Contact Name <span class="required">*</span></label>
+        <input type="text" name="contact_name" placeholder="Full name" required>
+      </div>
+      <div class="field">
+        <label class="field-label">Role / Designation</label>
+        <input type="text" name="contact_role" placeholder="e.g. Marketing Director">
+      </div>
+    </div>
+
+    <div class="field-grid">
+      <div class="field">
+        <label class="field-label">Email Address <span class="required">*</span></label>
+        <input type="email" name="contact_email" placeholder="name@company.com" required>
+      </div>
+      <div class="field">
+        <label class="field-label">Phone Number</label>
+        <input type="tel" name="contact_phone" placeholder="+1 (555) 000-0000">
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Business Address</label>
+      <textarea name="business_address" rows="2" placeholder="Street address, City, State, ZIP, Country"></textarea>
+    </div>
+  </div>
+
+  <!-- Section 2: Website Details -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">02</div>
+      <div class="section-title-group">
+        <div class="section-title">Website Details</div>
+        <div class="section-subtitle">Your web presence and access credentials</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Website URL <span class="required">*</span></label>
+      <input type="url" name="website_url" placeholder="https://www.yourwebsite.com" required>
+    </div>
+
+    <div class="field-grid">
+      <div class="field">
+        <label class="field-label">Website Platform / CMS</label>
+        <select name="website_platform">
+          <option value="" disabled selected>Select platform</option>
+          <option>WordPress</option>
+          <option>Shopify</option>
+          <option>Wix</option>
+          <option>Squarespace</option>
+          <option>Webflow</option>
+          <option>Custom Built</option>
+          <option>Magento</option>
+          <option>BigCommerce</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="field">
+        <label class="field-label">Hosting Provider</label>
+        <input type="text" name="hosting_provider" placeholder="e.g. GoDaddy, Bluehost, AWS">
+      </div>
+    </div>
+
+    <div class="callout">
+      <svg class="callout-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+      <p>We need admin-level access to your website to implement tracking codes, landing pages, and conversion optimization. All credentials are stored securely and used solely for project work.</p>
+    </div>
+
+    <div class="field-grid">
+      <div class="field">
+        <label class="field-label">Website Admin URL</label>
+        <div class="field-hint">e.g. yoursite.com/wp-admin</div>
+        <input type="url" name="website_admin_url" placeholder="https://www.yoursite.com/wp-admin">
+      </div>
+      <div class="field">
+        <label class="field-label">Admin Username</label>
+        <input type="text" name="website_username" placeholder="Admin username">
+      </div>
+    </div>
+
+    <div class="field-grid">
+      <div class="field">
+        <label class="field-label">Admin Password</label>
+        <input type="password" name="website_password" placeholder="Admin password">
+      </div>
+      <div class="field">
+        <label class="field-label">Domain Registrar</label>
+        <input type="text" name="domain_registrar" placeholder="e.g. GoDaddy, Namecheap, Google">
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Domain Registrar Login</label>
+      <div class="field-hint">If DNS changes are needed (email setup, verification, etc.)</div>
+      <div class="field-grid">
+        <input type="text" name="domain_username" placeholder="Username or email">
+        <input type="password" name="domain_password" placeholder="Password">
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Additional Website Notes</label>
+      <textarea name="website_notes" rows="3" placeholder="Any staging URLs, CDN info, caching plugins, page builders (Elementor, Divi), or known issues we should be aware of"></textarea>
+    </div>
+  </div>
+
+  <!-- Section 3: Google Ecosystem -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">03</div>
+      <div class="section-title-group">
+        <div class="section-title">Google Ecosystem Access</div>
+        <div class="section-subtitle">Google Ads, Analytics, Search Console, Tag Manager</div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <svg class="callout-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+      <p>Grant admin access to <strong style="color:var(--teal-primary)">engazedigital@gmail.com</strong> across the following Google platforms. If you need help with this, we will walk you through it.</p>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Google Ads Account</label>
+      <div class="field-grid">
+        <div>
+          <div class="field-hint">Account ID (format: 123-456-7890)</div>
+          <input type="text" name="google_ads_id" placeholder="000-000-0000">
+        </div>
+        <div>
+          <div class="field-hint">Access granted?</div>
+          <select name="google_ads_access">
+            <option value="" disabled selected>Select status</option>
+            <option>Yes — Admin access granted</option>
+            <option>Yes — Standard access granted</option>
+            <option>Not yet — Need instructions</option>
+            <option>No account — Please create one</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Google Analytics</label>
+      <div class="field-grid">
+        <div>
+          <div class="field-hint">Property ID (GA4 format: 123456789)</div>
+          <input type="text" name="ga_property_id" placeholder="GA4 Property ID">
+        </div>
+        <div>
+          <div class="field-hint">Access granted?</div>
+          <select name="ga_access">
+            <option value="" disabled selected>Select status</option>
+            <option>Yes — Editor access granted</option>
+            <option>Not yet — Need instructions</option>
+            <option>No account — Please set up</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Google Search Console</label>
+      <div class="field-grid">
+        <div>
+          <div class="field-hint">Property URL</div>
+          <input type="url" name="gsc_property" placeholder="https://www.yoursite.com">
+        </div>
+        <div>
+          <div class="field-hint">Access granted?</div>
+          <select name="gsc_access">
+            <option value="" disabled selected>Select status</option>
+            <option>Yes — Owner access granted</option>
+            <option>Yes — Full user access granted</option>
+            <option>Not yet — Need instructions</option>
+            <option>No account — Please set up</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Google Tag Manager</label>
+      <div class="field-grid">
+        <div>
+          <div class="field-hint">Container ID (format: GTM-XXXXXX)</div>
+          <input type="text" name="gtm_id" placeholder="GTM-XXXXXX">
+        </div>
+        <div>
+          <div class="field-hint">Access granted?</div>
+          <select name="gtm_access">
+            <option value="" disabled selected>Select status</option>
+            <option>Yes — Admin access granted</option>
+            <option>Not yet — Need instructions</option>
+            <option>No account — Please set up</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Google Business Profile</label>
+      <div class="field-grid">
+        <div>
+          <div class="field-hint">Business listing name</div>
+          <input type="text" name="gbp_name" placeholder="Business name as it appears on Google">
+        </div>
+        <div>
+          <div class="field-hint">Access granted?</div>
+          <select name="gbp_access">
+            <option value="" disabled selected>Select status</option>
+            <option>Yes — Manager access granted</option>
+            <option>Not yet — Need instructions</option>
+            <option>No listing exists</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Monthly Google Ads Budget</label>
+      <div class="field-hint">Approximate monthly spend you plan to allocate to Google Ads</div>
+      <select name="google_ads_budget">
+        <option value="" disabled selected>Select budget range</option>
+        <option>Under $1,000 / month</option>
+        <option>$1,000 — $3,000 / month</option>
+        <option>$3,000 — $5,000 / month</option>
+        <option>$5,000 — $10,000 / month</option>
+        <option>$10,000 — $25,000 / month</option>
+        <option>$25,000+ / month</option>
+        <option>Not sure yet</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Section 4: Meta (Facebook & Instagram) -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">04</div>
+      <div class="section-title-group">
+        <div class="section-title">Meta — Facebook & Instagram</div>
+        <div class="section-subtitle">Business Manager, Ad Accounts, Pages, and Instagram</div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <svg class="callout-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+      <p>Add us as a <strong style="color:var(--teal-primary)">Partner</strong> in your Meta Business Manager using Business ID or grant admin access to the assets listed below. We will guide you through this process if needed.</p>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Meta Business Manager</label>
+      <div class="field-grid">
+        <div>
+          <div class="field-hint">Business Manager ID</div>
+          <input type="text" name="meta_bm_id" placeholder="e.g. 1234567890">
+        </div>
+        <div>
+          <div class="field-hint">Business Manager URL</div>
+          <input type="url" name="meta_bm_url" placeholder="https://business.facebook.com/...">
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Facebook Ad Account</label>
+      <div class="field-grid">
+        <div>
+          <div class="field-hint">Ad Account ID (format: act_1234567890)</div>
+          <input type="text" name="fb_ad_account_id" placeholder="act_0000000000">
+        </div>
+        <div>
+          <div class="field-hint">Access granted?</div>
+          <select name="fb_ad_access">
+            <option value="" disabled selected>Select status</option>
+            <option>Yes — Admin access granted</option>
+            <option>Yes — Advertiser access granted</option>
+            <option>Not yet — Need instructions</option>
+            <option>No account — Please create one</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Facebook Page</label>
+      <div class="field-grid">
+        <div>
+          <div class="field-hint">Page name or URL</div>
+          <input type="text" name="fb_page" placeholder="https://facebook.com/yourpage">
+        </div>
+        <div>
+          <div class="field-hint">Page admin access granted?</div>
+          <select name="fb_page_access">
+            <option value="" disabled selected>Select status</option>
+            <option>Yes — Admin access granted</option>
+            <option>Not yet — Need instructions</option>
+            <option>No page exists</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Meta Pixel</label>
+      <div class="field-grid">
+        <div>
+          <div class="field-hint">Pixel ID</div>
+          <input type="text" name="meta_pixel_id" placeholder="e.g. 1234567890">
+        </div>
+        <div>
+          <div class="field-hint">Is the pixel currently installed?</div>
+          <select name="meta_pixel_status">
+            <option value="" disabled selected>Select status</option>
+            <option>Yes — Active and tracking</option>
+            <option>Yes — Installed but not verified</option>
+            <option>No — Needs installation</option>
+            <option>Not sure</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="field">
+      <label class="field-label">Instagram Business Account</label>
+      <div class="field-grid">
+        <div>
+          <div class="field-hint">Instagram handle</div>
+          <input type="text" name="instagram_handle" placeholder="@yourhandle">
+        </div>
+        <div>
+          <div class="field-hint">Account type</div>
+          <select name="instagram_type">
+            <option value="" disabled selected>Select type</option>
+            <option>Business Account</option>
+            <option>Creator Account</option>
+            <option>Personal Account</option>
+            <option>No account yet</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Is this Instagram account linked to the Facebook Page above?</label>
+      <div class="option-group">
+        <label><input type="radio" name="ig_linked" value="yes"><span>Yes, linked</span></label>
+        <label><input type="radio" name="ig_linked" value="no"><span>No, not linked</span></label>
+        <label><input type="radio" name="ig_linked" value="unsure"><span>Not sure</span></label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Instagram Ad Account Access</label>
+      <div class="field-hint">This is usually managed through Meta Business Manager. Confirm if we have ad permissions for running Instagram campaigns.</div>
+      <select name="ig_ad_access">
+        <option value="" disabled selected>Select status</option>
+        <option>Yes — Access granted through Business Manager</option>
+        <option>Not yet — Need instructions</option>
+        <option>Managed separately — Details below</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Monthly Meta Ads Budget</label>
+      <select name="meta_ads_budget">
+        <option value="" disabled selected>Select budget range</option>
+        <option>Under $1,000 / month</option>
+        <option>$1,000 — $3,000 / month</option>
+        <option>$3,000 — $5,000 / month</option>
+        <option>$5,000 — $10,000 / month</option>
+        <option>$10,000 — $25,000 / month</option>
+        <option>$25,000+ / month</option>
+        <option>Not sure yet</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Section 5: Other Advertising Platforms -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">05</div>
+      <div class="section-title-group">
+        <div class="section-title">Other Advertising Platforms</div>
+        <div class="section-subtitle">LinkedIn, TikTok, X (Twitter), Pinterest, Snapchat</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Which other ad platforms are you using or plan to use?</label>
+      <div class="option-group">
+        <label><input type="checkbox" name="other_platforms" value="linkedin"><span>LinkedIn Ads</span></label>
+        <label><input type="checkbox" name="other_platforms" value="tiktok"><span>TikTok Ads</span></label>
+        <label><input type="checkbox" name="other_platforms" value="twitter"><span>X (Twitter) Ads</span></label>
+        <label><input type="checkbox" name="other_platforms" value="pinterest"><span>Pinterest Ads</span></label>
+        <label><input type="checkbox" name="other_platforms" value="snapchat"><span>Snapchat Ads</span></label>
+        <label><input type="checkbox" name="other_platforms" value="youtube"><span>YouTube Ads</span></label>
+        <label><input type="checkbox" name="other_platforms" value="none"><span>None of the above</span></label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Platform Details</label>
+      <div class="field-hint">For any platform selected above, share your account IDs, ad account details, and whether access has been granted.</div>
+      <textarea name="other_platform_details" rows="4" placeholder="e.g. LinkedIn Campaign Manager ID: 12345678, access granted as admin&#10;TikTok Business Center ID: 98765432, need instructions"></textarea>
+    </div>
+  </div>
+
+  <!-- Section 6: Branding & Creative Assets -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">06</div>
+      <div class="section-title-group">
+        <div class="section-title">Branding & Creative Assets</div>
+        <div class="section-subtitle">Logos, guidelines, and existing materials</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Brand Guidelines Document</label>
+      <div class="field-hint">Share a link to your brand kit, style guide, or guidelines PDF (Google Drive, Dropbox, etc.)</div>
+      <input type="url" name="brand_guidelines_url" placeholder="https://drive.google.com/...">
+    </div>
+
+    <div class="field">
+      <label class="field-label">Logo Files</label>
+      <div class="field-hint">Share a link to your logo files in various formats (SVG, PNG, AI, EPS)</div>
+      <input type="url" name="logo_files_url" placeholder="https://drive.google.com/...">
+    </div>
+
+    <div class="field">
+      <label class="field-label">Brand Colors</label>
+      <div class="field-hint">Primary and secondary brand colors, if not included in brand guidelines</div>
+      <input type="text" name="brand_colors" placeholder="e.g. Primary: #1A5F6E, Secondary: #36B8A5, Accent: #FF6B35">
+    </div>
+
+    <div class="field">
+      <label class="field-label">Brand Fonts</label>
+      <input type="text" name="brand_fonts" placeholder="e.g. Headings: Montserrat Bold, Body: Open Sans Regular">
+    </div>
+
+    <div class="field">
+      <label class="field-label">Existing Ad Creatives or Marketing Materials</label>
+      <div class="field-hint">Link to a shared folder with any past ads, banners, videos, or marketing assets</div>
+      <input type="url" name="existing_creatives_url" placeholder="https://drive.google.com/...">
+    </div>
+  </div>
+
+  <!-- Section 7: Goals & Expectations -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">07</div>
+      <div class="section-title-group">
+        <div class="section-title">Goals & Expectations</div>
+        <div class="section-subtitle">What does success look like for you?</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Primary Business Objective</label>
+      <div class="option-group">
+        <label><input type="checkbox" name="objectives" value="leads"><span>Lead Generation</span></label>
+        <label><input type="checkbox" name="objectives" value="sales"><span>Online Sales / E-commerce</span></label>
+        <label><input type="checkbox" name="objectives" value="awareness"><span>Brand Awareness</span></label>
+        <label><input type="checkbox" name="objectives" value="traffic"><span>Website Traffic</span></label>
+        <label><input type="checkbox" name="objectives" value="calls"><span>Phone Calls</span></label>
+        <label><input type="checkbox" name="objectives" value="footfall"><span>Store Visits / Footfall</span></label>
+        <label><input type="checkbox" name="objectives" value="app"><span>App Installs</span></label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Target Audience</label>
+      <div class="field-hint">Describe your ideal customer — demographics, interests, location, pain points</div>
+      <textarea name="target_audience" rows="3" placeholder="e.g. Small business owners aged 30–55 in the US, interested in digital transformation, struggling with outdated processes"></textarea>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Geographic Targeting</label>
+      <input type="text" name="geo_targeting" placeholder="e.g. United States, UK, Canada — or specific cities/states">
+    </div>
+
+    <div class="field">
+      <label class="field-label">Key Competitors</label>
+      <div class="field-hint">List 2–5 competitors whose digital presence you'd like to match or surpass</div>
+      <textarea name="competitors" rows="3" placeholder="e.g.&#10;1. competitor-one.com&#10;2. competitor-two.com&#10;3. competitor-three.com"></textarea>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Any Specific KPIs or Targets?</label>
+      <textarea name="kpis" rows="3" placeholder="e.g. 50 qualified leads per month, $5 cost per lead, 3x ROAS, 10,000 monthly website visits"></textarea>
+    </div>
+  </div>
+
+  <!-- Section 8: Additional Information -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">08</div>
+      <div class="section-title-group">
+        <div class="section-title">Additional Information</div>
+        <div class="section-subtitle">Anything else we should know</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Email Marketing Platform</label>
+      <div class="field-hint">If you use an email platform, share the name and whether we need access</div>
+      <div class="field-grid">
+        <select name="email_platform">
+          <option value="" disabled selected>Select platform</option>
+          <option>Mailchimp</option>
+          <option>Klaviyo</option>
+          <option>HubSpot</option>
+          <option>ActiveCampaign</option>
+          <option>Constant Contact</option>
+          <option>Brevo (Sendinblue)</option>
+          <option>ConvertKit</option>
+          <option>Other</option>
+          <option>None</option>
+        </select>
+        <select name="email_access_needed">
+          <option value="" disabled selected>Access needed?</option>
+          <option>Yes — Please grant access</option>
+          <option>No — Not needed</option>
+          <option>Will discuss later</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">CRM System</label>
+      <div class="field-grid">
+        <select name="crm_system">
+          <option value="" disabled selected>Select CRM</option>
+          <option>HubSpot</option>
+          <option>Salesforce</option>
+          <option>Zoho CRM</option>
+          <option>Pipedrive</option>
+          <option>Monday.com</option>
+          <option>Other</option>
+          <option>None</option>
+        </select>
+        <select name="crm_access_needed">
+          <option value="" disabled selected>Access needed?</option>
+          <option>Yes — Please grant access</option>
+          <option>No — Not needed</option>
+          <option>Will discuss later</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Preferred Communication Channel</label>
+      <div class="option-group">
+        <label><input type="radio" name="comm_channel" value="email"><span>Email</span></label>
+        <label><input type="radio" name="comm_channel" value="whatsapp"><span>WhatsApp</span></label>
+        <label><input type="radio" name="comm_channel" value="slack"><span>Slack</span></label>
+        <label><input type="radio" name="comm_channel" value="phone"><span>Phone / Video Call</span></label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">How often would you like progress updates?</label>
+      <div class="option-group">
+        <label><input type="radio" name="update_freq" value="daily"><span>Daily</span></label>
+        <label><input type="radio" name="update_freq" value="weekly"><span>Weekly</span></label>
+        <label><input type="radio" name="update_freq" value="biweekly"><span>Bi-weekly</span></label>
+        <label><input type="radio" name="update_freq" value="monthly"><span>Monthly</span></label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">Anything else we should know?</label>
+      <div class="field-hint">Past agency experiences, specific concerns, upcoming product launches, seasonal considerations, etc.</div>
+      <textarea name="additional_notes" rows="4" placeholder="Share anything that could help us serve you better"></textarea>
+    </div>
+  </div>
+
+  <!-- Submit -->
+  <div class="submit-area">
+    <p class="disclaimer">All credentials and access information shared here are treated as strictly confidential. We use industry-standard security practices to protect your data.</p>
+    <button type="submit" class="btn-submit">
+      Submit Questionnaire
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+    </button>
+  </div>
+</form>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <p>&copy; 2026 Engaze Digital. All rights reserved. &nbsp;|&nbsp; <a href="https://engazedigital.com" target="_blank">engazedigital.com</a></p>
+  </div>
+</footer>
+
+<script>
+  // Progress tracker
+  const form = document.getElementById('onboardingForm');
+  const progressFill = document.getElementById('progressFill');
+  const progressPercent = document.getElementById('progressPercent');
+
+  function updateProgress() {
+    const inputs = form.querySelectorAll('input[type="text"], input[type="email"], input[type="url"], input[type="tel"], input[type="password"], textarea, select');
+    const checkboxes = form.querySelectorAll('input[type="checkbox"]');
+    const radioGroups = {};
+
+    let filled = 0;
+    let total = 0;
+
+    inputs.forEach(input => {
+      total++;
+      if (input.value && input.value.trim() !== '' && !input.value.startsWith('Select')) {
+        filled++;
+      }
+    });
+
+    // Count radio groups
+    form.querySelectorAll('input[type="radio"]').forEach(radio => {
+      radioGroups[radio.name] = radioGroups[radio.name] || false;
+      if (radio.checked) radioGroups[radio.name] = true;
+    });
+
+    Object.keys(radioGroups).forEach(group => {
+      total++;
+      if (radioGroups[group]) filled++;
+    });
+
+    // Count checkbox groups
+    const checkboxGroups = {};
+    checkboxes.forEach(cb => {
+      checkboxGroups[cb.name] = checkboxGroups[cb.name] || false;
+      if (cb.checked) checkboxGroups[cb.name] = true;
+    });
+
+    Object.keys(checkboxGroups).forEach(group => {
+      total++;
+      if (checkboxGroups[group]) filled++;
+    });
+
+    const percent = total > 0 ? Math.round((filled / total) * 100) : 0;
+    progressFill.style.width = percent + '%';
+    progressPercent.textContent = percent + '%';
+  }
+
+  form.addEventListener('input', updateProgress);
+  form.addEventListener('change', updateProgress);
+
+  // Form submission
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const btn = form.querySelector('.btn-submit');
+    btn.innerHTML = `
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+      Submitted
+    `;
+    btn.style.background = 'linear-gradient(135deg, #059669, #10B981)';
+    btn.style.pointerEvents = 'none';
+  });
+
+  // Select fix for placeholder styling
+  document.querySelectorAll('select').forEach(select => {
+    select.addEventListener('change', function() {
+      this.style.color = this.value ? 'var(--text-primary)' : 'var(--text-dim)';
+    });
+  });
+</script>
+
+</body>
+</html>

@@ -190,7 +190,7 @@ const ServiceHero = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 items-start">
                     <div className="lg:col-span-8 text-left relative">
                         <motion.h1
-                            initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ cascade: true, duration: 1 }}
+                            initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }}
                             className="text-6xl md:text-[9rem] font-black text-white tracking-tighter leading-[0.85] mb-12 text-left uppercase"
                         >
                             SYSTEMS <br />
