@@ -3,8 +3,8 @@ import Footer from './Footer';
 
 const styles: Record<string, React.CSSProperties> = {
   page: {
-    background: '#030303',
-    color: '#EBEBEB',
+    background: '#F8F9FB',
+    color: '#0F172A',
     minHeight: '100vh',
     position: 'relative',
     fontFamily: "'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif",
@@ -58,7 +58,7 @@ const styles: Record<string, React.CSSProperties> = {
     borderRadius: 12,
     background: 'linear-gradient(135deg, #36B8A5, #1A5F6E)',
     marginBottom: 28,
-    boxShadow: '0 0 24px rgba(54, 184, 165, 0.15)',
+    boxShadow: '0 0 20px rgba(54, 184, 165, 0.2)',
     position: 'relative',
   },
   headerLabel: {
@@ -74,7 +74,7 @@ const styles: Record<string, React.CSSProperties> = {
     fontWeight: 800,
     letterSpacing: '-0.04em',
     lineHeight: 1.15,
-    color: '#EBEBEB',
+    color: '#0F172A',
     marginBottom: 12,
   },
   headerTitleSpan: {
@@ -85,7 +85,7 @@ const styles: Record<string, React.CSSProperties> = {
   },
   headerDescription: {
     fontSize: '0.95rem',
-    color: '#94A3B8',
+    color: '#64748B',
     maxWidth: 520,
     margin: '0 auto',
     lineHeight: 1.7,
@@ -94,10 +94,10 @@ const styles: Record<string, React.CSSProperties> = {
     position: 'sticky' as const,
     top: 0,
     zIndex: 45,
-    background: 'rgba(3, 3, 3, 0.92)',
+    background: 'rgba(248, 249, 251, 0.92)',
     backdropFilter: 'blur(20px)',
     WebkitBackdropFilter: 'blur(20px)',
-    borderBottom: '1px solid rgba(255,255,255,0.06)',
+    borderBottom: '1px solid rgba(15,23,42,0.08)',
     padding: '16px 0',
     marginBottom: 40,
   },
@@ -115,7 +115,7 @@ const styles: Record<string, React.CSSProperties> = {
   progressLabel: {
     fontSize: '0.75rem',
     fontWeight: 600,
-    color: '#94A3B8',
+    color: '#64748B',
     letterSpacing: '0.05em',
   },
   progressPercent: {
@@ -127,7 +127,7 @@ const styles: Record<string, React.CSSProperties> = {
   progressTrack: {
     width: '100%',
     height: 3,
-    background: 'rgba(255,255,255,0.06)',
+    background: 'rgba(15,23,42,0.06)',
     borderRadius: 4,
     overflow: 'hidden',
   },
@@ -147,7 +147,7 @@ const styles: Record<string, React.CSSProperties> = {
     gap: 14,
     marginBottom: 24,
     paddingBottom: 16,
-    borderBottom: '1px solid rgba(255,255,255,0.06)',
+    borderBottom: '1px solid rgba(15,23,42,0.08)',
   },
   sectionNumber: {
     display: 'flex',
@@ -167,7 +167,7 @@ const styles: Record<string, React.CSSProperties> = {
     fontSize: '1.05rem',
     fontWeight: 700,
     letterSpacing: '-0.02em',
-    color: '#EBEBEB',
+    color: '#0F172A',
   },
   sectionSubtitle: {
     fontSize: '0.78rem',
@@ -180,7 +180,7 @@ const styles: Record<string, React.CSSProperties> = {
     gap: 6,
     fontSize: '0.82rem',
     fontWeight: 600,
-    color: '#94A3B8',
+    color: '#475569',
     marginBottom: 8,
     letterSpacing: '0.01em',
   },
@@ -200,9 +200,9 @@ const styles: Record<string, React.CSSProperties> = {
     fontFamily: "'Plus Jakarta Sans', sans-serif",
     fontSize: '0.88rem',
     fontWeight: 400,
-    color: '#EBEBEB',
-    background: '#0A0A0A',
-    border: '1px solid rgba(255,255,255,0.06)',
+    color: '#0F172A',
+    background: '#FFFFFF',
+    border: '1px solid rgba(15,23,42,0.12)',
     borderRadius: 12,
     outline: 'none',
     transition: '0.2s cubic-bezier(0.4, 0, 0.2, 1)',
@@ -215,9 +215,9 @@ const styles: Record<string, React.CSSProperties> = {
     fontFamily: "'Plus Jakarta Sans', sans-serif",
     fontSize: '0.88rem',
     fontWeight: 400,
-    color: '#EBEBEB',
-    background: '#0A0A0A',
-    border: '1px solid rgba(255,255,255,0.06)',
+    color: '#0F172A',
+    background: '#FFFFFF',
+    border: '1px solid rgba(15,23,42,0.12)',
     borderRadius: 12,
     outline: 'none',
     transition: '0.2s cubic-bezier(0.4, 0, 0.2, 1)',
@@ -232,9 +232,9 @@ const styles: Record<string, React.CSSProperties> = {
     fontFamily: "'Plus Jakarta Sans', sans-serif",
     fontSize: '0.88rem',
     fontWeight: 400,
-    color: '#EBEBEB',
-    background: '#0A0A0A',
-    border: '1px solid rgba(255,255,255,0.06)',
+    color: '#0F172A',
+    background: '#FFFFFF',
+    border: '1px solid rgba(15,23,42,0.12)',
     borderRadius: 12,
     outline: 'none',
     transition: '0.2s cubic-bezier(0.4, 0, 0.2, 1)',
@@ -278,13 +278,13 @@ const styles: Record<string, React.CSSProperties> = {
     alignItems: 'center',
     gap: 8,
     padding: '10px 16px',
-    background: '#0A0A0A',
-    border: '1px solid rgba(255,255,255,0.06)',
+    background: '#FFFFFF',
+    border: '1px solid rgba(15,23,42,0.12)',
     borderRadius: 12,
     cursor: 'pointer',
     fontSize: '0.82rem',
     fontWeight: 500,
-    color: '#94A3B8',
+    color: '#475569',
     transition: '0.2s cubic-bezier(0.4, 0, 0.2, 1)',
     userSelect: 'none' as const,
   },
@@ -295,7 +295,7 @@ const styles: Record<string, React.CSSProperties> = {
   },
   divider: {
     height: 1,
-    background: 'rgba(255,255,255,0.06)',
+    background: 'rgba(15,23,42,0.08)',
     margin: '40px 0',
   },
   submitArea: {
@@ -304,7 +304,7 @@ const styles: Record<string, React.CSSProperties> = {
   },
   disclaimer: {
     fontSize: '0.75rem',
-    color: '#475569',
+    color: '#64748B',
     maxWidth: 440,
     margin: '0 auto 24px',
     lineHeight: 1.6,
@@ -317,13 +317,13 @@ const styles: Record<string, React.CSSProperties> = {
     fontFamily: "'Plus Jakarta Sans', sans-serif",
     fontSize: '0.88rem',
     fontWeight: 700,
-    color: '#030303',
+    color: '#FFFFFF',
     background: 'linear-gradient(135deg, #36B8A5, #2ED8C0)',
     border: 'none',
     borderRadius: 12,
     cursor: 'pointer',
     transition: '0.2s cubic-bezier(0.4, 0, 0.2, 1)',
-    boxShadow: '0 4px 12px rgba(0,0,0,0.4), 0 0 24px rgba(54, 184, 165, 0.15)',
+    boxShadow: '0 4px 16px rgba(54, 184, 165, 0.2)',
     letterSpacing: '0.01em',
   },
   btnSubmitSuccess: {
@@ -333,7 +333,7 @@ const styles: Record<string, React.CSSProperties> = {
   footerWrap: {
     textAlign: 'center' as const,
     padding: '32px 0',
-    borderTop: '1px solid rgba(255,255,255,0.06)',
+    borderTop: '1px solid rgba(15,23,42,0.08)',
   },
   footerText: {
     fontSize: '0.72rem',
@@ -433,29 +433,29 @@ const QuestionnairePage: React.FC = () => {
 
   const inputFocusStyle = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     e.target.style.borderColor = 'rgba(54, 184, 165, 0.5)';
-    e.target.style.background = '#0A0A0A';
-    e.target.style.boxShadow = '0 0 0 3px rgba(54, 184, 165, 0.08)';
+    e.target.style.background = '#FFFFFF';
+    e.target.style.boxShadow = '0 0 0 3px rgba(54, 184, 165, 0.1)';
   };
 
   const inputBlurStyle = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    e.target.style.borderColor = 'rgba(255,255,255,0.06)';
-    e.target.style.background = '#0A0A0A';
+    e.target.style.borderColor = 'rgba(15,23,42,0.12)';
+    e.target.style.background = '#FFFFFF';
     e.target.style.boxShadow = 'none';
   };
 
   const inputHoverIn = (e: React.MouseEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const el = e.currentTarget;
     if (document.activeElement !== el) {
-      el.style.borderColor = 'rgba(255,255,255,0.1)';
-      el.style.background = '#161616';
+      el.style.borderColor = 'rgba(15,23,42,0.18)';
+      el.style.background = '#F8F9FB';
     }
   };
 
   const inputHoverOut = (e: React.MouseEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const el = e.currentTarget;
     if (document.activeElement !== el) {
-      el.style.borderColor = 'rgba(255,255,255,0.06)';
-      el.style.background = '#0A0A0A';
+      el.style.borderColor = 'rgba(15,23,42,0.12)';
+      el.style.background = '#FFFFFF';
     }
   };
 
@@ -1146,8 +1146,8 @@ const QuestionnairePage: React.FC = () => {
           <button
             type="submit"
             style={isSubmitted ? { ...styles.btnSubmit, ...styles.btnSubmitSuccess } : styles.btnSubmit}
-            onMouseEnter={(e) => { if (!isSubmitted) { e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 8px 32px rgba(0,0,0,0.5), 0 0 32px rgba(54, 184, 165, 0.25)'; } }}
-            onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.4), 0 0 24px rgba(54, 184, 165, 0.15)'; }}
+            onMouseEnter={(e) => { if (!isSubmitted) { e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 8px 32px rgba(54, 184, 165, 0.3)'; } }}
+            onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 16px rgba(54, 184, 165, 0.2)'; }}
           >
             {isSubmitted ? (
               <>
