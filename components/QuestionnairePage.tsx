@@ -92,19 +92,14 @@ const styles: Record<string, React.CSSProperties> = {
     lineHeight: 1.7,
   },
   progressContainer: {
-    position: 'fixed' as const,
+    position: 'sticky' as const,
     top: 0,
-    left: 0,
-    right: 0,
     zIndex: 45,
     background: 'rgba(3, 3, 3, 0.92)',
     backdropFilter: 'blur(20px)',
     WebkitBackdropFilter: 'blur(20px)',
     borderBottom: '1px solid rgba(255,255,255,0.06)',
-    padding: '12px 0',
-  },
-  progressSpacer: {
-    height: 52,
+    padding: '16px 0',
     marginBottom: 40,
   },
   progressInner: {
@@ -487,7 +482,7 @@ const QuestionnairePage: React.FC = () => {
         </header>
       </div>
 
-      {/* Fixed Progress Bar */}
+      {/* Sticky Progress Bar */}
       <div style={styles.progressContainer}>
         <div style={styles.progressInner}>
           <div style={styles.progressMeta}>
@@ -499,9 +494,6 @@ const QuestionnairePage: React.FC = () => {
           </div>
         </div>
       </div>
-
-      {/* Spacer for fixed progress bar */}
-      <div style={styles.progressSpacer} />
 
       <form ref={formRef} style={styles.container} autoComplete="off" onSubmit={handleSubmit} onChange={handleInputChange}>
 
